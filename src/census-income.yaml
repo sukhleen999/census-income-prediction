@@ -16,8 +16,6 @@ dependencies:
   - lightgbm
   - xgboost
   - altair>=4.1.0
-  - altair_data_server
-  - docopt==0.6.2
   - pip:
     - mglearn
     - psutil>=5.7.2
