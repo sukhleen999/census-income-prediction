@@ -31,6 +31,7 @@ Please note that this project is released with a [Code of Conduct](https://githu
 ### Attribution
 
 These contributing guidelines were adapted from the Altair and dplyr contributing guidelines which are available at:
-* [Altair contribution guildelines](https://github.com/altair-viz/altair/blob/master/CONTRIBUTING.md)
-* [dplyr contribution guildelines](https://github.com/tidyverse/dplyr/blob/main/.github/CONTRIBUTING.md)
+
+* [Altair contribution guildelines](https://github.com/altair-viz/altair/blob/master/CONTRIBUTING.md).
+* [dplyr contribution guildelines](https://github.com/tidyverse/dplyr/blob/main/.github/CONTRIBUTING.md).
 
