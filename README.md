@@ -11,7 +11,7 @@ In the dataset, various demographic features such as age, education level and ma
 
 After the EDA, we would create a pipeline to preprocess the dataset, as well as selecting suitable classification model to predict the target. We are planning to explore various types of classification model, including Random Forest classifier, K-nearest neighbor (KNN) classifier and logistic regression. To select the model with best performance, we would fine tune the hyperparameter of the models, and conduct cross validation to evaluate the models with various metrics, such as precision, recall, F1 Score and overall accuracy.
 
-Finally, we would re-fit the best model with the entire training dataset and evaluate the model with the testing data. The table of evluation metrics would be reported to reflect the performance of the predictive model on unseen data. A few follow-up discussion would also be carried out to analyse the importance of certain features as well as the social implication of the prediction model.
+Finally, we would re-fit the best model with the entire training dataset and evaluate the model with the testing data. The table of evaluation metrics would be reported to reflect the performance of the predictive model on unseen data. A few follow-up discussions would also be carried out to analyse the importance of certain features as well as the social implication of the prediction model.
 
 ## Usage
 ### Download File
@@ -19,3 +19,6 @@ Training data:
 `python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv`  
 Testing data:  
 `python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv`
+
+## Reference
+Census Income. (1996). UCI Machine Learning Repository.
