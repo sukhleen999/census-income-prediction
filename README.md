@@ -20,5 +20,9 @@ Training data:
 Testing data:  
 `python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv`
 
+## License
+
+The Census Income Prediction materials here are licensed under the MIT License. If re-using/re-mixing please provide attribution and link to this webpage.
+
 ## Reference
 Census Income. (1996). UCI Machine Learning Repository.
