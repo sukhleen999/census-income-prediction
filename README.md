@@ -28,4 +28,4 @@ The dependencies for this project are mentioned in the `census-income.yaml` envi
 The Census Income Prediction materials here are licensed under the MIT License. If re-using/re-mixing please provide attribution and link to this webpage.
 
 ## Reference
-Census Income. (1996). UCI Machine Learning Repository.
+Census Income. (1996). UCI Machine Learning Repository. Click [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income) to access it
