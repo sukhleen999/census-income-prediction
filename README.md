@@ -20,6 +20,9 @@ Training data:
 Testing data:  
 `python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv`
 
+## Dependencies
+The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
+
 ## License
 
 The Census Income Prediction materials here are licensed under the MIT License. If re-using/re-mixing please provide attribution and link to this webpage.
