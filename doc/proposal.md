@@ -20,11 +20,6 @@ Training data:
 Testing data:  
 `python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv`
 
-### Data Cleaning
-`python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
-
-
-
 ## Dependencies
 The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
 
