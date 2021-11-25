@@ -14,6 +14,7 @@ After the EDA, we would create a pipeline to preprocess the dataset, as well as 
 Finally, we would re-fit the best model with the entire training dataset and evaluate the model with the testing data. The table of evaluation metrics would be reported to reflect the performance of the predictive model on unseen data. A few follow-up discussions would also be carried out to analyse the importance of certain features as well as the social implication of the prediction model.
 
 ## Usage
+All the following command shall be executed at the root directory of this repository.
 ### Download File
 Training data:  
 `python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv`  
@@ -23,7 +24,8 @@ Testing data:
 ### Data Cleaning
 `python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
 
-
+### Model Building
+`python3 src/model_building.py data/preprocessed/clean_train.csv --out_dir=artifacts/model/ --output_model=model.pickle`
 
 ## Dependencies
 The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
