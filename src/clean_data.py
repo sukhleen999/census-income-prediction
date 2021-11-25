@@ -95,6 +95,10 @@ def main():
 
         #Replace '?' with 'Nan'
         test_df = test_df.replace("?", np.nan)
+        
+        #Remove the '.' at the end of the target column data
+        test_df['income']=test_df['income'].str.strip('.')
+        
 
         #Save the cleaned test data into the directory
         test_df.to_csv(f"{opt['--out_dir']}/{opt['--test_filename']}", encoding='utf-8', index=False)
