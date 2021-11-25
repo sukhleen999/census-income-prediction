@@ -1,0 +1,44 @@
+---
+title: "Final Report"
+author:
+  - Affrin Sultana
+  - Navya Dahiya
+  - Philson Chan
+  - Sukhleen Kaur
+date: "25/11/2021"
+output: html_document
+#bibliography: bibliography.bib
+---
+```{r load-packages, include=FALSE}
+library(tidyverse)
+library(knitr)
+```
+
+```{r code-font-size, echo=FALSE}
+def.chunk.hook <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+ x <- def.chunk.hook(x, options)
+ ifelse(options$size != "normalsize", paste0("\\", options$size,"\n", x, "\n \\normalsize"), x)
+})
+options(scipen = 0, digits = 3)
+```
+
+```{r intro, child="child/01-Introduction.Rmd"}
+```
+
+```{r data, child="child/02-Datasets.Rmd"}
+```
+
+```{r findings, child="child/03-Findings.Rmd"}
+```
+
+```{r interpretation, child="child/04-Interpretation.Rmd"}
+```
+
+```{r limitation, child="child/05-Limitation.Rmd"}
+```
+
+```{r future, child="child/06-Future_Development.Rmd"}
+```
+
+# References
