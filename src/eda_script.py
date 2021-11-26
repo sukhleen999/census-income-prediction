@@ -54,7 +54,7 @@ def main():
         
         train_df['income'].value_counts()
         
-        # Figure to represnt class imbalance
+        # Figure to represent class imbalance
         class_imbalance = alt.Chart(train_df).mark_bar(opacity=0.5).encode(
                           alt.X("income", title = "Income"),
                           alt.Y("count()"),
@@ -65,4 +65,16 @@ def main():
         #Save the class imbalance figure into the results/eda path
         class_imbalance.save('results/eda/class_imbalance.png',scale_factor=5)
         
-       
+        # Visualizing numerical columns
+        
+        feature_plot = alt.Chart(train_df).mark_bar(opacity=0.5).encode(
+                         alt.X(alt.repeat(), type="quantitative", bin=alt.Bin(maxbins=20)),
+                         alt.Y("count()", stack = False),
+                         color = "income").properties(
+                         width=300,
+                         height=200).repeat(numeric_cols, columns=2)
+        
+    #Save the feature plot into the results/eda path
+    feature_plot.save('results/eda/feature_plot.png', scale_factor=5)
+    
+    
