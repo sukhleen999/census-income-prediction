@@ -38,9 +38,9 @@ def main():
         print(e)
         sys.exit(1)
 
-        # Create output directory if not exist
-        if not os.path.exists(opt['--out_dir']):
-            os.makedirs(opt['--out_dir'])
+    # Create output directory if not exist
+    if not os.path.exists(opt['--out_dir']):
+        os.makedirs(opt['--out_dir'])
 
     try:
         #columns in the dataset
