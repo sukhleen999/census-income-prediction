@@ -79,12 +79,7 @@ def main():
         },
         index=["Train Data", "Test Data"])
 
-    # Export model performance dataframe
-    model_perf_df_path = os.path.join(opt['--out_dir'], "model_performance.csv")
-    model_perf_df.to_csv(model_perf_df_path)
-
     # Confusion Matrix for the test set
-
     test_confusion_matrix = pd.DataFrame(confusion_matrix(y_test, cross_val_predict(rand_search_rf, X_test, y_test)),
                 columns = ['Predicted negative (0)', 'Predicted positive (1)'],
                 index = ['True negative (0)', 'True positive (1)'])
@@ -92,6 +87,7 @@ def main():
     # Export confusion matrix
     confusion_matrix_path = os.path.join(opt['--out_dir'], "confusion_matrix.csv")
     test_confusion_matrix.to_csv(confusion_matrix_path)
+    print(f"Confusion Matrix saved to {confusion_matrix_path}")
 
     # Classification report for test set
     rand_search_rf.fit(X_train, y_train)
@@ -103,14 +99,59 @@ def main():
     # Export classification report
     classification_report_path = os.path.join(opt['--out_dir'], "classification_report.csv")
     classification_report.to_csv(classification_report_path)
+    print(f"Classification report saved to {classification_report_path}")
 
     # Table of Metrics for train set
     PR_curve_df = pd.DataFrame(precision_recall_curve(y_train, rand_search_rf.predict_proba(X_train)[:,1],), index=["precision","recall","threshold"]).T
     PR_curve_df['F1 Score'] =  2 * (PR_curve_df['precision'] * PR_curve_df['recall'])/(PR_curve_df['precision'] + PR_curve_df['recall'])
-
-    # Export PR curve dataframe
-    PR_curve_df_path = os.path.join(opt['--out_dir'], "PR_curve_df.csv")
-    PR_curve_df.to_csv(PR_curve_df_path)
     
+    # PR curve with best threshold
+    PR_curve = alt.Chart(PR_curve_df).mark_circle().encode(
+        x="recall",
+        y="precision",
+        color="F1 Score"
+    )
+
+    max_f1_point = alt.Chart(max_f1_df, 
+                            title = 'PR curve with best threshold (AP score = 0.665)',).mark_circle(
+        color="red", size=100, opacity=1).encode(
+        x="recall",
+        y="precision"
+    )
+
+    text = max_f1_point.mark_text(
+        align='left',
+        baseline='middle',
+        dx=15).encode(text= alt.Text("threshold", format = ".2f"))
+
+    PR_curve_plot = PR_curve + max_f1_point + text
+    
+
+    # Export PR curve
+    PR_curve_plot_path = os.path.join(opt['--out_dir'], "PR_curve_default.png")
+    PR_curve_plot.save(PR_curve_plot_path, scale_factor=3)
+    print(f"PR curve saved to {PR_curve_plot_path}")
+
+    # Evaluate Model with test data set with best_thres
+    y_pred_train_thres = rand_search_rf.predict_proba(X_train)[:, 1] > best_thres
+    y_pred_thres = rand_search_rf.predict_proba(X_test)[:, 1] > best_thres
+
+    # Table of Metrics for positive class with best_thres
+    model_perf_thres_df = pd.DataFrame(
+        {
+            "Accuracy": [accuracy_score(y_train, y_pred_train_thres), accuracy_score(y_test, y_pred_thres)],
+            "Precision": [precision_score(y_train, y_pred_train_thres), precision_score(y_test, y_pred_thres)],
+            "Recall": [recall_score(y_train, y_pred_train_thres), recall_score(y_test, y_pred_thres)],
+            "F1 Score": [f1_score(y_train, y_pred_train_thres), f1_score(y_test, y_pred_thres)]
+        },
+        index=["Train Data w/ best threshold", "Test Data w/ best threshold"])
+
+    model_perf_best_thres_df = pd.concat([model_perf_df, model_perf_thres_df])
+
+    # Export model performance with best threshold
+    model_perf_best_thres_df_path = os.path.join(opt['--out_dir'], "model_performance.csv")
+    model_perf_best_thres_df.to_csv(model_perf_best_thres_df_path)
+    print(f"Model performance results saved to {model_perf_best_thres_df_path}") 
+
 if __name__ == "__main__":
     main()
