@@ -12,9 +12,20 @@ Options:
 
 from docopt import docopt
 import pandas as pd
+import altair as alt
 import pickle
 import os
 import sys
+from sklearn.metrics import (
+    accuracy_score, recall_score, precision_score,
+    f1_score, precision_recall_curve, average_precision_score,
+    classification_report, confusion_matrix,
+    PrecisionRecallDisplay, roc_curve, roc_auc_score
+)
+from sklearn.model_selection import cross_val_predict
+alt.data_transformers.enable('data_server')
+alt.renderers.enable('png')
+import altair_saver
 
 opt = docopt(__doc__)
 
@@ -63,8 +74,6 @@ def main():
 
     rand_search_rf = load_model(opt["<input_model_file>"])
 
-    print(rand_search_rf)
-
     # Evaluate Model with test data set
     y_pred_train = rand_search_rf.predict(X_train)
     y_pred = rand_search_rf.predict(X_test)
@@ -80,7 +89,7 @@ def main():
         index=["Train Data", "Test Data"])
 
     # Confusion Matrix for the test set
-    test_confusion_matrix = pd.DataFrame(confusion_matrix(y_test, cross_val_predict(rand_search_rf, X_test, y_test)),
+    test_confusion_matrix = pd.DataFrame(confusion_matrix(y_test, y_pred),
                 columns = ['Predicted negative (0)', 'Predicted positive (1)'],
                 index = ['True negative (0)', 'True positive (1)'])
 
@@ -89,22 +98,24 @@ def main():
     test_confusion_matrix.to_csv(confusion_matrix_path)
     print(f"Confusion Matrix saved to {confusion_matrix_path}")
 
-    # Classification report for test set
-    rand_search_rf.fit(X_train, y_train)
-
     y_pred = rand_search_rf.predict(X_test)
     report = classification_report(y_test, y_pred, target_names=["negative (0)", "positive (1)"], output_dict=True)
-    classification_report = pd.DataFrame(report).transpose()
+    clf_report = pd.DataFrame(report).transpose()
 
     # Export classification report
-    classification_report_path = os.path.join(opt['--out_dir'], "classification_report.csv")
-    classification_report.to_csv(classification_report_path)
-    print(f"Classification report saved to {classification_report_path}")
+    clf_report_path = os.path.join(opt['--out_dir'], "classification_report.csv")
+    clf_report.to_csv(clf_report_path)
+    print(f"Classification report saved to {clf_report_path}")
 
     # Table of Metrics for train set
     PR_curve_df = pd.DataFrame(precision_recall_curve(y_train, rand_search_rf.predict_proba(X_train)[:,1],), index=["precision","recall","threshold"]).T
     PR_curve_df['F1 Score'] =  2 * (PR_curve_df['precision'] * PR_curve_df['recall'])/(PR_curve_df['precision'] + PR_curve_df['recall'])
     
+    # Threshold to get best F1 score
+    max_f1_df = PR_curve_df.iloc[PR_curve_df["F1 Score"].idxmax()].to_frame().T
+    best_thres = max_f1_df['threshold'].iloc[0]
+    max_f1_df
+
     # PR curve with best threshold
     PR_curve = alt.Chart(PR_curve_df).mark_circle().encode(
         x="recall",
@@ -128,7 +139,7 @@ def main():
     
 
     # Export PR curve
-    PR_curve_plot_path = os.path.join(opt['--out_dir'], "PR_curve_default.png")
+    PR_curve_plot_path = os.path.join(opt['--out_dir'], "PR_curve.png")
     PR_curve_plot.save(PR_curve_plot_path, scale_factor=3)
     print(f"PR curve saved to {PR_curve_plot_path}")
 
@@ -152,6 +163,40 @@ def main():
     model_perf_best_thres_df_path = os.path.join(opt['--out_dir'], "model_performance.csv")
     model_perf_best_thres_df.to_csv(model_perf_best_thres_df_path)
     print(f"Model performance results saved to {model_perf_best_thres_df_path}") 
+
+
+    # ROC Curve
+    fpr, tpr, thresholds = roc_curve(y_test, rand_search_rf.predict_proba(X_test)[:, 1])
+
+    roc_df = pd.DataFrame()
+    roc_df['fpr'] = fpr
+    roc_df['tpr'] = tpr
+    roc_df['thresholds'] = thresholds
+
+    pt_roc_idx = (roc_df['thresholds'] - best_thres).abs().argmin()
+
+    roc_curves = alt.Chart(roc_df, title = "ROC Curve (AUC score = 0.872").mark_line().encode(
+            alt.X('fpr', title="false positive rate"),
+            alt.Y('tpr', title="true positive rate"))
+
+    roc_max_f1_point = alt.Chart(pd.DataFrame(roc_df.iloc[pt_roc_idx]).T, 
+                            ).mark_circle(
+        color="red", size=100, opacity=1).encode(
+        x="fpr",
+        y="tpr"
+    )
+
+    roc_text = roc_max_f1_point.mark_text(
+        align='left',
+        baseline='middle',
+        dx=15).encode(text= alt.Text("thresholds:Q", format = ".2f"))
+
+    roc_curve_plot = roc_curves + roc_max_f1_point + roc_text
+
+    # Export ROC curve
+    roc_curve_plot_path = os.path.join(opt['--out_dir'], "ROC_curve.png")
+    roc_curve_plot.save(roc_curve_plot_path, scale_factor=3)
+    print(f"ROC curve saved to {roc_curve_plot_path}")
 
 if __name__ == "__main__":
     main()
