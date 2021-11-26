@@ -47,7 +47,6 @@ def upfront_transform(df):
     return df
 
 def main():
-    print(opt)
     try:
         if opt['<input_train_file>'] is None:
             raise TypeError("Argument input_train_file can't be None")
@@ -107,7 +106,11 @@ def main():
     )
     baseline_results['RandomForest_default'] = pd.DataFrame(cross_validate(pipe_forest, X_train, y_train, scoring=scoring)).mean()
 
-    # TODO: Export baseline_results
+    # Export baseline_results
+    baseline_results = pd.DataFrame(baseline_results)
+    baseline_results_path = os.path.join(opt['--out_dir'], "baseline_result.csv")
+    baseline_results.to_csv(baseline_results_path)
+    print(f"Baseline Result saved to {baseline_results_path}")
 
     # Hyperparameter Tuning
     param_dist = {
@@ -118,8 +121,10 @@ def main():
     rand_search_rf = RandomizedSearchCV(pipe_forest, param_dist, n_iter=20, 
                                         random_state=952, scoring=scoring, refit="f1")
 
+    print("Model Training In Progess...")
     rand_search_rf.fit(X_train, y_train)
-
+    print("Model Training Done!")
+    
     hyperparam_result = pd.DataFrame(
         rand_search_rf.cv_results_
     ).sort_values("rank_test_f1")[['param_randomforestclassifier__n_estimators',
@@ -131,10 +136,13 @@ def main():
                                         'mean_test_f1',
                                         ]]
     # TODO: Export hyperparam_result
+    hyperparam_result_path = os.path.join(opt['--out_dir'], "hyperparam_result.csv")
+    hyperparam_result.to_csv(hyperparam_result_path)
+    print(f"Hyperparameter Tuning Result saved to {hyperparam_result_path}")
 
     # TODO: Export the model
     save_model(rand_search_rf, output_filename)
-
+    print(f"Model saved to {output_filename}")
 
 if __name__ == "__main__":
     main()
