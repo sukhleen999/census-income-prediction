@@ -92,12 +92,12 @@ def main():
         print(f"----- Saved plot for class imbalance in {opt['--out_dir']}/class_imbalance.png -----")
 
         # Visualizing numerical columns
-        numeric_feature_plot = feature_plot = alt.Chart(train_df).mark_bar(opacity=0.5).encode(
-                                    alt.X(alt.repeat(), type="quantitative", bin=alt.Bin(maxbins=20)),
-                                    alt.Y("count()", stack = False),
-                                    color = "income").properties(
-                                    width=300,
-                                    height=200).repeat(numeric_cols, columns=2)
+        numeric_feature_plot =  alt.Chart(train_df).mark_bar(opacity=0.5).encode(
+                                alt.X(alt.repeat(), type="quantitative", bin=alt.Bin(maxbins=20)),
+                                alt.Y("count()", stack = False),
+                                color = "income").properties(
+                                width=300,
+                                height=200).repeat(numeric_cols, columns=2)
 
         # Save the feature plot into the results/eda path
         numeric_feature_plot.save(f"{opt['--out_dir']}/numeric_feature_plot.png")
