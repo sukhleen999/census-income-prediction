@@ -9,13 +9,13 @@ In this project, we are attempting to classify the income level of a person with
 
 To start with, we have created two baseline, with dummy classifier and the random forest classifier with default hyperparameters respecitively:
 ```{r, echo=FALSE}
-baseline_result <- read.csv("../../artifacts/model/baseline_result.csv") |>
+baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
   rename(Metrics = X)
 kable(baseline_result)
 ```
 To further optimize the model, we have to tuning various hyperparameters for the random forest with 5-fold cross validation, which includes `n_estimator` the number of trees, `max_depth` the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class. The result of hyperparameter tuning is as follow:
 ```{r, echo=FALSE}
-hyperparam_result <- read.csv("../../artifacts/model/hyperparam_result.csv") |>
+hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
   select(-X) |>
   rename(n_estimators = param_randomforestclassifier__n_estimators,
          max_depth = param_randomforestclassifier__max_depth,
@@ -30,3 +30,26 @@ So fundamentally, it is clear that setting `class_weight` to `balanced` would bo
 
 # Results
 ## Metrics
+```{r}
+########## Add Metric table here ##########
+```
+
+Although it seems that the testing performance of the model is worse than the training scores, our model actually has a similar performance as the cross validation results, indicating that the model does not overfit on the training data.
+```{r}
+########## Add Confusion Matrix here ##########
+########## Add Classification report here ##########
+```
+
+From both classification report and the confusion matrix, we could see that the model performs much better in the negative class, i.e. `<=50K`, that its counterpart due to the class imbalance. Since the number of false positive is greater than that of false negative, our model would be slightly overestimating the income level of a person.
+```{r}
+######### PR curve (training) ##########
+######### PR curve (testing) ##########
+######### metric table w/ best thres ##########
+```
+
+Since the random forest model could also produce a probability score, it is possible for us to determine an optimal threshold value to better distinguish the classes. From the PR curve, we could see that 0.58 is the best threshold value with training data. When we apply the new threshold to the test data set, the F1 score did not change a lot, while the accuracy score has improved. Thus using the best threshold could slightly improve the decision made by the model.
+```{r}
+######### ROC Curve w/ AUC ##########
+```
+
+Looking at the Receiver Operating Characteristic (ROC) curve, we could also analyze the performance of the classifier at different threshold level, while the area under curve (AUC) score is one of the metrics that could evaluate the model performance with high class imbalance. Our model could achieve 0.89 in AUC, which indicates that it has a relatively good performance in accurately detecting both classes.
