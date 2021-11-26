@@ -4,12 +4,29 @@ From the EDA, it is discovered that most of the values in the column `native_cou
 
 To transform the data frame into a ready-to-use array for the machine learning model, we have used a column transformer. In particular, we apply scaling to numeric feautres, one-hot encoding to categorical features, and binary encoding to binary features. However, from EDA, we also know that there are null values in two of the categorical features `workclass` and `occupation`. As it does not make sense to impute any category to the missing value, we decided not to encode the null value class, i.e. the one-hot encoding for null would be all zero. Furthermore, `education`, `race`, `capital_gain` and `capital_loss` are dropped. It is because `education_num` is already the ordinal encoding of `education`, we do not want to duplicate the information, and `race` shall not be considered due to ethical controversy. Also, it is found that `capital_gain` and `capital_loss` are mostly zero-valued, that little information could be exploited, so we decided to drop these columns to simplify the features.
 
-## Model Training
-// Choose Random Forest
+### Model Training
+In this project, we are attempting to classify the income level of a person with a random forest classifier, which typically yield an acceptable performance in heterogeneous data with higher dimensionality. Since the final dimensionality of the transformed feature is 41, we believe that random forest could give a promising performance.
 
-// Baseline
-
-// Metric used & Hyperparameter Tuning
+To start with, we have created two baseline, with dummy classifier and the random forest classifier with default hyperparameters respecitively:
+```{r, echo=FALSE}
+baseline_result <- read.csv("../../artifacts/model/baseline_result.csv") |>
+  rename(Metrics = X)
+kable(baseline_result)
+```
+To further optimize the model, we have to tuning various hyperparameters for the random forest with 5-fold cross validation, which includes `n_estimator` the number of trees, `max_depth` the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class. The result of hyperparameter tuning is as follow:
+```{r, echo=FALSE}
+hyperparam_result <- read.csv("../../artifacts/model/hyperparam_result.csv") |>
+  select(-X) |>
+  rename(n_estimators = param_randomforestclassifier__n_estimators,
+         max_depth = param_randomforestclassifier__max_depth,
+         class_weight = param_randomforestclassifier__class_weight) |>
+  mutate(class_weight = case_when(
+    class_weight == "balanced" ~ "balanced",
+    TRUE ~ "none"
+  ))
+kable(hyperparam_result)
+```
+So fundamentally, it is clear that setting `class_weight` to `balanced` would boost the recall score and F1 score, while sacrificing accuracy and precision. Although both target class have equal importance in this dataset, we would also choose to optimize the F1 score due to the serious class imbalance, that accuracy could not reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=200`, `max_depth=16` and `class_weight=balanced`.
 
 # Results
 ## Metrics
