@@ -13,7 +13,7 @@ baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
   rename(Metrics = X)
 kable(baseline_result)
 ```
-To further optimize the model, we have tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class wuld yielad good results. The result of hyperparameter tuning is as follows:
+To further optimize the model, we have tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
 ```{r, echo=FALSE}
 hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
   select(-X) |>
