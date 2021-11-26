@@ -69,10 +69,10 @@ def main():
         # checking for class imbalance and export to table class_imbalance.csv
 
         try:
-             train_df['income'].value_counts().to_csv(f"{opt['--out_dir']}/class_imbalance.csv")
+            train_df['income'].value_counts().to_csv(f"{opt['--out_dir']}/class_imbalance.csv")
         except:
             os.makedirs(os.path.dirname(f"{opt['--out_dir']}"))
-             train_df['income'].value_counts().to_csv(f"{opt['--out_dir']}/class_imbalance.csv")
+            train_df['income'].value_counts().to_csv(f"{opt['--out_dir']}/class_imbalance.csv")
 
 
         # Figure to represent class imbalance
