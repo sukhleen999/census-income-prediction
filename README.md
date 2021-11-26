@@ -25,10 +25,10 @@ Testing data:
 `python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
 
 ### Model Building
-`python3 src/model_building.py data/preprocessed/clean_train.csv --out_dir=artifacts/model/ --output_model=model.pickle`
+`python3 src/model_building.py data/preprocessed/clean_train.csv --out_dir=results/model/ --output_model=model.pickle`
 
 ### Model Evaluation
-`python3 src/model_evaluation.py data/preprocessed/clean_train.csv data/preprocessed/clean_test.csv artifacts/model/model.pickle --out_dir=artifacts/eval/`
+`python3 src/model_evaluation.py data/preprocessed/clean_train.csv data/preprocessed/clean_test.csv results/model/model.pickle --out_dir=results/eval/`
 
 ## Dependencies
 The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
