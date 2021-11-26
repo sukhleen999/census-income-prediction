@@ -27,6 +27,9 @@ Testing data:
 ### Model Building
 `python3 src/model_building.py data/preprocessed/clean_train.csv --out_dir=artifacts/model/ --output_model=model.pickle`
 
+### Model Evaluation
+`python3 src/model_evaluation.py data/preprocessed/clean_train.csv data/preprocessed/clean_test.csv artifacts/model/model.pickle --out_dir=artifacts/eval/`
+
 ## Dependencies
 The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
 

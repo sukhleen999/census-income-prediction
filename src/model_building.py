@@ -4,7 +4,7 @@ This script aims to transform the cleaned data set to a ready-to-use data to be 
 Usage: model_building.py <input_train_file> --out_dir=<out_dir> [--output_model=<model_filename>]
 
 Options:
-<input_train_file>                                   Path of raw train data file
+<input_train_file>                                   Path of cleaned train data file
 --out_dir=<out_dir>                                  Path to the output folder
 [--output_model=<model_filename>]                    Output model file name, default "model.pickle"
 '''
@@ -53,7 +53,7 @@ def main():
         if opt['--out_dir'] is None:
             raise TypeError("Argument out_dir can't be None")
         if opt['--output_model'] is None:
-            raise TypeError("Argument train_filename can't be None")
+            raise TypeError("Argument output_model can't be None")
     except Exception as e:
         print(e)
         sys.exit(1)
@@ -65,6 +65,7 @@ def main():
     # Actual path to save the model
     output_filename = os.path.join(opt['--out_dir'], opt['--output_model'])
 
+    # Read data and make some feature transformation
     train_df = pd.read_csv(opt["<input_train_file>"])
     train_df = upfront_transform(train_df)
 
@@ -124,7 +125,7 @@ def main():
     print("Model Training In Progess...")
     rand_search_rf.fit(X_train, y_train)
     print("Model Training Done!")
-    
+
     hyperparam_result = pd.DataFrame(
         rand_search_rf.cv_results_
     ).sort_values("rank_test_f1")[['param_randomforestclassifier__n_estimators',
