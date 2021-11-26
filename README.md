@@ -24,6 +24,9 @@ Testing data:
 ### Data Cleaning
 `python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
 
+### EDA Script
+`python3 src/eda_script.py data/preprocessed/clean_train.csv --out_dir=results/eda/`
+
 ### Model Building
 `python3 src/model_building.py data/preprocessed/clean_train.csv --out_dir=results/model/ --output_model=model.pickle`
 
