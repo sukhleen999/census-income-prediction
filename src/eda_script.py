@@ -77,4 +77,29 @@ def main():
     #Save the feature plot into the results/eda path
     feature_plot.save('results/eda/feature_plot.png', scale_factor=5)
     
+     # Visualizing categorical columns:
+        categorical_cols = list(set(train_df.columns) - set(numeric_cols))
+
+# Removing native_country column due to high class imbalance
+categorical_cols.remove('native_country')
+categorical_cols.remove('income')
+# Exploring categorical features
+
+categorical_dist = alt.Chart(train_df).mark_bar(opacity=0.5).encode(
+     alt.X("count()", stack=False),
+     alt.Y(alt.repeat(), type="ordinal", sort='x'),
+     color = "income").properties(
+    width=200,
+    height=200).repeat(categorical_cols, columns=3)
+
+#Save the categorical distribution figure into the results/eda path
+categorical_dist.save('results/eda/categorical_dist.png', scale_factor=5)
+
+
+
+        #Save the cleaned train data into the directory
+        train_df.to_csv(f"{opt['--out_dir']}/{opt['--train_filename']}", encoding='utf-8',index=False)
+        print(f"-----Cleaned and saved the train data file in {opt['--out_dir']}/{opt['--train_filename']}-----")
     
+    except Exception as e:
+        print(e)
