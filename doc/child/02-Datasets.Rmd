@@ -34,26 +34,26 @@ During the analysis of the target column, we observed there are 24720 observatio
 knitr::include_graphics("../results/eda/class_imbalnce.png")
 ```
 
-As all the columns in the test data are of object type, we need to change the data types of some of the features like `age`, `fnlwgt` to the numeric columns, to make it suitable for testing purposes afterwards
+When we performed an initial sanity check on the test dataset, we found that all the columns in the test data were of object type. We had to perform some additional steps to change the data types of some of the features like `age`, `fnlwgt` to the numeric columns, to make it suitable for testing purposes afterwards.
 
 ## Analysis
 
-In the Exploratory Data Analysis (EDA), we would like to assess the importance of each feature towards the prediction of the income level. We are going to visualize the the distribution of features, and see if there is potential bias in the data set so that we could carry out suitable processing pipeline to different features.
+In the Exploratory Data Analysis (EDA), we tried to assess the importance of each feature towards the prediction of the income level. We visualized the the distribution of features(both numerical and categorical) to check if there was potential bias in the data set so that we could carry out suitable processing pipeline to different features.
 
 ### Visualising numerical features
 
 #### Distribution
 
-We are starting with numeric features. Here we are visualizing the distribution of each numeric feature of each target class. The blue color represents the group with annual income \<=50K USD, where the orange color represents the counterpart.
+Here we are visualizing the distribution of each numeric feature of each target class. The blue color represents the group with annual income \<=50K USD, where the orange color represents the counterpart.
 
 ```{r numerical-feature-distributions, echo=FALSE, fig.cap="Figure 2. Distribution of numerical features.", out.width = '100%'}
 
 knitr::include_graphics("../results/eda/numerical_plot.png")
 ```
 
-From the plots above, we can see that the features `age`, `education_num`, `hours_per_week` are the major features which are demarcating the difference between the 2 classes clearly
+From the plots above, we can see that the features `age`, `education_num`, `hours_per_week` are the major features which are demarcating the difference between the two classes clearly
 
-Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data
+Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data.
 
 ```{r statistical-summary, echo=FALSE, fig.cap="Figure 3. Statistical summary of numerical features.", out.width = '100%'}
 knitr::include_graphics("../results/eda/stat_summary.png")
