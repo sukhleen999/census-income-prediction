@@ -8,13 +8,8 @@ Data analysis project for Group 1 of DSCI 522 (Data Science Workflows), A course
 
 ## Project Description
 
-In this project, we would focus on the [Census Income Dataset from UCI Machine Learning Repository](https://archive-beta.ics.uci.edu/ml/datasets/census+income). The project aims to carry out a binary classification to predict whether the annual income of the person is above USD 50K or not, by analysing their demographic information.
+Here we attempt to build a classification model using the Random Forest Classifier algorithm which can use the census income data with demographic features such as level of education, age, hours dedicated to work, etc to predict whether a person’s annual income will be greater than 50K or not. Our model was able to correctly predict 13524 examples out of 16281 test examples. Our classifier performed fairly on unseen test data with an ROC AUC score of 0.89, indicating that it is able to distinguish the positive class (income > 50k) with 0.89 probability. The average precision score of our model on the test data is 0.70 and recall is close to 0.71, indicating that among the people whose income is actually >50K, we identified 70% of them correctly and among all the people who earned more than 50K, we were able to predict 71% of them correctly. However, it incorrectly predicted 1042 examples as false positives. These kinds of incorrect predictions could lead people into believing that they can earn more than 50K by following some other career path which might not be favourable for them, thus we recommend continuing the study to improve this prediction model before it is put into production.
 
-In the dataset, various demographic features such as age, education level and marital status are considered. The training dataset consists of 32561 examples, while the testing set has 16281 rows, each consists of 14 features and 1 target column. In order to produce an unbiased predictor, we plan to carry out exploratory data analysis (EDA) with the training dataset. We would assess the distribution of various features and the target column, as well as the distribution of different features against the target column.
-
-After the EDA, we would create a pipeline to preprocess the dataset, as well as selecting suitable classification model to predict the target. We are planning to explore various types of classification model, including Random Forest classifier, K-nearest neighbor (KNN) classifier and logistic regression. To select the model with best performance, we would fine tune the hyperparameter of the models, and conduct cross validation to evaluate the models with various metrics, such as precision, recall, F1 Score and overall accuracy.
-
-Finally, we would re-fit the best model with the entire training dataset and evaluate the model with the testing data. The table of evaluation metrics would be reported to reflect the performance of the predictive model on unseen data. A few follow-up discussions would also be carried out to analyse the importance of certain features as well as the social implication of the prediction model.
 
 ## Usage
 
@@ -23,17 +18,23 @@ All the following command shall be executed at the root directory of this reposi
 ### Download File
 
 Training data:  
-`python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv`  
+```python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv``` 
+
 Testing data:  
-`python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv`
+```python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv```
 
 ### Data Cleaning
 
-`python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
+```python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv```
 
 ### EDA Script
-`python3 src/eda_script.py data/preprocessed/clean_train.csv --out_dir=results/eda/`
+```python3 src/eda_script.py data/clean/clean_train.csv --out_dir=results/eda/```
 
+### Model Building
+```python3 src/model_building.py data/clean/clean_train.csv --out_dir=results/model/ --output_model=model.pickle```
+
+### Model Evaluation
+```python3 src/model_evaluation.py data/clean/clean_train.csv data/clean/clean_test.csv results/model/model.pickle --out_dir=results/eval/```
 
 ## Dependencies
 
@@ -41,21 +42,22 @@ The dependencies for this project are mentioned in the `census-income.yaml` envi
 
 -   Python 3.9.7 and Python packages:
 
-    -   Python, version 3.7.0
-    -   numpy==1.21.4
-    -   seaborn, version 0.9.0
-    -   pandas==0.24.2
-    -   scikit-learn>=1.0
-    -   altair==4.1.0
-    -   altair_saver
-    -   seaborn==0.8.1
-    -   docopt==0.6.2
-    -   matplotlib==3.5.0
+      - ipykernel
+      - matplotlib>=3.2.2
+      - scikit-learn>=1.0
+      - pandas>=1.3.*
+      - requests>=2.24.0
+      - graphviz
+      - python-graphviz
+      - pip
+      - altair>=4.1.0
+      - altair_data_server
+      - altair_saver
+      - docopt==0.6.2
 
 -   R version 4.1.1 and R packages:
 
     -   knitr==1.26
-
     -   tidyverse==1.2.1
 
 ## License
@@ -65,3 +67,4 @@ The Census Income Prediction materials here are licensed under the MIT License. 
 ## Reference
 
 Census Income. (1996). UCI Machine Learning Repository. Click [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income) to access it
+A. Liaw and M. Wiener (2002). Classification and Regression by randomForest. R News 2(3), 18--22.

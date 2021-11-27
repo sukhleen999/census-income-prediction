@@ -2,7 +2,7 @@
 
 ## Data
 
-The data set used in this project is the Census Income Dataset, which is also known as the Adult dataset [@Lichman], and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database and details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income).
+The data set used in this project is the Census Income Dataset, which is also known as the Adult dataset [@misc_census_income_20], and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database and details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income).
 
 In this dataset, each row represents a single sample from the census, which include the demographic data of a resident. We are going to dig into the data and explore more about the relationship between hen demographic features and their income level below.
 
