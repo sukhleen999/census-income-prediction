@@ -23,17 +23,23 @@ All the following command shall be executed at the root directory of this reposi
 ### Download File
 
 Training data:  
-`python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv`  
+```python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv``` 
+
 Testing data:  
-`python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv`
+```python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv```
 
 ### Data Cleaning
 
-`python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
+```python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv```
 
 ### EDA Script
-`python3 src/eda_script.py data/preprocessed/clean_train.csv --out_dir=results/eda/`
+```python3 src/eda_script.py data/clean/clean_train.csv --out_dir=results/eda/```
 
+### Model Building
+```python3 src/model_building.py data/clean/clean_train.csv --out_dir=results/model/ --output_model=model.pickle```
+
+### Model Evaluation
+```python3 src/model_evaluation.py data/clean/clean_train.csv data/clean/clean_test.csv results/model/model.pickle --out_dir=results/eval/```
 
 ## Dependencies
 
@@ -41,21 +47,22 @@ The dependencies for this project are mentioned in the `census-income.yaml` envi
 
 -   Python 3.9.7 and Python packages:
 
-    -   Python, version 3.7.0
-    -   numpy==1.21.4
-    -   seaborn, version 0.9.0
-    -   pandas==0.24.2
-    -   scikit-learn>=1.0
-    -   altair==4.1.0
-    -   altair_saver
-    -   seaborn==0.8.1
-    -   docopt==0.6.2
-    -   matplotlib==3.5.0
+      - ipykernel
+      - matplotlib>=3.2.2
+      - scikit-learn>=1.0
+      - pandas>=1.3.*
+      - requests>=2.24.0
+      - graphviz
+      - python-graphviz
+      - pip
+      - altair>=4.1.0
+      - altair_data_server
+      - altair_saver
+      - docopt==0.6.2
 
 -   R version 4.1.1 and R packages:
 
     -   knitr==1.26
-
     -   tidyverse==1.2.1
 
 ## License

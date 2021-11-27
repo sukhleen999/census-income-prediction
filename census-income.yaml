@@ -10,15 +10,9 @@ dependencies:
   - requests>=2.24.0
   - graphviz
   - python-graphviz
-  - torchvision  
-  - jinja2
   - pip
-  - lightgbm
-  - xgboost
   - altair>=4.1.0
   - altair_data_server
   - altair_saver
   - docopt==0.6.2
-  - pip:
-    - mglearn
-    - psutil>=5.7.2
+  
