@@ -17,6 +17,7 @@ dependencies:
   - xgboost
   - altair>=4.1.0
   - altair_data_server
+  - altair_saver
   - docopt==0.6.2
   - pip:
     - mglearn
