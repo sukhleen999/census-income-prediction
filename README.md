@@ -31,6 +31,33 @@ Testing data:
 
 `python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
 
+### EDA Script
+`python3 src/eda_script.py data/preprocessed/clean_train.csv --out_dir=results/eda/`
+
+
+## Dependencies
+
+The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
+
+-   Python 3.9.7 and Python packages:
+
+    -   Python, version 3.7.0
+    -   numpy==1.21.4
+    -   seaborn, version 0.9.0
+    -   pandas==0.24.2
+    -   scikit-learn>=1.0
+    -   altair==4.1.0
+    -   altair_saver
+    -   seaborn==0.8.1
+    -   docopt==0.6.2
+    -   matplotlib==3.5.0
+
+-   R version 4.1.1 and R packages:
+
+    -   knitr==1.26
+
+    -   tidyverse==1.2.1
+
 ## License
 
 The Census Income Prediction materials here are licensed under the MIT License. If re-using/re-mixing please provide attribution and link to this webpage.
