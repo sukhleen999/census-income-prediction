@@ -7,7 +7,7 @@ author:
   - Sukhleen Kaur
 date: "25/11/2021"
 output: html_document
-#bibliography: bibliography.bib
+bibliography: census_income_refs.bib
 ---
 ```{r load-packages, include=FALSE}
 library(tidyverse)
