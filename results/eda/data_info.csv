@@ -1,0 +1,16 @@
+Column,Non-Null,Count,DType
+age,32561,non-null,int64
+workclass,30725,non-null,object
+fnlwgt,32561,non-null,int64
+education,32561,non-null,object
+education_num,32561,non-null,int64
+marital_status,32561,non-null,object
+occupation,30718,non-null,object
+relationship,32561,non-null,object
+race,32561,non-null,object
+sex,32561,non-null,object
+capital_gain,32561,non-null,int64
+capital_loss,32561,non-null,int64
+hours_per_week,32561,non-null,int64
+native_country,31978,non-null,object
+income,32561,non-null,object
