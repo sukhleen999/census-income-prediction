@@ -143,7 +143,7 @@ def main():
     PR_curve_plot.save(PR_curve_plot_path, scale_factor=3)
     print(f"PR curve saved to {PR_curve_plot_path}")
 
-    # Evaluate Model with test data set with best_thres
+    # Evaluate Model with test data set with best_threshold
     y_pred_train_thres = rand_search_rf.predict_proba(X_train)[:, 1] > best_thres
     y_pred_thres = rand_search_rf.predict_proba(X_test)[:, 1] > best_thres
 
