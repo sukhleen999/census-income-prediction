@@ -32,9 +32,6 @@ options(scipen = 0, digits = 3)
 ```{r findings, child="child/03-Findings.Rmd"}
 ```
 
-```{r interpretation, child="child/04-Interpretation.Rmd"}
-```
-
 ```{r limitation, child="child/05-Limitation.Rmd"}
 ```
 

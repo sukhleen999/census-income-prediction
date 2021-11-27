@@ -10,15 +10,15 @@ In this dataset, each row represents a single sample from the census, which incl
 
 The training data set has 32561 observations, and no observation with `NULL` value is found in the raw data. In the test data, there are 16281 entries. So the train-test split is roughly 2:1, i.e. the test split is taking up around 33% of the entire data set. Below is a glimpse of few rows from our training set and information about the datatypes and count of records in each feature.
 
-```{r train-head, message=False, warning=False}
-train_head  <- read.csv("../../results/eda/train_head.csv") 
+```{r train-head, message=FALSE, warning=FALSE, echo=FALSE}
+train_head  <- read.csv("../../results/eda/data_head.csv") 
 
 knitr::kable(train_head, caption = "Table 1.0 Displaying the first 5 rows of the training dataset")
 
 ```
 
-```{r train-info, message=False, warning=False}
-train_info <- read.csv("../../results/eda/train_info.csv") 
+```{r train-info, message=FALSE, warning=FALSE, echo=FALSE}
+train_info <- read.csv("../../results/eda/data_info.csv") 
 
 knitr::kable(train_info, caption = "Table 1.1 to display information about the datatypes and to check for any missing values")
 
@@ -31,7 +31,7 @@ During the analysis of the target column, we observed there are 24720 observatio
 
 ```{r class-imbalance-distributions, echo=FALSE, fig.cap="Figure 1. Class imbalance and uneven distribution of the training data predictors", out.width = '100%' }
 
-knitr::include_graphics("../results/eda/class_imbalnce.png")
+knitr::include_graphics("../results/eda/class_imbalance.png")
 ```
 
 When we performed an initial sanity check on the test dataset, we found that all the columns in the test data were of object type. We had to perform some additional steps to change the data types of some of the features like `age`, `fnlwgt` to the numeric columns, to make it suitable for testing purposes afterwards.
@@ -44,7 +44,7 @@ Here we are visualizing the distribution of each numeric feature of each target 
 
 ```{r numerical-feature-distributions, echo=FALSE, fig.cap="Figure 2. Distribution of numerical features.", out.width = '100%'}
 
-knitr::include_graphics("../results/eda/numerical_plot.png")
+knitr::include_graphics("../results/eda/numeric_feature_plot.png")
 ```
 
 From the plots above, we can see that the features `age`, `education_num`, `hours_per_week` are the major features which are demarcating the difference between the two classes clearly
@@ -52,7 +52,7 @@ From the plots above, we can see that the features `age`, `education_num`, `hour
 Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data.\*\*
 
 ```{r statistical-summary, echo=FALSE, fig.cap="Figure 3. Statistical summary of numerical features.", out.width = '100%'}
-knitr::include_graphics("../results/eda/stat_summary.png")
+knitr::include_graphics("../results/eda/stat_summary_plot.png")
 ```
 
 We observe that `capital_gain` and `capital_loss` are not giving much insight into the demarcation of the two classes
@@ -60,13 +60,13 @@ We observe that `capital_gain` and `capital_loss` are not giving much insight in
 Similar to numeric features, we explored the categorical features to observe the frequencies of each feature which may affect the performance of model on detecting any of the target class.
 
 ```{r categorical-feature-distributions, echo=FALSE, fig.cap="Figure 4.  Distribution of categorical features", out.width = '100%'}
-knitr::include_graphics("../results/eda/categorical_plot.png")
+knitr::include_graphics("../results/eda/categorical_feat_plot.png")
 ```
 
 In particular, since `native_country` has too many different values, and the majority of the sample are from the United States, we are exploring the feature as a binary feature here, and we could see the United States still has the super majority in this feature.
 
 ```{r country-distributions, echo=FALSE, fig.cap="Figure 5. Distribution of income based on country(USA vs others).", out.width = '100%'}
-knitr::include_graphics("../results/eda/country_native.png")
+knitr::include_graphics("../results/eda/native_country_plot.png")
 ```
 
 In addition to this, we also assessed the correlation among the different features, however in this data set, all features had correlation close to zero, indicating there are relatively independent and could be useful for deriving an accurate prediction.
