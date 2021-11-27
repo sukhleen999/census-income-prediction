@@ -78,13 +78,25 @@ def main():
     y_pred_train = rand_search_rf.predict(X_train)
     y_pred = rand_search_rf.predict(X_test)
 
+    # Get output of pred_proba of train and test data respectively
+    y_pred_train_prob = rand_search_rf.predict_proba(X_train)[:,1]
+    y_pred_test_prob = rand_search_rf.predict_proba(X_test)[:,1]
+    ap_forest_train = average_precision_score(y_train, y_pred_train_prob)
+    roc_forest_train = roc_auc_score(y_train, y_pred_train_prob)
+
+    ap_forest_test = average_precision_score(y_test, y_pred_test_prob)
+    roc_forest_test = roc_auc_score(y_test, y_pred_test_prob)
+
+
     # Table of Metrics for positive class for train and test set
     model_perf_df = pd.DataFrame(
         {
             "Accuracy": [accuracy_score(y_train, y_pred_train), accuracy_score(y_test, y_pred)],
             "Precision": [precision_score(y_train, y_pred_train), precision_score(y_test, y_pred)],
             "Recall": [recall_score(y_train, y_pred_train), recall_score(y_test, y_pred)],
-            "F1 Score": [f1_score(y_train, y_pred_train), f1_score(y_test, y_pred)]
+            "F1 Score": [f1_score(y_train, y_pred_train), f1_score(y_test, y_pred)],
+            "AP Score": [ap_forest_train, ap_forest_test],
+            "ROC AUC Score": [roc_forest_train, roc_forest_test]
         },
         index=["Train Data", "Test Data"])
 
@@ -107,7 +119,7 @@ def main():
     print(f"Classification report saved to {clf_report_path}")
 
     # Table of Metrics for train set
-    PR_curve_df = pd.DataFrame(precision_recall_curve(y_train, rand_search_rf.predict_proba(X_train)[:,1],), index=["precision","recall","threshold"]).T
+    PR_curve_df = pd.DataFrame(precision_recall_curve(y_train, y_pred_train_prob), index=["precision","recall","threshold"]).T
     PR_curve_df['F1 Score'] =  2 * (PR_curve_df['precision'] * PR_curve_df['recall'])/(PR_curve_df['precision'] + PR_curve_df['recall'])
     
     # Threshold to get best F1 score
@@ -123,7 +135,7 @@ def main():
     )
 
     max_f1_point = alt.Chart(max_f1_df, 
-                            title = 'PR curve with best threshold (AP score = 0.665)',).mark_circle(
+                            title = f'PR curve with best threshold (AP score = {ap_forest_train:.3f})',).mark_circle(
         color="red", size=100, opacity=1).encode(
         x="recall",
         y="precision"
@@ -143,8 +155,8 @@ def main():
     print(f"PR curve saved to {PR_curve_plot_path}")
 
     # Evaluate Model with test data set with best_threshold
-    y_pred_train_thres = rand_search_rf.predict_proba(X_train)[:, 1] > best_thres
-    y_pred_thres = rand_search_rf.predict_proba(X_test)[:, 1] > best_thres
+    y_pred_train_thres = y_pred_train_prob > best_thres
+    y_pred_thres = y_pred_test_prob > best_thres
 
     # Table of Metrics for positive class with best_thres
     model_perf_thres_df = pd.DataFrame(
@@ -165,7 +177,7 @@ def main():
 
 
     # ROC Curve
-    fpr, tpr, thresholds = roc_curve(y_test, rand_search_rf.predict_proba(X_test)[:, 1])
+    fpr, tpr, thresholds = roc_curve(y_test, y_pred_test_prob)
 
     roc_df = pd.DataFrame()
     roc_df['fpr'] = fpr
@@ -174,9 +186,9 @@ def main():
 
     pt_roc_idx = (roc_df['thresholds'] - best_thres).abs().argmin()
 
-    roc_curves = alt.Chart(roc_df, title = "ROC Curve (AUC score = 0.872").mark_line().encode(
-            alt.X('fpr', title="false positive rate"),
-            alt.Y('tpr', title="true positive rate"))
+    roc_curves = alt.Chart(roc_df, title = f"ROC Curve (AUC score = {roc_forest_test:.3f})").mark_line().encode(
+            alt.X('fpr', title="False Positive rate"),
+            alt.Y('tpr', title="True Positive rate"))
 
     roc_max_f1_point = alt.Chart(pd.DataFrame(roc_df.iloc[pt_roc_idx]).T, 
                             ).mark_circle(
@@ -198,16 +210,14 @@ def main():
     print(f"ROC curve saved to {roc_curve_plot_path}")
 
     # Scoring metrics for test data
-    ap_forest = average_precision_score(y_test, rand_search_rf.predict_proba(X_test)[:, 1])
-    roc_forest = roc_auc_score(y_test, rand_search_rf.predict_proba(X_test)[:, 1])
 
     test_model_perf_df = pd.DataFrame({
         "Accuracy" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Accuracy"],
         "Precision" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Precision"],
         "Recall" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Recall"],
         "F1 Score" : model_perf_thres_df.loc["Test Data w/ best threshold"]["F1 Score"],
-        "Average Precision Score" : ap_forest,
-        "AUC Score" : roc_forest},
+        "Average Precision Score" : ap_forest_test,
+        "AUC Score" : roc_forest_test},
         index = ["Test Data Metrics"]).T
 
     # Export test data metrics dataframe
