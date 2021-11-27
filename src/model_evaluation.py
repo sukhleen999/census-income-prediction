@@ -98,7 +98,6 @@ def main():
     test_confusion_matrix.to_csv(confusion_matrix_path)
     print(f"Confusion Matrix saved to {confusion_matrix_path}")
 
-    y_pred = rand_search_rf.predict(X_test)
     report = classification_report(y_test, y_pred, target_names=["negative (0)", "positive (1)"], output_dict=True)
     clf_report = pd.DataFrame(report).transpose()
 
@@ -197,6 +196,24 @@ def main():
     roc_curve_plot_path = os.path.join(opt['--out_dir'], "ROC_curve.png")
     roc_curve_plot.save(roc_curve_plot_path, scale_factor=3)
     print(f"ROC curve saved to {roc_curve_plot_path}")
+
+    # Scoring metrics for test data
+    ap_forest = average_precision_score(y_test, rand_search_rf.predict_proba(X_test)[:, 1])
+    roc_forest = roc_auc_score(y_test, rand_search_rf.predict_proba(X_test)[:, 1])
+
+    test_model_perf_df = pd.DataFrame({
+        "Accuracy" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Accuracy"],
+        "Precision" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Precision"],
+        "Recall" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Recall"],
+        "F1 Score" : model_perf_thres_df.loc["Test Data w/ best threshold"]["F1 Score"],
+        "Average Precision Score" : ap_forest,
+        "AUC Score" : roc_forest},
+        index = ["Test Data Metrics"]).T
+
+    # Export test data metrics dataframe
+    test_model_perf_df_path = os.path.join(opt['--out_dir'], "model_performance_test.csv")
+    test_model_perf_df.to_csv(test_model_perf_df_path)
+    print(f"Model performance results on test data saved to {test_model_perf_df_path}") 
 
 if __name__ == "__main__":
     main()
