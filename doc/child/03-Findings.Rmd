@@ -1,1 +1,77 @@
-# Findings & Results
+# Findings 
+### Feature Transformation
+From the EDA, it is discovered that most of the values in the column `native_country` are `United-States`, while each of the other values have a very little proportion and is hard for the model to derive information. Therefore we transformed the `native_country` feature into a binary feature, where `True` stands for the person who comes from the US, `False` for the rest.  
+
+To transform the data frame into a ready-to-use array for the machine learning model, we have used a column transformer. In particular, we apply `scaling` to numeric feautres, `one-hot encoding` to categorical features, and `binary encoding` to binary features. However, from EDA, we also know that there are null values in two of the categorical features `workclass` and `occupation`. As it does not make sense to impute any category to the missing value, we decided not to encode the null value class, i.e. the `one-hot encoding` for null would be all zero. Furthermore, `education`, `race`, `capital_gain` and `capital_loss` are dropped. It is because `education_num` is already the ordinal encoding of `education`, we do not want to duplicate the information, and `race` shall not be considered due to ethical controversy. Also, it is found that `capital_gain` and `capital_loss` are mostly zero-valued, that little information could be exploited, so we decided to drop these columns to simplify the features.
+
+### Model Training
+In this project, we are attempting to classify the income level of a person with a random forest classifier, which typically yield an acceptable performance in heterogeneous data with higher dimensionality. Since the final dimensionality of the transformed feature is 41, we believe that random forest could give a promising performance.
+
+To start with, we have created two models - a baseline with `Dummy Classifier` and the `Random Forest Classifier` with default hyperparameters respectively:
+```{r, echo=FALSE}
+baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
+  rename(Metrics = X)
+kable(baseline_result, caption = "Table 2.1 Performance of Baseline Models")
+```
+To further optimize the model, we have tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
+```{r, echo=FALSE}
+hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
+  select(-X) |>
+  rename(n_estimators = param_randomforestclassifier__n_estimators,
+         max_depth = param_randomforestclassifier__max_depth,
+         class_weight = param_randomforestclassifier__class_weight) |>
+  mutate(class_weight = case_when(
+    class_weight == "balanced" ~ "balanced",
+    TRUE ~ "none"
+  ))
+kable(hyperparam_result, caption = "Table 2.2 Results of Hyperparameter Tuning")
+```
+So fundamentally, it is clear that setting `class_weight` to `balanced` would boost the `Recall score` and `F1 score`, while sacrificing `accuracy` and `precision`. Although both target class have equal importance in this dataset, we would also choose to optimize the `F1 score` due to the serious class imbalance, as accuracy cannot reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=200`, `max_depth=16` and `class_weight=balanced`.
+
+# Results
+### Metrics
+```{r, echo=FALSE}
+library(tidyverse)
+library(knitr)
+########## Add Metric table here ##########
+metric_table <- read.csv("../../results/eval/model_performance.csv") |>
+  rename(Model = X) |>
+  slice(1:2)
+kable(metric_table, caption = "Table 3.1 Performance of the best model on training & testing data")
+```
+
+Although it seems that the testing performance of the model is worse than the training scores, our model actually has a similar performance as the cross validation results, indicating that the model does not overfit on the training data.
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+########## Add Confusion Matrix here ##########
+confusion_matrix <- read.csv("../../results/eval/confusion_matrix.csv") |>
+  rename(True.Class = X,
+         `Predicted.negative(0)` = Predicted.negative..0.,
+         `Predicted.positive(1)` = Predicted.positive..1.)
+kable(confusion_matrix, caption = "Table 3.2 Confusion Matrix on testing data")
+########## Add Classification report here ##########
+clf_report <- read_csv("../../results/eval/classification_report.csv") |>
+  rename(Class = ...1) |>
+  mutate(support = as.integer(support))
+kable(clf_report, caption = "Table 3.3 Classification Report on testing data")
+```
+
+From both classification report and the confusion matrix, we could see that the model performs much better in the negative class, i.e. `<=50K`, that its counterpart due to the class imbalance. Since the number of false positive is greater than that of false negative, our model would be slightly overestimating the income level of a person.  
+
+```{r, echo=FALSE, out.width="70%", fig.cap="Figure 3.4 Precision-Recall Curve on training data"}
+######### PR curve (training) ##########
+include_graphics("../results/eval/PR_curve.png")
+######### PR curve (testing) ##########
+######### metric table w/ best thres ##########
+metric_table_test <- read.csv("../../results/eval/model_performance_test.csv") |>
+  rename(`Model with best threshold` = X)
+kable(metric_table_test, caption = "Table 3.5 Model performance on testing data with best threshold")
+```
+
+Since the random forest model could also produce a probability score, it is possible for us to determine an optimal threshold value to better distinguish the classes. From the PR curve, we could see that 0.58 is the best threshold value with training data. When we apply the new threshold to the test data set, the F1 score did not change a lot, while the accuracy score has improved. Thus using the best threshold could slightly improve the decision made by the model.  
+
+```{r, echo=FALSE, out.width="70%", fig.cap="Figure 3.6 ROC Curve on testing data"}
+######### ROC Curve w/ AUC ##########
+include_graphics("../results/eval/ROC_curve.png")
+```
+
+Looking at the Receiver Operating Characteristic (ROC) curve, we could also analyze the performance of the classifier at different threshold level, while the area under curve (AUC) score is one of the metrics that could evaluate the model performance with high class imbalance. Our model could achieve 0.89 in AUC, which indicates that it has a relatively good performance in accurately detecting both classes.

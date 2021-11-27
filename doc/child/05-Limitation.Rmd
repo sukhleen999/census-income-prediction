@@ -1,1 +1,9 @@
-# Limitation & Assumption
+# Limitations
+
+-   One of the major limitations of the Random Forest Classifier model is that a large number of trees can make the algorithm too slow and ineffective for real-time predictions.
+-   Our problem statement was classification based with equal weights for both income groups in the target column. However, we had to focus on optimizing metrics ideal for spotting such as f1 score, precision and recall due to heavy class imbalance.
+
+# Assumptions
+
+-   We assume that there is no multicollinearity between the features.
+-   Since the Random Forest Classifier leverages bootstrap aggregation, we assume that the sample generated is representative of the population dataset.

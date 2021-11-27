@@ -29,23 +29,6 @@ import sys
 
 opt = docopt(__doc__)
 
-def save_model(obj, filename):
-    fp = open(filename, "wb")
-    pickle.dump(obj, fp)
-    
-def load_model(filename):
-    fp = open(filename, "rb")
-    obj = pickle.load(fp)
-    return obj
-
-def upfront_transform(df):
-    # Transform native_country into binary feature, indicating whether the sample comes from US or not
-    df['native_country'] = df['native_country'] == 'United-States'
-
-    # Set positive label to ">50K", which is the class with smaller proportion
-    df['income'] = df['income'] == '>50K'
-    return df
-
 def main():
     try:
         if opt['<input_train_file>'] is None:
@@ -67,7 +50,11 @@ def main():
 
     # Read data and make some feature transformation
     train_df = pd.read_csv(opt["<input_train_file>"])
-    train_df = upfront_transform(train_df)
+    # Transform native_country into binary feature, indicating whether the sample comes from US or not
+    train_df['native_country'] = train_df['native_country'] == 'United-States'
+
+    # Set positive label to ">50K", which is the class with smaller proportion
+    train_df['income'] = train_df['income'] == '>50K'
 
     # Split data into features & target
     X_train = train_df.drop("income", axis=1)
@@ -142,7 +129,8 @@ def main():
     print(f"Hyperparameter Tuning Result saved to {hyperparam_result_path}")
 
     # TODO: Export the model
-    save_model(rand_search_rf, output_filename)
+    fp = open(output_filename, "wb")
+    pickle.dump(rand_search_rf, fp)
     print(f"Model saved to {output_filename}")
 
 if __name__ == "__main__":

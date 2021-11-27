@@ -31,13 +31,9 @@ Testing data:
 
 `python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv`
 
-### Model Building
+### EDA Script
+`python3 src/eda_script.py data/preprocessed/clean_train.csv --out_dir=results/eda/`
 
-`python3 src/model_building.py data/preprocessed/clean_train.csv --out_dir=artifacts/model/ --output_model=model.pickle`
-
-### Model Evaluation
-
-`python3 src/model_evaluation.py data/preprocessed/clean_train.csv data/preprocessed/clean_test.csv artifacts/model/model.pickle --out_dir=artifacts/eval/`
 
 ## Dependencies
 
