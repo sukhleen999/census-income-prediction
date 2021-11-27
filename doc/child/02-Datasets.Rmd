@@ -2,7 +2,7 @@
 
 ## Data
 
-The data set used in this project is the Census Income Dataset, which is also known as the Adult dataset, and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database and details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income).
+The data set used in this project is the Census Income Dataset, which is also known as the Adult dataset [@Lichman], and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database and details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income).
 
 In this dataset, each row represents a single sample from the census, which include the demographic data of a resident. We are going to dig into the data and explore more about the relationship between hen demographic features and their income level below.
 
@@ -40,10 +40,6 @@ When we performed an initial sanity check on the test dataset, we found that all
 
 In the Exploratory Data Analysis (EDA), we tried to assess the importance of each feature towards the prediction of the income level. We visualized the the distribution of features(both numerical and categorical) to check if there was potential bias in the data set so that we could carry out suitable processing pipeline to different features.
 
-### Visualising numerical features
-
-#### Distribution
-
 Here we are visualizing the distribution of each numeric feature of each target class. The blue color represents the group with annual income \<=50K USD, where the orange color represents the counterpart.
 
 ```{r numerical-feature-distributions, echo=FALSE, fig.cap="Figure 2. Distribution of numerical features.", out.width = '100%'}
@@ -53,22 +49,26 @@ knitr::include_graphics("../results/eda/numerical_plot.png")
 
 From the plots above, we can see that the features `age`, `education_num`, `hours_per_week` are the major features which are demarcating the difference between the two classes clearly
 
-Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data.
+Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data.\*\*
 
 ```{r statistical-summary, echo=FALSE, fig.cap="Figure 3. Statistical summary of numerical features.", out.width = '100%'}
 knitr::include_graphics("../results/eda/stat_summary.png")
 ```
 
-Similar to numeric features, we would want to explore the categorical features to observe the frequencies of each feature which may affect the performance of model on detecting any of the target class.
+We observe that `capital_gain` and `capital_loss` are not giving much insight into the demarcation of the two classes
+
+Similar to numeric features, we explored the categorical features to observe the frequencies of each feature which may affect the performance of model on detecting any of the target class.
 
 ```{r categorical-feature-distributions, echo=FALSE, fig.cap="Figure 4.  Distribution of categorical features", out.width = '100%'}
 knitr::include_graphics("../results/eda/categorical_plot.png")
 ```
 
-n particular, since `native_country` has too many different values, and the majority of the sample are from the United States, we are exploring the feature as a binary feature here, and we could see the United States still have the supermajority in this feature.
+In particular, since `native_country` has too many different values, and the majority of the sample are from the United States, we are exploring the feature as a binary feature here, and we could see the United States still has the super majority in this feature.
 
 ```{r country-distributions, echo=FALSE, fig.cap="Figure 5. Distribution of income based on country(USA vs others).", out.width = '100%'}
 knitr::include_graphics("../results/eda/country_native.png")
 ```
 
-The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: caret [@caret], docopt [@docopt], feather [@featherr], knitr [@knitr], tidyverse [@tidyverse], docopt [@docoptpython], os [@Python], feather [@featherpy] Pandas [@mckinney-proc-scipy-2010]. The code used to perform the analysis and create this report can be found here: <https://github.com/ttimbers/breast_cancer_predictor>.
+In addition to this, we also assessed the correlation among the different features, however in this data set, all features had correlation close to zero, indicating there are relatively independent and could be useful for deriving an accurate prediction.
+
+The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: Pandas [@reback2020pandas], numpy \[\@harris2020Numpyarray\], docopt [@docopt], altair [@2018-altair], knitr [@knitr], tidyverse [@tidyverse], scikit-learn [@scikit-learn], os [@Python], matplotlib \[@Hunter2007matplotlib\], seaborn[@Waskom2021] . The code used to perform the analysis and create this report can be found here: [https://github.com/UBC-MDS/census_income_predict](https://github.com/ttimbers/breast_cancer_predictor){.uri}ion.
