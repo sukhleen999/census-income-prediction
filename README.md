@@ -15,7 +15,7 @@ In the dataset we have used consists of  various demographic features such as ag
 
 
 ## Report
-The final report can be found [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/census-income-prediction/blob/main/doc/report.html)
+The final report can be found [here](https://ubc-mds.github.io/census-income-prediction/doc/report.html)
 
 ## Usage
 
