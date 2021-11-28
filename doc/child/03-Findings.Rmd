@@ -57,19 +57,19 @@ kable(clf_report, caption = "Table 3.3 Classification Report on testing data")
 
 From both classification report and the confusion matrix, we could see that the model performs much better in the negative class, i.e. `<=50K`, that its counterpart due to the class imbalance. Since the number of false positive is greater than that of false negative, our model would be slightly overestimating the income level of a person.  
 
-```{r, echo=FALSE, out.width="70%", fig.cap="Figure 3.4 Precision-Recall Curve on training data"}
+```{r, echo=FALSE, out.width="50%", fig.cap="Figure 3.1 Precision-Recall Curve on training data"}
 ######### PR curve (training) ##########
 include_graphics("../results/eval/PR_curve.png")
 ######### PR curve (testing) ##########
 ######### metric table w/ best thres ##########
 metric_table_test <- read.csv("../../results/eval/model_performance_test.csv") |>
   rename(`Model with best threshold` = X)
-kable(metric_table_test, caption = "Table 3.5 Model performance on testing data with best threshold")
+kable(metric_table_test, caption = "Table 3.4 Model performance on testing data with best threshold")
 ```
 
 Since the random forest model could also produce a probability score, it is possible for us to determine an optimal threshold value to better distinguish the classes. From the PR curve, we could see that 0.58 is the best threshold value with training data. When we apply the new threshold to the test data set, the F1 score did not change a lot, while the accuracy score has improved. Thus using the best threshold could slightly improve the decision made by the model.  
 
-```{r, echo=FALSE, out.width="70%", fig.cap="Figure 3.6 ROC Curve on testing data"}
+```{r, echo=FALSE, out.width="50%", fig.cap="Figure 3.2 ROC Curve on testing data"}
 ######### ROC Curve w/ AUC ##########
 include_graphics("../results/eval/ROC_curve.png")
 ```
