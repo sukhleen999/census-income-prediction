@@ -1,3 +1,5 @@
+# author: Navya Dahiya
+# date: 2021-11-23
 '''
 This script aims to read the downloaded dataset from the directory and 
 write a cleaned version of the datasets to another path in that directory 

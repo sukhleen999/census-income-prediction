@@ -1,3 +1,6 @@
+# author: Philson Chan
+# date: 2021-11-19
+
 '''
 This script aims to download dataset from online source. 
 This script takes the dataset link and output directory name.
