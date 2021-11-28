@@ -13,14 +13,14 @@ The training data set has 32561 observations, and no observation with `NULL` val
 ```{r train-head, message=FALSE, warning=FALSE, echo=FALSE}
 train_head  <- read.csv("../../results/eda/data_head.csv") 
 
-knitr::kable(train_head, caption = "Table 1.0 Displaying the first 5 rows of the training dataset")
+knitr::kable(train_head, caption = "Table 1.1 Displaying the first 5 rows of the training dataset")
 
 ```
 
 ```{r train-info, message=FALSE, warning=FALSE, echo=FALSE}
 train_info <- read.csv("../../results/eda/data_info.csv") 
 
-knitr::kable(train_info, caption = "Table 1.1 to display information about the datatypes and to check for any missing values")
+knitr::kable(train_info, caption = "Table 1.2 to display information about the datatypes and to check for any missing values")
 
 ```
 
@@ -29,7 +29,7 @@ When we checked the statistical summary of each features, we found that there we
 \
 During the analysis of the target column, we observed there are 24720 observations with annual income less than 50K, which is around 76% of the training data and there are 7841 samples with income more than 50K, which takes up around 24%. We could see class imbalance here, and we might need to do extra steps to assess the effect of the problem with the precision and recall. The uneven distribution of class has been represented below.
 
-```{r class-imbalance-distributions, echo=FALSE, fig.cap="Figure 1. Class imbalance and uneven distribution of the training data predictors", out.width = '100%' }
+```{r class-imbalance-distributions, echo=FALSE, fig.cap="Figure 1.3 Class imbalance and uneven distribution of the training data predictors", out.width = '100%' }
 
 knitr::include_graphics("../results/eda/class_imbalance.png")
 ```
@@ -42,7 +42,7 @@ In the Exploratory Data Analysis (EDA), we tried to assess the importance of eac
 
 Here we are visualizing the distribution of each numeric feature of each target class. The blue color represents the group with annual income \<=50K USD, where the orange color represents the counterpart.
 
-```{r numerical-feature-distributions, echo=FALSE, fig.cap="Figure 2. Distribution of numerical features.", out.width = '100%'}
+```{r numerical-feature-distributions, echo=FALSE, fig.cap="Figure 1.4 Distribution of numerical features.", out.width = '100%'}
 
 knitr::include_graphics("../results/eda/numeric_feature_plot.png")
 ```
@@ -51,7 +51,7 @@ From the plots above, we can see that the features `age`, `education_num`, `hour
 
 Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data.\*\*
 
-```{r statistical-summary, echo=FALSE, fig.cap="Figure 3. Statistical summary of numerical features.", out.width = '100%'}
+```{r statistical-summary, echo=FALSE, fig.cap="Figure 1.5 Statistical summary of numerical features.", out.width = '100%'}
 knitr::include_graphics("../results/eda/stat_summary_plot.png")
 ```
 
@@ -59,16 +59,16 @@ We observe that `capital_gain` and `capital_loss` are not giving much insight in
 
 Similar to numeric features, we explored the categorical features to observe the frequencies of each feature which may affect the performance of model on detecting any of the target class.
 
-```{r categorical-feature-distributions, echo=FALSE, fig.cap="Figure 4.  Distribution of categorical features", out.width = '100%'}
+```{r categorical-feature-distributions, echo=FALSE, fig.cap="Figure 1.6  Distribution of categorical features", out.width = '100%'}
 knitr::include_graphics("../results/eda/categorical_feat_plot.png")
 ```
 
 In particular, since `native_country` has too many different values, and the majority of the sample are from the United States, we are exploring the feature as a binary feature here, and we could see the United States still has the super majority in this feature.
 
-```{r country-distributions, echo=FALSE, fig.cap="Figure 5. Distribution of income based on country(USA vs others).", out.width = '100%'}
+```{r country-distributions, echo=FALSE, fig.cap="Figure 1.7 Distribution of income based on country(USA vs others).", out.width = '100%'}
 knitr::include_graphics("../results/eda/native_country_plot.png")
 ```
 
 In addition to this, we also assessed the correlation among the different features, however in this data set, all features had correlation close to zero, indicating there are relatively independent and could be useful for deriving an accurate prediction.
 
-The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: Pandas [@reback2020pandas], numpy [@harris2020Numpyarray], docopt [@docopt], altair [@2018-altair], knitr [@knitr], tidyverse [@tidyverse], scikit-learn [@scikit-learn], os [@Python], matplotlib [@Hunter:2007matplotlib], seaborn[@Waskom2021] . The code used to perform the analysis and create this report can be found here: [https://github.com/UBC-MDS/census_income_predict](https://github.com/ttimbers/breast_cancer_predictor){.uri}ion.
+The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: Pandas [@reback2020pandas], numpy [@harris2020Numpyarray], docopt [@docopt], altair [@2018-altair], knitr [@knitr], tidyverse [@tidyverse], scikit-learn [@scikit-learn], os [@Python], matplotlib [@Hunter:2007matplotlib], seaborn[@Waskom2021] . The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/census_income_prediction.
