@@ -14,6 +14,9 @@ In the dataset we have used consists of  various demographic features such as ag
 
 
 
+## Report
+The final report can be found [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/census-income-prediction/blob/main/doc/report.html)
+
 ## Usage
 
 All the following command shall be executed at the root directory of this repository.
@@ -40,8 +43,7 @@ Testing data:
 ```python3 src/model_evaluation.py data/clean/clean_train.csv data/clean/clean_test.csv results/model/model.pickle --out_dir=results/eval/```
 
 ## Dependencies
-
-The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
+The dependencies for this project are mentioned in the [environment file](https://github.com/UBC-MDS/census-income-prediction/blob/main/census-income.yaml) in the directory of this project
 
 -   Python 3.9.7 and Python packages:
 
@@ -68,6 +70,6 @@ The dependencies for this project are mentioned in the `census-income.yaml` envi
 The Census Income Prediction materials here are licensed under the MIT License. If re-using/re-mixing please provide attribution and link to this webpage.
 
 ## Reference
+Census Income. (1996). UCI Machine Learning Repository. Click [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income) to access it.
 
-Census Income. (1996). UCI Machine Learning Repository. Click [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income) to access it
 A. Liaw and M. Wiener (2002). Classification and Regression by randomForest. R News 2(3), 18--22.
