@@ -3,7 +3,9 @@ title: "Predicting annual income from census data using demographic features"
 author:
   Affrin Sultana   Navya Dahiya   Philson Chan   Sukhleen Kaur
 date: "25/11/2021"
-output: html_document
+output: 
+  html_document:
+    toc: TRUE
 bibliography: census_income_refs.bib
 ---
 ```{r load-packages, include=FALSE}
