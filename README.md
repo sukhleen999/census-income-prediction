@@ -21,27 +21,25 @@ The final report can be found [here](https://ubc-mds.github.io/census-income-pre
 
 Please execute all the following commands in order to reproduce the report. All the following command shall be executed at the root directory of this repository.
 ```
-### Download File
-
-#### Training data:  
+# Download Training data
 python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv
 
-#### Testing data:  
+# Download Test data:  
 python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv
 
-### Data Cleaning
+# Data Cleaning
 python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv
 
-### EDA Script
+# EDA Script
 python3 src/eda_script.py data/clean/clean_train.csv --out_dir=results/eda
 
-### Model Building
+# Model Building
 python3 src/model_building.py data/clean/clean_train.csv --out_dir=results/model/ --output_model=model.pickle
 
-### Model Evaluation
+# Model Evaluation
 python3 src/model_evaluation.py data/clean/clean_train.csv data/clean/clean_test.csv results/model/model.pickle --out_dir=results/eval
 
-### Rendering the Report
+# Rendering the Report
 Rscript -e "rmarkdown::render('doc/report.Rmd', output_format = 'github_document')"
 ```
 ## Dependencies
