@@ -70,3 +70,4 @@ The Census Income Prediction materials here are licensed under the MIT License. 
 ## Reference
 
 Census Income. (1996). UCI Machine Learning Repository. Click [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income) to access it
+A. Liaw and M. Wiener (2002). Classification and Regression by randomForest. R News 2(3), 18--22.
