@@ -13,6 +13,9 @@ After the EDA, we would create a pipeline to preprocess the dataset, as well as 
 
 Finally, we would re-fit the best model with the entire training dataset and evaluate the model with the testing data. The table of evaluation metrics would be reported to reflect the performance of the predictive model on unseen data. A few follow-up discussions would also be carried out to analyse the importance of certain features as well as the social implication of the prediction model.
 
+## Report
+The final report can be found [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/census-income-prediction/blob/main/doc/report.html)
+
 ## Usage
 All the following command shall be executed at the root directory of this repository.
 ### Download File
@@ -34,11 +37,11 @@ Testing data:
 `python3 src/model_evaluation.py data/preprocessed/clean_train.csv data/preprocessed/clean_test.csv results/model/model.pickle --out_dir=results/eval/`
 
 ## Dependencies
-The dependencies for this project are mentioned in the `census-income.yaml` environment file in the directory of this project
+The dependencies for this project are mentioned in the [environment file](https://github.com/sukhleen999/census-income-prediction/blob/main/census-income.yaml) in the directory of this project
 
 ## License
 
 The Census Income Prediction materials here are licensed under the MIT License. If re-using/re-mixing please provide attribution and link to this webpage.
 
 ## Reference
-Census Income. (1996). UCI Machine Learning Repository. Click [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income) to access it
+Census Income. (1996). UCI Machine Learning Repository. Click [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income) to access it.
