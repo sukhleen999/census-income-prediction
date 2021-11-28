@@ -6,7 +6,7 @@
 
 Data analysis project for Group 1 of DSCI 522 (Data Science Workflows), A course in the 2021 Master of Data Science program at the University of British Columbia.
 
-## Census Income Predictor
+## About
 
 Here we attempt to build a classification model using the Random Forest Classifier algorithm which can use the census income data with demographic features such as level of education, age, hours dedicated to work, etc to predict whether a person’s annual income will be greater than 50K or not. Our classifier was able to correctly predict 13524 examples out of 16281 test examples. Our classifier performed fairly on unseen test data with an ROC AUC score of 0.89, indicating that it is able to distinguish the positive class (income > 50k) with 0.89 probability. Among the people whose income is actually >50K, we are able to predict 70% of them correctly and among all the people who earned more than 50K, we were able to predict 71% of them correctly. However, it incorrectly predicted 1042 examples as false positives. These kinds of incorrect predictions could lead people into believing that they can earn more than 50K by following some other career path which might not be favourable for them, thus we recommend continuing the study to improve this prediction model before it is put into production.
 
