@@ -13,14 +13,14 @@ The training data set has 32561 observations, and no observation with `NULL` val
 ```{r train-head, message=FALSE, warning=FALSE, echo=FALSE}
 train_head  <- read.csv("../../results/eda/data_head.csv") 
 
-knitr::kable(train_head, caption = "Table 1.1 Displaying the first 5 rows of the training dataset")
+knitr::kable(train_head, caption = "Table 1.1 Glimpse of training data")
 
 ```
 
 ```{r train-info, message=FALSE, warning=FALSE, echo=FALSE}
 train_info <- read.csv("../../results/eda/data_info.csv") 
 
-knitr::kable(train_info, caption = "Table 1.2 to display information about the datatypes and to check for any missing values")
+knitr::kable(train_info, caption = "Table 1.2 Datatypes summary for training data")
 
 ```
 
