@@ -19,29 +19,31 @@ The final report can be found [here](https://htmlpreview.github.io/?https://gith
 
 ## Usage
 
-All the following command shall be executed at the root directory of this repository.
-
+Please execute all the following commands in order to reproduce the report. All the following command shall be executed at the root directory of this repository.
+```
 ### Download File
 
-Training data:  
-```python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv``` 
+#### Training data:  
+python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv
 
-Testing data:  
-```python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv```
+#### Testing data:  
+python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test --out_dir=data/raw --file_name=test.csv
 
 ### Data Cleaning
-
-```python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv```
+python3 src/clean_data.py data/raw/train.csv data/raw/test.csv --out_dir=data/clean --train_filename=clean_train.csv --test_filename=clean_test.csv
 
 ### EDA Script
-```python3 src/eda_script.py data/clean/clean_train.csv --out_dir=results/eda/```
+python3 src/eda_script.py data/clean/clean_train.csv --out_dir=results/eda
 
 ### Model Building
-```python3 src/model_building.py data/clean/clean_train.csv --out_dir=results/model/ --output_model=model.pickle```
+python3 src/model_building.py data/clean/clean_train.csv --out_dir=results/model/ --output_model=model.pickle
 
 ### Model Evaluation
-```python3 src/model_evaluation.py data/clean/clean_train.csv data/clean/clean_test.csv results/model/model.pickle --out_dir=results/eval/```
+python3 src/model_evaluation.py data/clean/clean_train.csv data/clean/clean_test.csv results/model/model.pickle --out_dir=results/eval
 
+### Rendering the Report
+Rscript -e "rmarkdown::render('doc/report.Rmd', output_format = 'github_document')"
+```
 ## Dependencies
 The dependencies for this project are mentioned in the [environment file](https://github.com/UBC-MDS/census-income-prediction/blob/main/census-income.yaml) in the directory of this project
 
