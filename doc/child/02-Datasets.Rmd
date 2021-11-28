@@ -4,7 +4,7 @@
 
 The data set used in this project is the Census Income Dataset, which is also known as the Adult dataset [@misc_census_income_20], and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database and details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income).
 
-In this dataset, each row represents a single sample from the census, which include the demographic data of a resident. We are going to dig into the data and explore more about the relationship between hen demographic features and their income level below.
+In this dataset, each row represents a single sample from the census, which include the demographic data of a resident. We are going to dig into the data and explore more about the relationship between the demographic features and their income level below.
 
 *Reference: Census Income. (1996). UCI Machine Learning Repository.*
 
@@ -49,7 +49,7 @@ knitr::include_graphics("../results/eda/numeric_feature_plot.png")
 
 From the plots above, we can see that the features `age`, `education_num`, `hours_per_week` are the major features which are demarcating the difference between the two classes clearly
 
-Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data.\*\*
+Below, we are visualizing key numeric features against the target class and basically want to look out for any outliers and statistical measures of the data.
 
 ```{r statistical-summary, echo=FALSE, fig.cap="Figure 1.5 Statistical summary of numerical features.", out.width = '100%'}
 knitr::include_graphics("../results/eda/stat_summary_plot.png")
