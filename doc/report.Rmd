@@ -1,13 +1,10 @@
 ---
-title: "Final Report"
+title: "Predicting annual income from census data using demographic features"
 author:
-  - Affrin Sultana
-  - Navya Dahiya
-  - Philson Chan
-  - Sukhleen Kaur
+  Affrin Sultana   Navya Dahiya   Philson Chan   Sukhleen Kaur
 date: "25/11/2021"
 output: html_document
-#bibliography: bibliography.bib
+bibliography: census_income_refs.bib
 ---
 ```{r load-packages, include=FALSE}
 library(tidyverse)
@@ -23,6 +20,9 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 options(scipen = 0, digits = 3)
 ```
 
+```{r summary, child="child/00-Summary.Rmd"}
+```
+
 ```{r intro, child="child/01-Introduction.Rmd"}
 ```
 
@@ -30,9 +30,6 @@ options(scipen = 0, digits = 3)
 ```
 
 ```{r findings, child="child/03-Findings.Rmd"}
-```
-
-```{r interpretation, child="child/04-Interpretation.Rmd"}
 ```
 
 ```{r limitation, child="child/05-Limitation.Rmd"}
