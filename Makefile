@@ -1,3 +1,14 @@
+# Makefile
+# Philson Chan, Nov 2021
+# This driver script builds the prediction model to predict 
+# the income level of people from their demographic features. 
+# Upon running the script, a prediction model would be trained 
+# and evaluated, and a report would be generated. This script
+# takes no arguments.
+
+# example usage:
+# make all
+
 eda_artifacts = categorical_feat_plot.png class_imbalance.png data_head.csv data_info.csv native_country_plot.png numeric_feature_plot.png stat_summary_plot.png
 eda_files = $(addprefix results/eda/, $(eda_artifacts))
 
