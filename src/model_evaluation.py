@@ -56,7 +56,7 @@ def main():
     test_df['native_country'] = test_df['native_country'] == 'United-States'
 
     # Set positive label to ">50K", which is the class with smaller proportion
-    train_df['income'] = test_df['income'] == '>50K'
+    train_df['income'] = train_df['income'] == '>50K'
     test_df['income'] = test_df['income'] == '>50K'
 
     # Split data into features & target
