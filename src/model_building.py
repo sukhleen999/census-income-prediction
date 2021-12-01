@@ -1,3 +1,6 @@
+# author: Philson Chan
+# date: 2021-11-25
+
 '''
 This script aims to transform the cleaned data set to a ready-to-use data to be fed to the machine learning model, and save it to the file system
 

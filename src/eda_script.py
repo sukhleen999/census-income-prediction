@@ -1,3 +1,6 @@
+# author: Affrin Sultana and Navya Dahiya
+# date: 2021-11-25
+
 '''
 This script aims to read the data from clean dataset from the directory and
 perform exploratory data analysis on the train dataset
