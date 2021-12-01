@@ -71,6 +71,7 @@ def main():
         train_df_info=train_df_info[:-2]
         train_df_info.to_csv(f"{opt['--out_dir']}/data_info.csv", index=False)
         print(f"----- Saved plot for data_info in {opt['--out_dir']}/data_info.csv -----")
+        os.remove("train_df_info.csv")
         
         # Figure to represent statistical summary of the numerical data
         train_df_desc= alt.Chart(train_df).mark_boxplot().encode(

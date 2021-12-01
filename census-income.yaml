@@ -15,4 +15,4 @@ dependencies:
   - altair_data_server
   - altair_saver
   - docopt==0.6.2
-  
+  - pandoc>1.12.3
