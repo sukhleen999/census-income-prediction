@@ -13,7 +13,9 @@ baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
   rename(Metrics = X)
 kable(baseline_result, caption = "Table 2.1 Performance of Baseline Models")
 ```
-To further optimize the model, we have tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
+To further optimize the model, we have investigated on a few feature selection algorithms such as recursive feature elimination (RFE) and Boruta algorithm. However, as it is found that the running time for these feature selection algorithm takes too long, that it takes more than 2 hours to tune the hyperparameters with cross validation. Thus we decided not to apply any feature selection algorithm at this stage.  
+
+Apart from feature selection, we have also tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
 ```{r, echo=FALSE}
 hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
   select(-X) |>
