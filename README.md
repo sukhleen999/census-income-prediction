@@ -19,9 +19,21 @@ The steps that were followed to accurately predict the income using the census i
 The final report can be found [here](https://ubc-mds.github.io/census-income-prediction/doc/report.html)
 
 ## Usage
-
-Please execute all the following commands in order to reproduce the report. All the following command shall be executed at the root directory of this repository.
+To reproduce the model and report, please clone this GitHub repository, install the dependencies or create a virtual enviroment with our enviroment file.
 ```
+# Clone the repo
+git clone https://github.com/UBC-MDS/census-income-prediction.git
+cd census-income-prediction/
+conda env create -f census-income.yaml
+conda activate census-income
+```
+Then please execute the following commands to reproduce the project. All the following command shall be executed at the root directory of this repository.
+```
+## RUN THIS LINE ONLY
+# Use Makefile
+make all
+
+## OR RUN ALL THE FOLLOWING COMMANDS IN SEQUENTIAL ORDER
 # Download Training data
 python3 src/download_data.py https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data --out_dir=data/raw --file_name=train.csv
 
@@ -43,26 +55,29 @@ python3 src/model_evaluation.py data/clean/clean_train.csv data/clean/clean_test
 # Rendering the Report
 Rscript -e "rmarkdown::render('doc/report.Rmd', output_format = 'github_document')"
 ```
+
+To restore the repository with no generate reports and artifacts, run the following command at the root directory of this repository.
+```
+make clean
+```
 ## Dependencies
 The dependencies for this project are mentioned in the [environment file](https://github.com/UBC-MDS/census-income-prediction/blob/main/census-income.yaml) in the directory of this project
 
--   Python 3.9.7 and Python packages:
-
-      - ipykernel
-      - matplotlib>=3.2.2
-      - scikit-learn>=1.0
-      - pandas>=1.3.*
-      - requests>=2.24.0
-      - graphviz
-      - python-graphviz
-      - pip
-      - altair>=4.1.0
-      - altair_data_server
-      - altair_saver
-      - docopt==0.6.2
-
+- Python 3.9.7 and Python packages:
+    - ipykernel
+    - matplotlib>=3.2.2
+    - scikit-learn>=1.0
+    - pandas>=1.3.*
+    - requests>=2.24.0
+    - graphviz
+    - python-graphviz
+    - pip
+    - altair>=4.1.0
+    - altair_data_server
+    - altair_saver
+    - docopt==0.6.2
+    - pandoc>=1.12.3
 -   R version 4.1.1 and R packages:
-
     -   knitr==1.26
     -   tidyverse==1.2.1
 
