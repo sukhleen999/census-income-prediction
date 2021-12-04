@@ -29,12 +29,11 @@ conda activate census-income
 ```
 Then please execute the following command to reproduce the project. 
 ```
-## RUN THIS LINE ONLY
 # Use Makefile
 make all
 ```
 
-Alternatively, run the following commands in sequential order.. All the commands should be executed at the root directory of this repository.
+Alternatively, run the following commands in sequential order. All the commands should be executed at the root directory of this repository.
 
 ```
 # Download Training data
