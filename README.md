@@ -8,7 +8,7 @@ Data analysis project for Group 1 of DSCI 522 (Data Science Workflows), A course
 
 ## About
 
-Often times, we want to predict a person's income based on their educational, professional and demographic background. This can be helpful for financial services firms for decisioning loan applications. Here we attempt to build a classification model using the `Random Forest Classifier` algorithm which can use the `census income` data with demographic features such as level of education, age, hours dedicated to work, etc to predict whether a person’s annual income will be greater than 50K or not. Our classifier was able to correctly predict 83% of the test examples. Our classifier performed fairly on unseen test data with an ROC AUC score of 0.89, indicating that it is able to distinguish the positive class (income > 50k) with 0.89 probability. Among the people whose income is actually >50K, we were able to predict 70% of them correctly and among all the people who earned more than 50K, we were able to predict 71% of them correctly. However, it incorrectly predicted 0.064% of test examples as `false positives`. These kinds of incorrect predictions could lead people into believing that they can earn more than 50K by following some other career path which might not be favorable for them. It can also be misleading for financial companies as they might end up offering loans to defaulters. Thus, we recommend continuing the study to improve this prediction model before it is put into production.
+Often times, we want to predict a person's income based on their educational, professional and demographic background. This can be helpful for people to know what factors would help them earn more than 50K USD. This can also be helpful for financial services firms for deciding for loan application approvals, like people who earn more than 50K USD will be granted a loan, otherwise not. Hence, here we attempt to build a classification model using the `Random Forest Classifier` algorithm which can use the `census income` data with demographic features such as level of education, age, hours dedicated to work, etc to predict whether a person’s annual income will be greater than 50K USD or not. Our classifier was able to correctly predict 83% of the test examples. Our classifier performed fairly on unseen test data with an ROC AUC score of 0.89, indicating that it is able to distinguish the positive class (income > 50k) with 0.89 probability. Among the people whose income is actually >50K USD, we were able to predict 70% of them correctly and among all the people who earned more than 50K USD, we were able to predict 71% of them correctly. However, it incorrectly predicted 0.064% of test examples as `false positives`. These kinds of incorrect predictions could lead people into believing that they can earn more than 50K USD by following some other career path which might not be favorable for them. It can also be misleading for financial companies as they might end up offering loans to defaulters. Thus, we recommend continuing the study to improve this prediction model before it is put into production.
 
 The dataset that we have used consists of various demographic features such as age, education level and marital status, etc. The training dataset consists of 32561 examples, while the testing set has 16281 examples, each consisting of 14 features and 1 target column. The data set used in this project is the Census Income Dataset, which is also known as the Adult dataset, and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database, details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income).
 The steps that were followed to accurately predict the income using the census income data have been outlined in this flowchart below. 
@@ -65,14 +65,17 @@ make clean
 ## Dependencies
 The dependencies for this project are mentioned in the [environment file](https://github.com/UBC-MDS/census-income-prediction/blob/main/census-income.yaml) in the directory of this project
 
-The steps to use the environment are given below:
+If you already created a virtual environment using the steps mentioned above, you don't have to do the following, otherwise the steps to create the environment are given below:
+```
+#Creating an environment  
+conda env create --file census-income.yaml
 
-Creating an environment  ```conda env create --file census-income.yaml```
+#Activate the environment  
+conda activate census-income
 
-Activate the environment  ```conda activate census-income```
-
-Deactivate the environment  ```conda deactivate```
-
+#Deactivate the environment  
+conda deactivate
+```
 ## License
 
 The Census Income Prediction materials here are licensed under the MIT License. If re-using/re-mixing please provide attribution and link to this webpage.
