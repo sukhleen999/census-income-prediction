@@ -49,7 +49,9 @@ in their careers.
 
 Sometimes people are not sure how the level of schooling, the number of
 hours they dedicate to their work, their marital status and some other
-factors affect their annual income. To determine this, here we ask if we
+factors affect their annual income. Moreover, financial companies want to 
+predict a person's income based on their demographic features in order to
+assess their credit worthiness. To determine this, here we ask if we
 can use a machine learning algorithm to predict whether a person will
 earn more than 50K annually based on factors like the education level,
 age, hours worked and many more. Having an understanding of whether they
@@ -165,7 +167,7 @@ of the data.\*\*
 <img src="../results/eda/stat_summary_plot.png" title="Figure 1.5 Statistical summary of numerical features." alt="Figure 1.5 Statistical summary of numerical features." width="100%" />
 
 We observe that `capital_gain` and `capital_loss` are not giving much
-insight into the demarcation of the two classes
+insight into the demarcation of the two classes.
 
 Similar to numeric features, we explored the categorical features to
 observe the frequencies of each feature which may affect the performance
@@ -184,6 +186,8 @@ In addition to this, we also assessed the correlation among the
 different features, however in this data set, all features had
 correlation close to zero, indicating there are relatively independent
 and could be useful for deriving an accurate prediction.
+
+<img src="../results/eda/corr_plot.png" title="Figure 1.7 Correlation plot for numeric features." alt="Figure 1.7 Correlation plot for numeric features." width="50%" />
 
 The R and Python programming languages (R Core Team 2021; Van Rossum and
 Drake 2009) and the following R and Python packages were used to perform

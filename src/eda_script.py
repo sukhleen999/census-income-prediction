@@ -79,12 +79,13 @@ def main():
                         alt.Y(alt.repeat("column"), type='quantitative'),
                         color=alt.Color('income:N', legend=None)
                                         ).properties(width = 100).repeat(
-                        column=numeric_cols)
+                        column=numeric_cols).properties(title = 'Boxplot for numeric features').configure_title(dx = 400, fontSize = 15)
         train_df_desc.save(f"{opt['--out_dir']}/stat_summary_plot.png", scale_factor=3)
         print(f"----- Saved plot for stat summary in {opt['--out_dir']}/stat_summary_plot.png -----")
 
         # Figure to represent class imbalance
-        class_imbalance = alt.Chart(train_df).mark_bar(opacity=0.5).encode(
+        class_imbalance = alt.Chart(train_df,
+                                     title = "Distribution of target column (Income)").mark_bar(opacity=0.5).encode(
                           alt.X("income", title="Income"),
                           alt.Y("count()"),
                           color="income").properties(
@@ -101,11 +102,32 @@ def main():
                                 alt.Y("count()", stack = False),
                                 color = "income").properties(
                                 width=300,
-                                height=200).repeat(numeric_cols, columns=2)
+                                height=200).repeat(numeric_cols, columns=2).properties(
+        title = "Distribution of numeric features").configure_title(align = 'center', fontSize = 15, dx = 300)
 
         # Save the feature plot into the results/eda path
         numeric_feature_plot.save(f"{opt['--out_dir']}/numeric_feature_plot.png")
         print(f"----- Saved plot for numeric features distribution in {opt['--out_dir']}/numeric_feature_plot.png -----")
+
+        # Finding the correlation
+
+        corrMatrix = train_df.corr()
+
+        # plotting the correlations
+
+        corr_df = train_df.select_dtypes('number').corr('spearman').stack().reset_index(name='corr')
+        corr_df.loc[corr_df['corr'] == 1, 'corr'] = 0  # Remove diagonal
+        corr_df['abs'] = corr_df['corr'].abs()
+
+        corr_plot = alt.Chart(corr_df).mark_rect().encode(
+            x=alt.X('level_0', title=''),
+            y=alt.Y('level_1', title=''),
+            size=alt.Size('abs', legend=None),
+            color=alt.Color('corr', scale=alt.Scale(domain=(-1, 1), domainMid=0), title='Correlation')).properties(
+            title = "Correlation plot for numeric features").configure_title(fontSize =15)
+
+        corr_plot.save(f"{opt['--out_dir']}/corr_plot.png")
+        print(f"----- Saved plot for correlation in {opt['--out_dir']}/corr_plot.png -----")
 
         # Visualizing categorical columns:
         categorical_cols = list(set(train_df.columns) - set(numeric_cols))
@@ -114,7 +136,7 @@ def main():
 
         # Removing native_country column due to high class imbalance
         train_df.loc[train_df['native_country'] != 'United-States', 'native_country'] = 'Non-United-States'
-        native_country= alt.Chart(train_df).mark_bar(opacity=0.5).encode(
+        native_country= alt.Chart(train_df, title = "Distribution of Native Country").mark_bar(opacity=0.5).encode(
                         y=alt.Y("native_country", type="ordinal"),
                         x=alt.X('count()',  stack = False),
                         color = "income").properties(
@@ -131,7 +153,8 @@ def main():
                            alt.Y(alt.repeat(), type="ordinal", sort='x'),
                            color="income").properties(
                            width=200,
-                           height=200).repeat(categorical_cols, columns=3)
+                           height=200).repeat(categorical_cols, columns=3).properties(
+        title = "Distribution of categorical features").configure_title(align = 'center', fontSize = 15, dx = 400)
 
         # Save the categorical distribution figure into the results/eda path
         categorical_feat_plot.save(f"{opt['--out_dir']}/categorical_feat_plot.png", scale_factor=3)
