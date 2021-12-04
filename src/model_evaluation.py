@@ -162,7 +162,8 @@ def main():
             "Accuracy": [accuracy_score(y_train, y_pred_train_thres), accuracy_score(y_test, y_pred_thres)],
             "Precision": [precision_score(y_train, y_pred_train_thres), precision_score(y_test, y_pred_thres)],
             "Recall": [recall_score(y_train, y_pred_train_thres), recall_score(y_test, y_pred_thres)],
-            "F1 Score": [f1_score(y_train, y_pred_train_thres), f1_score(y_test, y_pred_thres)]
+            "F1 Score": [f1_score(y_train, y_pred_train_thres), f1_score(y_test, y_pred_thres)],
+            "ROC_AUC Score": [roc_auc_score(y_valid, y_pred_train_thres), roc_auc_score(y_test, y_pred_thres)]
         },
         index=["Train Data w/ best threshold", "Test Data w/ best threshold"])
 
