@@ -45,7 +45,7 @@ this prediction model before it is put into production.
 As we progress into the future, it has become imperative to earn high to
 be able to lead a good lifestyle along with enjoying luxuries. People
 are curious to know what factors affect their income and based on this
-analysis, how they can take decisions in theor lives to earn more.
+analysis, how they can take decisions in their lives to earn more.
 
 Sometimes people are not sure how the level of schooling, the number of
 hours they dedicate to their work, their marital status and other
@@ -170,7 +170,7 @@ performance of model while detecting any of the target class.
 
 <img src="../results/eda/categorical_feat_plot.png" title="Figure 1.4  Distribution of categorical features" alt="Figure 1.4  Distribution of categorical features" width="100%" />
 
-In particular, since `native_country` had too many unuique values, and
+In particular, since `native_country` had too many unique values, and
 the majority of the sample were from the United States, we decided to
 explore the feature as a binary feature with other countries been
 assigned to `Others`, and we could see the United States still had the
@@ -374,7 +374,7 @@ good performance in accurately detecting both classes.
     for both income groups in the target column. However, we had to
     focus on optimizing metrics ideal for spotting such as f1 score,
     precision and recall due to class imbalance.
--   Due to large size of training data, we could not perform fetaure
+-   Due to large size of training data, we could not perform feature
     selection
 
 # Assumptions

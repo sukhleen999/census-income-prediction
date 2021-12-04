@@ -32,7 +32,7 @@ Testing data
 
 The dependencies for this project are mentioned in the [environment file](https://github.com/UBC-MDS/census-income-prediction/blob/main/census-income.yaml) in the directory of this project
 
-The steps to using the environment are given below:
+The steps to use the environment are given below:
 
 Creating an environment  ```conda env create --file census-income.yaml```
 

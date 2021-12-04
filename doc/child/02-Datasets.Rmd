@@ -75,7 +75,7 @@ knitr::include_graphics("../results/eda/categorical_feat_plot.png")
 ```
 
 
-In particular, since `native_country` had too many unuique values, and the majority of the sample were from the United States, we decided to explore the feature as a binary feature with other countries been assigned to `Others`, and we could see the United States still had the super majority in this feature.
+In particular, since `native_country` had too many unique values, and the majority of the sample were from the United States, we decided to explore the feature as a binary feature with other countries been assigned to `Others`, and we could see the United States still had the super majority in this feature.
 
 
 ```{r country-distributions, echo=FALSE, fig.cap="Figure 1.5 Distribution of income based on country(USA vs others).", out.width = '50%'}
