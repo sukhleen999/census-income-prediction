@@ -18,7 +18,7 @@ After the EDA, we would create a pipeline to preprocess the dataset, as well as 
 
 In this project, we are planning use Random Forest classifier as our classification model. To yield the optimum model, we are going to select certain important features with Recursive feature elimination (RFE) algorithm, and fit these features in the model. To select the model with best performance, we would fine tune the hyperparameter of the models, and conduct cross validation to evaluate the models with various metrics, such as roc-auc score, precision, recall, F1 Score, overall accuracy.
 
-Finally, we would re-fit the best model with the entire training dataset and evaluate the model with the testing data. We may evaluate and refit the data using roc_auc score as the major metrics to optimise. Based on the results obtained, the table of evaluation metrics would be reported to reflect the performance of the predictive model on unseen data. A few follow-up discussions would also be carried out to analyse the importance of certain features as well as the social implication of the prediction model.
+Finally, we would re-fit the best model with the entire training dataset and evaluate the model with the testing data. We may evaluate and refit the best model using roc_auc score as the major metrics to optimise. Based on the results obtained, the table of evaluation metrics would be reported to reflect the performance of the predictive model on unseen data. A few follow-up discussions would also be carried out to analyse the importance of certain features as well as the social implication of the prediction model.
 
 ## Usage
 
