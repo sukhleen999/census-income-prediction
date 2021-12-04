@@ -94,21 +94,21 @@ def main():
             "Recall": [recall_score(y_train, y_pred_train), recall_score(y_test, y_pred)],
             "F1 Score": [f1_score(y_train, y_pred_train), f1_score(y_test, y_pred)],
             "AP Score": [ap_forest_train, ap_forest_test],
-            "ROC AUC Score": [roc_forest_train, roc_forest_test]
+            "AUC Score": [roc_forest_train, roc_forest_test]
         },
         index=["Train Data", "Test Data"])
 
     # Confusion Matrix for the test set
     test_confusion_matrix = pd.DataFrame(confusion_matrix(y_test, y_pred),
-                columns = ['Predicted negative (0)', 'Predicted positive (1)'],
-                index = ['True negative (0)', 'True positive (1)'])
+                columns = ['Predicted <=50K', 'Predicted >50K'],
+                index = ['True <=50K', 'True >50K'])
 
     # Export confusion matrix
     confusion_matrix_path = os.path.join(opt['--out_dir'], "confusion_matrix.csv")
     test_confusion_matrix.to_csv(confusion_matrix_path)
     print(f"Confusion Matrix saved to {confusion_matrix_path}")
 
-    report = classification_report(y_test, y_pred, target_names=["negative (0)", "positive (1)"], output_dict=True)
+    report = classification_report(y_test, y_pred, target_names=["<=50K", ">50K"], output_dict=True)
     clf_report = pd.DataFrame(report).transpose()
 
     # Export classification report
@@ -162,7 +162,9 @@ def main():
             "Accuracy": [accuracy_score(y_train, y_pred_train_thres), accuracy_score(y_test, y_pred_thres)],
             "Precision": [precision_score(y_train, y_pred_train_thres), precision_score(y_test, y_pred_thres)],
             "Recall": [recall_score(y_train, y_pred_train_thres), recall_score(y_test, y_pred_thres)],
-            "F1 Score": [f1_score(y_train, y_pred_train_thres), f1_score(y_test, y_pred_thres)]
+            "F1 Score": [f1_score(y_train, y_pred_train_thres), f1_score(y_test, y_pred_thres)],
+            "AP Score": [average_precision_score(y_train, y_pred_train_thres), average_precision_score(y_test, y_pred_thres)],
+            "AUC Score": [roc_auc_score(y_train, y_pred_train_thres), roc_auc_score(y_test, y_pred_thres)]
         },
         index=["Train Data w/ best threshold", "Test Data w/ best threshold"])
 

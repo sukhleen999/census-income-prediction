@@ -82,7 +82,7 @@ def main():
     )
 
     # Calculate Baseline Performances
-    scoring = ['accuracy', 'precision', 'recall', 'f1']
+    scoring = ['accuracy', 'precision', 'recall', 'f1','roc_auc']
     baseline_results = {}
     pipe_dummy = make_pipeline(
         col_trans,
@@ -110,7 +110,7 @@ def main():
         "randomforestclassifier__max_depth": np.arange(10, 20, 2)
     }
     rand_search_rf = RandomizedSearchCV(pipe_forest, param_dist, n_iter=20, 
-                                        random_state=952, scoring=scoring, refit="f1")
+                                        random_state=952, scoring=scoring, refit="roc_auc")
 
     print("Model Training In Progess...")
     rand_search_rf.fit(X_train, y_train)
@@ -121,10 +121,11 @@ def main():
     ).sort_values("rank_test_f1")[['param_randomforestclassifier__n_estimators',
                                         'param_randomforestclassifier__max_depth',
                                         'param_randomforestclassifier__class_weight',
+                                        'mean_test_roc_auc',
                                         'mean_test_accuracy',
                                         'mean_test_precision',
                                         'mean_test_recall',
-                                        'mean_test_f1',
+                                        'mean_test_f1'
                                         ]]
     # TODO: Export hyperparam_result
     hyperparam_result_path = os.path.join(opt['--out_dir'], "hyperparam_result.csv")
