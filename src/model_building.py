@@ -121,10 +121,11 @@ def main():
     ).sort_values("rank_test_f1")[['param_randomforestclassifier__n_estimators',
                                         'param_randomforestclassifier__max_depth',
                                         'param_randomforestclassifier__class_weight',
+                                        'mean_test_roc_auc',
                                         'mean_test_accuracy',
                                         'mean_test_precision',
                                         'mean_test_recall',
-                                        'mean_test_f1',
+                                        'mean_test_f1'
                                         ]]
     # TODO: Export hyperparam_result
     hyperparam_result_path = os.path.join(opt['--out_dir'], "hyperparam_result.csv")
