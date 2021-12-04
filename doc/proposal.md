@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
--   Author: Affrin Sultana, Navya Dahiya, Philson Chan, Sukhleen Kaur
+-Author: Affrin Sultana, Navya Dahiya, Philson Chan, Sukhleen Kaur
 
 Data analysis project for Group 1 of DSCI 522 (Data Science Workflows), A course in the 2021 Master of Data Science program at the University of British Columbia.
 
