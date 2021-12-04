@@ -77,7 +77,7 @@ metric_table_test <- read.csv("../../results/eval/model_performance_test.csv") |
 kable(metric_table_test, caption = "Table 3.4 Model performance on testing data with best threshold")
 ```
 
-Since the random forest model could also produce a probability score, it is possible for us to determine an optimal threshold value to better distinguish the classes. From the PR curve, we could see that 0.58 is the best threshold value with training data. When we apply the new threshold to the test data set, the F1 score did not change a lot, while the accuracy score has improved. Thus using the best threshold could slightly improve the decision made by the model.
+Since the random forest model could also produce a probability score, it is possible for us to determine an optimal threshold value to better distinguish the classes. From the PR curve, we could see that 0.35 is the best threshold value with training data. When we apply the new threshold to the test data set, the F1 score did not change a lot, while the accuracy score has improved. Thus using the best threshold could slightly improve the decision made by the model.
 
 ```{r, echo=FALSE, out.width="50%", fig.cap="Figure 3.2 ROC Curve on testing data"}
 ######### ROC Curve w/ AUC ##########
