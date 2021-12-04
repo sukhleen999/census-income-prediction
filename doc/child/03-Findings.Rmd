@@ -18,7 +18,7 @@ baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
 kable(baseline_result, caption = "Table 2.1 Performance of Baseline Models")
 ```
 
-To further optimize the model, we have investigated on a few feature selection algorithms such as recursive feature elimination (RFE) and Boruta algorithm. However, as it is found that the running time for these feature selection algorithm takes too long, that it takes more than 2 hours to tune the hyperparameters with cross validation. Thus we decided not to apply any feature selection algorithm at this stage.
+To further optimize the model, we have investigated on a few feature selection algorithms such as recursive feature elimination (RFE) and Boruta algorithm. However, we found that these feature selection algorithm take too long to complete, so much so that it takes more than 2 hours to tune the hyperparameters with cross validation. Hence, we decided not to apply any feature selection algorithm at this stage.
 
 Apart from feature selection, we have also tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
 
@@ -35,7 +35,7 @@ hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
 kable(hyperparam_result, caption = "Table 2.2 Results of Hyperparameter Tuning")
 ```
 
-So fundamentally, it is clear that setting `class_weight` to `balanced` would boost the `Recall score` and `F1 score`, while sacrificing `accuracy` and `precision`. Although both target class have equal importance in this dataset, we would also choose to optimize the `F1 score` due to the serious class imbalance, as accuracy cannot reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=200`, `max_depth=16` and `class_weight=balanced`.
+So fundamentally, it is clear that setting `class_weight` to `balanced` would boost the `ROC_AUC score`, `Recall score` and `F1 score`, while sacrificing `accuracy` and `precision`. Although both target class have equal importance in this dataset, we would also choose to optimize the `ROC_AUC score` due to the serious class imbalance, as accuracy cannot reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=200`, `max_depth=16` and `class_weight=balanced`.
 
 # Results
 
