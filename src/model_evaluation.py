@@ -100,7 +100,7 @@ def main():
 
     # Confusion Matrix for the test set
     test_confusion_matrix = pd.DataFrame(confusion_matrix(y_test, y_pred),
-                columns = ['Predicted negative (0)', 'Predicted positive (1)'],
+                columns = ['<=50K', '>50K'],
                 index = ['True negative (0)', 'True positive (1)'])
 
     # Export confusion matrix
