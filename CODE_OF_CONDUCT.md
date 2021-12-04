@@ -23,7 +23,7 @@ To foster an open community of contributors, we respect all volunteers regardles
 
 ### Repercussions
 
-If a participant engages in behavior that violates this code of conduct, the project Code of Conduct team may take any action they deem appropriate, including warning the offender or reporting them to the course instructors. The project team is obligated to maintain confidentiality with regard to the reporter of an incident.
+If a participant engages in behavior that violates this code of conduct, the project Code of Conduct team may take any action they deem appropriate, including warning the offender or reporting them to the course instructors at tiffany.timbers@stat.ubc.ca. The project team is obligated to maintain confidentiality with regard to the reporter of an incident.
 
 ### Moral obligations and responsibilities
 
