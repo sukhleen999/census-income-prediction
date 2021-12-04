@@ -82,7 +82,7 @@ def main():
     )
 
     # Calculate Baseline Performances
-    scoring = ['accuracy', 'precision', 'recall', 'f1']
+    scoring = ['accuracy', 'precision', 'recall', 'f1','roc_auc']
     baseline_results = {}
     pipe_dummy = make_pipeline(
         col_trans,
@@ -110,7 +110,7 @@ def main():
         "randomforestclassifier__max_depth": np.arange(10, 20, 2)
     }
     rand_search_rf = RandomizedSearchCV(pipe_forest, param_dist, n_iter=20, 
-                                        random_state=952, scoring=scoring, refit="f1")
+                                        random_state=952, scoring=scoring, refit="roc_auc")
 
     print("Model Training In Progess...")
     rand_search_rf.fit(X_train, y_train)
