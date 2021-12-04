@@ -13,7 +13,7 @@ In this dataset, each row represents a single sample from the census, which incl
 
 *Reference: Census Income. (1996). UCI Machine Learning Repository.*
 
-The training data set has 32561 observations, and no observation with `NULL` value is found in the raw data. In the test data, there are 16281 entries. So the train-test split is roughly 2:1, i.e. the test split is taking up around 33% of the entire data set. Below is a glimpse of few rows from our training set and information about the datatypes and count of records in each feature.
+The training data set has 32561 observations, and no observation with `NULL` value is found in the raw data. In the test data, there are 16281 examples. So the train-test split is roughly 2:1, i.e. the test split is taking up around 33% of the entire data set. Below is a glimpse of few rows from our training set and information about the datatypes and count of records in each feature.
 
 ```{r train-head, message=FALSE, warning=FALSE, echo=FALSE}
 train_head  <- read.csv("../../results/eda/data_head.csv") 
@@ -29,10 +29,10 @@ knitr::kable(train_info, caption = "Table 1.2 Datatypes summary for training dat
 
 ```
 
-When we checked the statistical summary of each features, we found that there were missing value in this data set which was represented by `?`. On further analysis, we found that there are 1836 missing values in `workclass`, 1843 in `occupation`, and 583 in `native_country`. As part of data cleaning and wrangling, we replaced `?` with `NaN`.
+Upon checking the statistical summary of each features, we found that there were many values in this data set which were represented by `?`. So, as part of data cleaning and wrangling, we replaced `?` with `NaN`, after which we found that there are 1836 missing values in `workclass`, 1843 in `occupation`, and 583 in `native_country`. 
 
-\
-During the analysis of the target column, we observed there are 24720 observations with annual income less than 50K, which is around 76% of the training data and there are 7841 samples with income more than 50K, which takes up around 24%. We could see class imbalance here, and we might need to do extra steps to assess the effect of the problem with the precision and recall. The uneven distribution of class has been represented below.
+
+During the analysis of the target column, we observed there are 24720 observations with annual income less than 50K, which is around 76% of the training data and there are 7841 samples with income more than 50K, which constitues for 24%. We could see class imbalance here, and decided to solve the class imbalance problem by using the `class_weight=balanced` hyperparameter while tuning the model afterwards. The uneven distribution of class has been represented below.
 
 
 ```{r class-imbalance-distributions, echo=FALSE,  fig.cap="Figure 1.1 Class imbalance and uneven distribution of the training data predictors", out.width = '50%' }
@@ -41,13 +41,13 @@ knitr::include_graphics("../results/eda/class_imbalance.png")
 ```
 
 
-When we performed an initial sanity check on the test dataset, we found that all the columns in the test data were of object type. We had to perform some additional steps to change the data types of some of the features like `age`, `fnlwgt` to the numeric columns, to make it suitable for testing purposes afterwards.
+When we performed an initial sanity check on the test dataset, we found that all the columns in the test data were of object type. We had to perform some additional steps to change the data types of some of the features like `age`, `fnlwgt` to the numeric columns, to align it with the data types of the training data set.
 
 ## Analysis
 
-In the Exploratory Data Analysis (EDA), we tried to assess the importance of each feature towards the prediction of the income level. We visualized the the distribution of features(both numerical and categorical) to check if there was potential bias in the data set so that we could carry out suitable processing pipeline to different features.
+In the Exploratory Data Analysis (EDA), we tried to assess the importance of each feature towards the prediction of the income level. We visualized the distribution of features (both numerical and categorical) to check if there was any potential bias in the data set so that we could carry out suitable processing different features.
 
-Here we are visualizing the distribution of each numeric feature of each target class. The blue color represents the group with annual income \<=50K USD, where the orange color represents the counterpart.
+Here we are visualizing the distribution of each numeric feature of each target class. The blue color represents the group with annual income <=50K USD, while the orange color represents the counterpart.
 
 
 ```{r numerical-feature-distributions, echo=FALSE, fig.cap="Figure 1.2 Distribution of numerical features.", out.width = '100%'}
@@ -67,7 +67,7 @@ knitr::include_graphics("../results/eda/stat_summary_plot.png")
 
 We observe that `capital_gain` and `capital_loss` are not giving much insight into the demarcation of the two classes
 
-Similar to numeric features, we explored the categorical features to observe the frequencies of each feature which may affect the performance of model on detecting any of the target class.
+Similar to numeric features, we explored the categorical features in order to observe the frequencies of each feature which may affect the performance of model while detecting any of the target class.
 
 
 ```{r categorical-feature-distributions, echo=FALSE, fig.cap="Figure 1.4  Distribution of categorical features", out.width = '100%'}
@@ -75,7 +75,7 @@ knitr::include_graphics("../results/eda/categorical_feat_plot.png")
 ```
 
 
-In particular, since `native_country` has too many different values, and the majority of the sample are from the United States, we are exploring the feature as a binary feature here, and we could see the United States still has the super majority in this feature.
+In particular, since `native_country` had too many unique values, and the majority of the sample were from the United States, we decided to explore the feature as a binary feature with other countries been assigned to `Others`, and we could see the United States still had the super majority in this feature.
 
 
 ```{r country-distributions, echo=FALSE, fig.cap="Figure 1.5 Distribution of income based on country(USA vs others).", out.width = '50%'}

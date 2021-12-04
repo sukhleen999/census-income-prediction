@@ -4,13 +4,13 @@
 
 From the EDA, it is discovered that most of the values in the column `native_country` are `United-States`, while each of the other values have a very little proportion and is hard for the model to derive information. Therefore we transformed the `native_country` feature into a binary feature, where `True` stands for the person who comes from the US, `False` for the rest.
 
-To transform the data frame into a ready-to-use array for the machine learning model, we have used a column transformer. In particular, we apply `scaling` to numeric feautres, `one-hot encoding` to categorical features, and `binary encoding` to binary features. However, from EDA, we also know that there are null values in two of the categorical features `workclass` and `occupation`. As it does not make sense to impute any category to the missing value, we decided not to encode the null value class, i.e. the `one-hot encoding` for null would be all zero. Furthermore, `education`, `race`, `capital_gain` and `capital_loss` are dropped. It is because `education_num` is already the ordinal encoding of `education`, we do not want to duplicate the information, and `race` shall not be considered due to ethical controversy. Also, it is found that `capital_gain` and `capital_loss` are mostly zero-valued, that little information could be exploited, so we decided to drop these columns to simplify the features.
+To transform the data frame into a ready-to-use array for the machine learning model, we used a column transformer. In particular, we applied `scaling` to numeric feautres, `one-hot encoding` to categorical features, and `binary encoding` to binary features. However, from EDA, we also found that there were null values in two of the categorical features `workclass` and `occupation`. As it does not make sense to impute any category to the missing value, we decided not to encode the null value class, i.e. the `one-hot encoding` for null would be all zero. Furthermore, we dropped the features `education`, `race`, `capital_gain` and `capital_loss`. It is because `education_num` is already the ordinal encoding of `education`, we did not want to duplicate the information, and `race` shall not be considered due to ethical controversy. Also, it was observed that `capital_gain` and `capital_loss` were mostly zero-valued, that little information could be exploited, so we decided to drop these columns to simplify the feature space.
 
 ### Model Training
 
-In this project, we are attempting to classify the income level of a person with a random forest classifier, which typically yield an acceptable performance in heterogeneous data with higher dimensionality. Since the final dimensionality of the transformed feature is 41, we believe that random forest could give a promising performance.
+In this project, we are attempting to classify the income level of a person with a `Random Forest Classifier`, which typically yields an acceptable performance in heterogeneous data with higher dimensionality. Since the final dimensionality of the transformed feature is 41, we believe that random forest could give a promising performance.
 
-To start with, we have created two models - a baseline with `Dummy Classifier` and the `Random Forest Classifier` with default hyperparameters respectively:
+To start with, we created two models - a baseline with `Dummy Classifier` and the `Random Forest Classifier` with default hyperparameters respectively:
 
 ```{r, echo=FALSE}
 baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
@@ -18,9 +18,9 @@ baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
 kable(baseline_result, caption = "Table 2.1 Performance of Baseline Models")
 ```
 
-To further optimize the model, we have investigated on a few feature selection algorithms such as recursive feature elimination (RFE) and Boruta algorithm. However, we found that these feature selection algorithm take too long to complete, so much so that it takes more than 2 hours to tune the hyperparameters with cross validation. Hence, we decided not to apply any feature selection algorithm at this stage.
+To further optimize the model, we investigated on a few feature selection algorithms such as `Recursive Feature Elimination (RFE)` and `Boruta` algorithm. However, we found that these feature selection algorithms take too long to complete, so much so that it takes more than 2 hours to tune the hyperparameters with cross validation. Hence, we decided not to apply any feature selection algorithm at this stage. We might come up with an optimised way of feature selection in the future/
 
-Apart from feature selection, we have also tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
+Apart from feature selection, we also tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
 
 ```{r, echo=FALSE}
 hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
@@ -35,7 +35,7 @@ hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
 kable(hyperparam_result, caption = "Table 2.2 Results of Hyperparameter Tuning")
 ```
 
-So fundamentally, it is clear that setting `class_weight` to `balanced` would boost the `ROC_AUC score`, `Recall score` and `F1 score`, while sacrificing `accuracy` and `precision`. Although both target class have equal importance in this dataset, we would also choose to optimize the `ROC_AUC score` due to the serious class imbalance, as accuracy cannot reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=200`, `max_depth=16` and `class_weight=balanced`.
+So fundamentally, it is clear that setting `class_weight` to `balanced` (while handling the class imbalance at the same time) would boost the `ROC_AUC score`, `Recall score` and `F1 score`, while sacrificing `accuracy` and `precision`. Although both target class have equal importance in this dataset, we would also choose to optimize the `ROC_AUC score` due to the serious class imbalance, as accuracy cannot reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=200`, `max_depth=16` and `class_weight=balanced`.
 
 # Results
 
@@ -56,16 +56,16 @@ Although it seems that the testing performance of the model is worse than the tr
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ########## Add Confusion Matrix here ##########
 confusion_matrix <- read.csv("../../results/eval/confusion_matrix.csv") |>
-  rename(True.Class = X)
+  rename(Class = X)
 kable(confusion_matrix, caption = "Table 3.2 Confusion Matrix on testing data")
 ########## Add Classification report here ##########
 clf_report <- read_csv("../../results/eval/classification_report.csv") |>
-  rename(Class = ...1) |>
+  rename(Class = 1) |>
   mutate(support = as.integer(support))
 kable(clf_report, caption = "Table 3.3 Classification Report on testing data")
 ```
 
-From both classification report and the confusion matrix, we could see that the model performs much better in the negative class, i.e. `<=50K`, that its counterpart due to the class imbalance. Since the number of false positive is greater than that of false negative, our model would be slightly overestimating the income level of a person.
+From both classification report and the confusion matrix, we can see that the model performs much better in the negative class, i.e. `<=50K`, that its counterpart. Since the number of `false positive` is greater than that of `false negative`, our model would be slightly overestimating the income level of a person.
 
 ```{r, echo=FALSE, out.width="50%", fig.cap="Figure 3.1 Precision-Recall Curve on training data"}
 ######### PR curve (training) ##########
@@ -77,11 +77,11 @@ metric_table_test <- read.csv("../../results/eval/model_performance_test.csv") |
 kable(metric_table_test, caption = "Table 3.4 Model performance on testing data with best threshold")
 ```
 
-Since the random forest model could also produce a probability score, it is possible for us to determine an optimal threshold value to better distinguish the classes. From the PR curve, we could see that 0.35 is the best threshold value with training data. When we apply the new threshold to the test data set, the F1 score did not change a lot, while the accuracy score has improved. Thus using the best threshold could slightly improve the decision made by the model.
+Since the `Random Forest Model` could also produce a probability score, it is possible for us to determine an optimal threshold value to better distinguish the classes. From the `PR curve`, we could see that 0.35 is the best threshold value with training data. When we apply the new threshold to the test data set, the `F1 score` did not change a lot, while the `accuracy` score has improved. Thus using the best threshold could slightly improve the decision made by the model.
 
 ```{r, echo=FALSE, out.width="50%", fig.cap="Figure 3.2 ROC Curve on testing data"}
 ######### ROC Curve w/ AUC ##########
 include_graphics("../results/eval/ROC_curve.png")
 ```
 
-Looking at the Receiver Operating Characteristic (ROC) curve, we could also analyze the performance of the classifier at different threshold level, while the area under curve (AUC) score is one of the metrics that could evaluate the model performance with high class imbalance. Our model could achieve 0.89 in AUC, which indicates that it has a relatively good performance in accurately detecting both classes.
+Looking at the `Receiver Operating Characteristic (ROC)` curve, we could also analyze the performance of the classifier at different threshold level, while the `Area under curve (AUC)` score is one of the metrics that could evaluate the model performance with high class imbalance. Our model achieved 0.89 in `AUC`, which indicates that it has a relatively good performance in accurately detecting both classes.
