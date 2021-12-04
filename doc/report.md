@@ -51,14 +51,16 @@ Sometimes people are not sure how the level of schooling, the number of
 hours they dedicate to their work, their marital status and other
 factors affect their annual income. To determine this, here we ask if we
 can use a machine learning algorithm to predict whether a person will
-earn more than 50K annually based on these factors or not. Having an
-understanding of whether they will be able to earn more than 50K based
-on some factors, can help people tweak their career decisions early in
-life and come up with a plan that can help them earn more in future.
-(Chakrabarty and Biswas 2018) Thus, if a machine learning algorithm can
-accurately and effectively predict whether a person will earn more than
-50K annually, this could help people make better decisions early in
-their life, until things go out of their hands.
+earn more than 50K USD annually based on these factors or not. Having an
+understanding of whether they will be able to earn more than 50K USD
+based on some factors, can help people tweak their career decisions
+early in life and come up with a plan that can help them earn more in
+future. (Chakrabarty and Biswas 2018) Also, the income of a person plays
+a pivotal role in the banking sector to decide whether they would grant
+them loan or not based on the income level. Thus, if a machine learning
+algorithm can accurately and effectively predict whether a person will
+earn more than 50K USD annually, this could help people make better
+decisions early in their life, until things go out of their hands.
 
 # Methods
 
