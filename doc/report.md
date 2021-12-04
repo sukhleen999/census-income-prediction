@@ -20,48 +20,45 @@ Affrin Sultana Navya Dahiya Philson Chan Sukhleen Kaur
 
 # Summary
 
-Here we attempt to build a classification model using the Random Forest
-Classifier algorithm (Liaw and Wiener 2002) which can use the census
-income data with demographic features such as level of education, age,
-hours dedicated to work, etc to predict whether a person’s annual income
-will be greater than 50K or not. Our model was able to correctly predict
-13524 examples out of 16281 test examples. Our classifier performed
-fairly on unseen test data with an ROC AUC score of 0.89, indicating
-that it is able to distinguish the positive class (income \> 50k) with
-0.89 probability. The average precision score of our model on the test
-data is 0.70 and recall is close to 0.71, indicating that among the
+Here we attempt to build a classification model using the
+`Random Forest Classifier` algorithm (Liaw and Wiener 2002) which will
+use the `Census Income` data with demographic features such as level of
+education, age, hours dedicated to work, etc to predict whether a
+person’s annual income will be greater than 50K or not. Our model was
+able to correctly predict 83% of the test examples. Our classifier
+performed fairly on unseen test data with an `ROC AUC` score of 0.89,
+indicating that it is able to distinguish between the positive class
+(income \> 50k) and negative class (income \<=50K) with 0.89
+probability. The average `precision` score of our model on the test data
+is 0.70 and `recall` score is close to 0.71, indicating that among the
 people whose income is actually \>50K, we identified 70% of them
 correctly and among all the people who earned more than 50K, we were
 able to predict 71% of them correctly. However, it incorrectly predicted
-1042 examples as false positives. These kinds of incorrect predictions
-could lead people into believing that they can earn more than 50K by
-following some other career path which might not be favourable for them,
-thus we recommend continuing the study to improve this prediction model
-before it is put into production.
+0.064% test examples as `false positives`. These kinds of incorrect
+predictions could lead people into believing that they can earn more
+than 50K by following some other career path which might not be
+favourable for them, thus we recommend continuing the study to improve
+this prediction model before it is put into production.
 
 # Introduction
 
 As we progress into the future, it has become imperative to earn high to
 be able to lead a good lifestyle along with enjoying luxuries. People
-are curious to know what they can do to earn more, or in which phase of
-their life that period will come, where they will be earning the highest
-in their careers.
+are curious to know what factors affect their income and based on this
+analysis, how they can take decisions in theor lives to earn more.
 
 Sometimes people are not sure how the level of schooling, the number of
-hours they dedicate to their work, their marital status and some other
-factors affect their annual income. Moreover, financial companies want to 
-predict a person's income based on their demographic features in order to
-assess their credit worthiness. To determine this, here we ask if we
+hours they dedicate to their work, their marital status and other
+factors affect their annual income. To determine this, here we ask if we
 can use a machine learning algorithm to predict whether a person will
-earn more than 50K annually based on factors like the education level,
-age, hours worked and many more. Having an understanding of whether they
-will be able to earn more than 50K based on some factors, can help
-people tweak their career decisions early in life and come up with a
-plan that can help them earn more in future. (Chakrabarty and Biswas
-2018) Thus, if a machine learning algorithm can accurately and
-effectively predict whether a person will earn more than 50K annually,
-this could help people make better decisions early in their life, until
-things go out of their hands.
+earn more than 50K annually based on these factors or not. Having an
+understanding of whether they will be able to earn more than 50K based
+on some factors, can help people tweak their career decisions early in
+life and come up with a plan that can help them earn more in future.
+(Chakrabarty and Biswas 2018) Thus, if a machine learning algorithm can
+accurately and effectively predict whether a person will earn more than
+50K annually, this could help people make better decisions early in
+their life, until things go out of their hands.
 
 # Methods
 
@@ -76,14 +73,14 @@ details of which could be found
 
 In this dataset, each row represents a single sample from the census,
 which include the demographic data of a resident. We are going to dig
-into the data and explore more about the relationship between hen
+into the data and explore more about the relationship between the
 demographic features and their income level below.
 
 *Reference: Census Income. (1996). UCI Machine Learning Repository.*
 
 The training data set has 32561 observations, and no observation with
 `NULL` value is found in the raw data. In the test data, there are 16281
-entries. So the train-test split is roughly 2:1, i.e. the test split is
+examples. So the train-test split is roughly 2:1, i.e. the test split is
 taking up around 33% of the entire data set. Below is a glimpse of few
 rows from our training set and information about the datatypes and count
 of records in each feature.
@@ -118,43 +115,41 @@ Table 1.1 Glimpse of training data
 
 Table 1.2 Datatypes summary for training data
 
-When we checked the statistical summary of each features, we found that
-there were missing value in this data set which was represented by `?`.
-On further analysis, we found that there are 1836 missing values in
-`workclass`, 1843 in `occupation`, and 583 in `native_country`. As part
-of data cleaning and wrangling, we replaced `?` with `NaN`.
+Upon checking the statistical summary of each features, we found that
+there were many values in this data set which were represented by `?`.
+So, as part of data cleaning and wrangling, we replaced `?` with `NaN`,
+after which we found that there are 1836 missing values in `workclass`,
+1843 in `occupation`, and 583 in `native_country`.
 
-  
 During the analysis of the target column, we observed there are 24720
 observations with annual income less than 50K, which is around 76% of
 the training data and there are 7841 samples with income more than 50K,
-which takes up around 24%. We could see class imbalance here, and we
-might need to do extra steps to assess the effect of the problem with
-the precision and recall. The uneven distribution of class has been
-represented below.
+which constitues for 24%. We could see class imbalance here, and decided
+to solve the class imbalance problem by using the
+`class_weight=balanced` hyperparameter while tuning the model
+afterwards. The uneven distribution of class has been represented below.
 
-<img src="../results/eda/class_imbalance.png" title="Figure 1.3 Class imbalance and uneven distribution of the training data predictors" alt="Figure 1.3 Class imbalance and uneven distribution of the training data predictors" width="50%" />
+<img src="../results/eda/class_imbalance.png" title="Figure 1.1 Class imbalance and uneven distribution of the training data predictors" alt="Figure 1.1 Class imbalance and uneven distribution of the training data predictors" width="50%" />
 
 When we performed an initial sanity check on the test dataset, we found
 that all the columns in the test data were of object type. We had to
 perform some additional steps to change the data types of some of the
-features like `age`, `fnlwgt` to the numeric columns, to make it
-suitable for testing purposes afterwards.
+features like `age`, `fnlwgt` to the numeric columns, to align it with
+the data types of the training data set.
 
 ## Analysis
 
 In the Exploratory Data Analysis (EDA), we tried to assess the
 importance of each feature towards the prediction of the income level.
-We visualized the the distribution of features(both numerical and
-categorical) to check if there was potential bias in the data set so
-that we could carry out suitable processing pipeline to different
-features.
+We visualized the distribution of features (both numerical and
+categorical) to check if there was any potential bias in the data set so
+that we could carry out suitable processing different features.
 
 Here we are visualizing the distribution of each numeric feature of each
 target class. The blue color represents the group with annual income
-\<=50K USD, where the orange color represents the counterpart.
+\<=50K USD, while the orange color represents the counterpart.
 
-<img src="../results/eda/numeric_feature_plot.png" title="Figure 1.4 Distribution of numerical features." alt="Figure 1.4 Distribution of numerical features." width="100%" />
+<img src="../results/eda/numeric_feature_plot.png" title="Figure 1.2 Distribution of numerical features." alt="Figure 1.2 Distribution of numerical features." width="100%" />
 
 From the plots above, we can see that the features `age`,
 `education_num`, `hours_per_week` are the major features which are
@@ -162,32 +157,33 @@ demarcating the difference between the two classes clearly
 
 Below, we are visualizing key numeric features against the target class
 and basically want to look out for any outliers and statistical measures
-of the data.\*\*
+of the data.
 
-<img src="../results/eda/stat_summary_plot.png" title="Figure 1.5 Statistical summary of numerical features." alt="Figure 1.5 Statistical summary of numerical features." width="100%" />
+<img src="../results/eda/stat_summary_plot.png" title="Figure 1.3 Statistical summary of numerical features." alt="Figure 1.3 Statistical summary of numerical features." width="100%" />
 
 We observe that `capital_gain` and `capital_loss` are not giving much
-insight into the demarcation of the two classes.
+insight into the demarcation of the two classes
 
-Similar to numeric features, we explored the categorical features to
-observe the frequencies of each feature which may affect the performance
-of model on detecting any of the target class.
+Similar to numeric features, we explored the categorical features in
+order to observe the frequencies of each feature which may affect the
+performance of model while detecting any of the target class.
 
-<img src="../results/eda/categorical_feat_plot.png" title="Figure 1.6  Distribution of categorical features" alt="Figure 1.6  Distribution of categorical features" width="100%" />
+<img src="../results/eda/categorical_feat_plot.png" title="Figure 1.4  Distribution of categorical features" alt="Figure 1.4  Distribution of categorical features" width="100%" />
 
-In particular, since `native_country` has too many different values, and
-the majority of the sample are from the United States, we are exploring
-the feature as a binary feature here, and we could see the United States
-still has the super majority in this feature.
+In particular, since `native_country` had too many unuique values, and
+the majority of the sample were from the United States, we decided to
+explore the feature as a binary feature with other countries been
+assigned to `Others`, and we could see the United States still had the
+super majority in this feature.
 
-<img src="../results/eda/native_country_plot.png" title="Figure 1.7 Distribution of income based on country(USA vs others)." alt="Figure 1.7 Distribution of income based on country(USA vs others)." width="50%" />
+<img src="../results/eda/native_country_plot.png" title="Figure 1.5 Distribution of income based on country(USA vs others)." alt="Figure 1.5 Distribution of income based on country(USA vs others)." width="50%" />
 
 In addition to this, we also assessed the correlation among the
 different features, however in this data set, all features had
 correlation close to zero, indicating there are relatively independent
 and could be useful for deriving an accurate prediction.
 
-<img src="../results/eda/corr_plot.png" title="Figure 1.7 Correlation plot for numeric features." alt="Figure 1.7 Correlation plot for numeric features." width="50%" />
+<img src="../results/eda/corr_plot.png" width="50%" />
 
 The R and Python programming languages (R Core Team 2021; Van Rossum and
 Drake 2009) and the following R and Python packages were used to perform
@@ -210,81 +206,92 @@ a binary feature, where `True` stands for the person who comes from the
 US, `False` for the rest.
 
 To transform the data frame into a ready-to-use array for the machine
-learning model, we have used a column transformer. In particular, we
-apply `scaling` to numeric feautres, `one-hot encoding` to categorical
+learning model, we used a column transformer. In particular, we applied
+`scaling` to numeric feautres, `one-hot encoding` to categorical
 features, and `binary encoding` to binary features. However, from EDA,
-we also know that there are null values in two of the categorical
+we also found that there were null values in two of the categorical
 features `workclass` and `occupation`. As it does not make sense to
 impute any category to the missing value, we decided not to encode the
 null value class, i.e. the `one-hot encoding` for null would be all
-zero. Furthermore, `education`, `race`, `capital_gain` and
-`capital_loss` are dropped. It is because `education_num` is already the
-ordinal encoding of `education`, we do not want to duplicate the
-information, and `race` shall not be considered due to ethical
-controversy. Also, it is found that `capital_gain` and `capital_loss`
-are mostly zero-valued, that little information could be exploited, so
-we decided to drop these columns to simplify the features.
+zero. Furthermore, we dropped the features `education`, `race`,
+`capital_gain` and `capital_loss`. It is because `education_num` is
+already the ordinal encoding of `education`, we did not want to
+duplicate the information, and `race` shall not be considered due to
+ethical controversy. Also, it was observed that `capital_gain` and
+`capital_loss` were mostly zero-valued, that little information could be
+exploited, so we decided to drop these columns to simplify the feature
+space.
 
 ### Model Training
 
 In this project, we are attempting to classify the income level of a
-person with a random forest classifier, which typically yield an
+person with a `Random Forest Classifier`, which typically yields an
 acceptable performance in heterogeneous data with higher dimensionality.
 Since the final dimensionality of the transformed feature is 41, we
 believe that random forest could give a promising performance.
 
-To start with, we have created two models - a baseline with
+To start with, we created two models - a baseline with
 `Dummy Classifier` and the `Random Forest Classifier` with default
 hyperparameters respectively:
 
 | Metrics        | DummyClassifier | RandomForest_default |
 |:---------------|----------------:|---------------------:|
-| fit_time       |           0.048 |                1.910 |
-| score_time     |           0.019 |                0.131 |
+| fit_time       |           0.074 |                2.837 |
+| score_time     |           0.057 |                0.303 |
 | test_accuracy  |           0.759 |                0.827 |
 | test_precision |           0.000 |                0.667 |
 | test_recall    |           0.000 |                0.564 |
 | test_f1        |           0.000 |                0.611 |
+| test_roc_auc   |           0.500 |                0.874 |
 
 Table 2.1 Performance of Baseline Models
 
-To further optimize the model, we have tuned various hyperparameters for
+To further optimize the model, we investigated on a few feature
+selection algorithms such as `Recursive Feature Elimination (RFE)` and
+`Boruta` algorithm. However, we found that these feature selection
+algorithms take too long to complete, so much so that it takes more than
+2 hours to tune the hyperparameters with cross validation. Hence, we
+decided not to apply any feature selection algorithm at this stage. We
+might come up with an optimised way of feature selection in the future/
+
+Apart from feature selection, we also tuned various hyperparameters for
 the `Random Forest Classifier` with 5-fold cross validation, which
 includes `n_estimator` - the number of trees, `max_depth` - the maximum
 depth of each decision tree, and `class_weight` to decide whether
 setting a heavier weight for less populated class would yield good
 results. The result of hyperparameter tuning is as follows:
 
-| n_estimators | max_depth | class_weight | mean_test_accuracy | mean_test_precision | mean_test_recall | mean_test_f1 |
-|-------------:|----------:|:-------------|-------------------:|--------------------:|-----------------:|-------------:|
-|          200 |        16 | balanced     |              0.811 |               0.580 |            0.785 |        0.667 |
-|           20 |        16 | balanced     |              0.811 |               0.579 |            0.785 |        0.666 |
-|          100 |        18 | balanced     |              0.816 |               0.593 |            0.756 |        0.665 |
-|          200 |        12 | balanced     |              0.795 |               0.549 |            0.836 |        0.663 |
-|           50 |        12 | balanced     |              0.795 |               0.549 |            0.835 |        0.662 |
-|           20 |        12 | balanced     |              0.796 |               0.550 |            0.828 |        0.661 |
-|           10 |        18 | balanced     |              0.811 |               0.585 |            0.744 |        0.655 |
-|           50 |        10 | balanced     |              0.781 |               0.528 |            0.857 |        0.653 |
-|           50 |        18 | none         |              0.840 |               0.712 |            0.564 |        0.629 |
-|          500 |        18 | none         |              0.840 |               0.714 |            0.562 |        0.629 |
-|           50 |        16 | none         |              0.839 |               0.716 |            0.552 |        0.624 |
-|           50 |        14 | none         |              0.840 |               0.724 |            0.545 |        0.622 |
-|           20 |        14 | none         |              0.839 |               0.721 |            0.543 |        0.619 |
-|          100 |        14 | none         |              0.840 |               0.724 |            0.541 |        0.619 |
-|           10 |        16 | none         |              0.835 |               0.702 |            0.547 |        0.615 |
-|           10 |        14 | none         |              0.835 |               0.707 |            0.539 |        0.611 |
-|          500 |        12 | none         |              0.838 |               0.731 |            0.520 |        0.608 |
-|           10 |        12 | none         |              0.836 |               0.716 |            0.528 |        0.607 |
-|           20 |        10 | none         |              0.835 |               0.732 |            0.501 |        0.594 |
-|          100 |        10 | none         |              0.836 |               0.735 |            0.498 |        0.594 |
+| n_estimators | max_depth | class_weight | mean_test_roc_auc | mean_test_accuracy | mean_test_precision | mean_test_recall | mean_test_f1 |
+|-------------:|----------:|:-------------|------------------:|-------------------:|--------------------:|-----------------:|-------------:|
+|          200 |        16 | balanced     |             0.890 |              0.811 |               0.580 |            0.785 |        0.667 |
+|           20 |        16 | balanced     |             0.885 |              0.811 |               0.579 |            0.785 |        0.666 |
+|          100 |        18 | balanced     |             0.888 |              0.816 |               0.593 |            0.756 |        0.665 |
+|          200 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.836 |        0.663 |
+|           50 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.835 |        0.662 |
+|           20 |        12 | balanced     |             0.889 |              0.796 |               0.550 |            0.828 |        0.661 |
+|           10 |        18 | balanced     |             0.878 |              0.811 |               0.585 |            0.744 |        0.655 |
+|           50 |        10 | balanced     |             0.889 |              0.781 |               0.528 |            0.857 |        0.653 |
+|           50 |        18 | none         |             0.889 |              0.840 |               0.712 |            0.564 |        0.629 |
+|          500 |        18 | none         |             0.891 |              0.840 |               0.714 |            0.562 |        0.629 |
+|           50 |        16 | none         |             0.890 |              0.839 |               0.716 |            0.552 |        0.624 |
+|           50 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.545 |        0.622 |
+|           20 |        14 | none         |             0.890 |              0.839 |               0.721 |            0.543 |        0.619 |
+|          100 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.541 |        0.619 |
+|           10 |        16 | none         |             0.882 |              0.835 |               0.702 |            0.547 |        0.615 |
+|           10 |        14 | none         |             0.886 |              0.835 |               0.707 |            0.539 |        0.611 |
+|          500 |        12 | none         |             0.892 |              0.838 |               0.731 |            0.520 |        0.608 |
+|           10 |        12 | none         |             0.886 |              0.836 |               0.716 |            0.528 |        0.607 |
+|           20 |        10 | none         |             0.888 |              0.835 |               0.732 |            0.501 |        0.594 |
+|          100 |        10 | none         |             0.890 |              0.836 |               0.735 |            0.498 |        0.594 |
 
 Table 2.2 Results of Hyperparameter Tuning
 
 So fundamentally, it is clear that setting `class_weight` to `balanced`
-would boost the `Recall score` and `F1 score`, while sacrificing
+(while handling the class imbalance at the same time) would boost the
+`ROC_AUC score`, `Recall score` and `F1 score`, while sacrificing
 `accuracy` and `precision`. Although both target class have equal
 importance in this dataset, we would also choose to optimize the
-`F1 score` due to the serious class imbalance, as accuracy cannot
+`ROC_AUC score` due to the serious class imbalance, as accuracy cannot
 reflect the genuine performance of the model. Hence the model selected
 is the model with `n_estimator=200`, `max_depth=16` and
 `class_weight=balanced`.
@@ -293,10 +300,10 @@ is the model with `n_estimator=200`, `max_depth=16` and
 
 ### Metrics
 
-| Model      | Accuracy | Precision | Recall | F1.Score | AP.Score | ROC.AUC.Score |
-|:-----------|---------:|----------:|-------:|---------:|---------:|--------------:|
-| Train Data |    0.868 |     0.660 |  0.934 |    0.774 |    0.864 |         0.956 |
-| Test Data  |    0.811 |     0.572 |  0.789 |    0.663 |    0.710 |         0.891 |
+| Model      | Accuracy | Precision | Recall | F1_Score | AP_Score | AUC_Score |
+|:-----------|---------:|----------:|-------:|---------:|---------:|----------:|
+| Train Data |    0.868 |     0.660 |  0.934 |    0.774 |    0.864 |     0.956 |
+| Test Data  |    0.811 |     0.572 |  0.789 |    0.663 |    0.710 |     0.891 |
 
 Table 3.1 Performance of the best model on training & testing data
 
@@ -305,68 +312,70 @@ than the training scores, our model actually has a similar performance
 as the cross validation results, indicating that the model does not
 overfit on the training data.
 
-| True.Class        | Predicted.negative(0) | Predicted.positive(1) |
-|:------------------|----------------------:|----------------------:|
-| True negative (0) |                 10161 |                  2274 |
-| True positive (1) |                   810 |                  3036 |
+| Class      | Predicted_less_than_50K | Predicted_greater_than_50K |
+|:-----------|------------------------:|---------------------------:|
+| True\<=50K |                   10161 |                       2274 |
+| True>50K   |                     810 |                       3036 |
 
 Table 3.2 Confusion Matrix on testing data
 
 | Class        | precision | recall | f1-score | support |
 |:-------------|----------:|-------:|---------:|--------:|
-| negative (0) |     0.926 |  0.817 |    0.868 |   12435 |
-| positive (1) |     0.572 |  0.789 |    0.663 |    3846 |
+| \<=50K       |     0.926 |  0.817 |    0.868 |   12435 |
+| \>50K        |     0.572 |  0.789 |    0.663 |    3846 |
 | accuracy     |     0.811 |  0.811 |    0.811 |       0 |
 | macro avg    |     0.749 |  0.803 |    0.766 |   16281 |
 | weighted avg |     0.842 |  0.811 |    0.820 |   16281 |
 
 Table 3.3 Classification Report on testing data
 
-From both classification report and the confusion matrix, we could see
+From both classification report and the confusion matrix, we can see
 that the model performs much better in the negative class, i.e. `<=50K`,
-that its counterpart due to the class imbalance. Since the number of
-false positive is greater than that of false negative, our model would
-be slightly overestimating the income level of a person.
+that its counterpart. Since the number of `false positive` is greater
+than that of `false negative`, our model would be slightly
+overestimating the income level of a person.
 
-<img src="../results/eval/PR_curve.png" title="Figure 3.4 Precision-Recall Curve on training data" alt="Figure 3.4 Precision-Recall Curve on training data" width="70%" />
+<img src="../results/eval/PR_curve.png" title="Figure 3.1 Precision-Recall Curve on training data" alt="Figure 3.1 Precision-Recall Curve on training data" width="50%" />
 
 | Model with best threshold | Test.Data.Metrics |
 |:--------------------------|------------------:|
 | Accuracy                  |             0.828 |
 | Precision                 |             0.616 |
 | Recall                    |             0.719 |
-| F1 Score                  |             0.663 |
-| Average Precision Score   |             0.710 |
-| AUC Score                 |             0.891 |
+| F1_Score                  |             0.663 |
+| Average_Precision_Score   |             0.710 |
+| AUC_Score                 |             0.891 |
 
-Table 3.5 Model performance on testing data with best threshold
+Table 3.4 Model performance on testing data with best threshold
 
-Since the random forest model could also produce a probability score, it
-is possible for us to determine an optimal threshold value to better
-distinguish the classes. From the PR curve, we could see that 0.58 is
+Since the `Random Forest Model` could also produce a probability score,
+it is possible for us to determine an optimal threshold value to better
+distinguish the classes. From the `PR curve`, we could see that 0.35 is
 the best threshold value with training data. When we apply the new
-threshold to the test data set, the F1 score did not change a lot, while
-the accuracy score has improved. Thus using the best threshold could
-slightly improve the decision made by the model.
+threshold to the test data set, the `F1 score` did not change a lot,
+while the `accuracy` score has improved. Thus using the best threshold
+could slightly improve the decision made by the model.
 
-<img src="../results/eval/ROC_curve.png" title="Figure 3.6 ROC Curve on testing data" alt="Figure 3.6 ROC Curve on testing data" width="70%" />
+<img src="../results/eval/ROC_curve.png" title="Figure 3.2 ROC Curve on testing data" alt="Figure 3.2 ROC Curve on testing data" width="50%" />
 
-Looking at the Receiver Operating Characteristic (ROC) curve, we could
+Looking at the `Receiver Operating Characteristic (ROC)` curve, we could
 also analyze the performance of the classifier at different threshold
-level, while the area under curve (AUC) score is one of the metrics that
-could evaluate the model performance with high class imbalance. Our
-model could achieve 0.89 in AUC, which indicates that it has a
-relatively good performance in accurately detecting both classes.
+level, while the `Area under curve (AUC)` score is one of the metrics
+that could evaluate the model performance with high class imbalance. Our
+model achieved 0.89 in `AUC`, which indicates that it has a relatively
+good performance in accurately detecting both classes.
 
 # Limitations
 
--   One of the major limitations of the Random Forest Classifier model
+-   One of the major limitations of the `Random Forest Classifier` model
     is that a large number of trees can make the algorithm too slow and
     ineffective for real-time predictions.
 -   Our problem statement was classification based with equal weights
     for both income groups in the target column. However, we had to
     focus on optimizing metrics ideal for spotting such as f1 score,
-    precision and recall due to heavy class imbalance.
+    precision and recall due to class imbalance.
+-   Due to large size of training data, we could not perform fetaure
+    selection
 
 # Assumptions
 
