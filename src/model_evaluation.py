@@ -92,16 +92,16 @@ def main():
             "Accuracy": [accuracy_score(y_train, y_pred_train), accuracy_score(y_test, y_pred)],
             "Precision": [precision_score(y_train, y_pred_train), precision_score(y_test, y_pred)],
             "Recall": [recall_score(y_train, y_pred_train), recall_score(y_test, y_pred)],
-            "F1 Score": [f1_score(y_train, y_pred_train), f1_score(y_test, y_pred)],
-            "AP Score": [ap_forest_train, ap_forest_test],
-            "AUC Score": [roc_forest_train, roc_forest_test]
+            "F1_Score": [f1_score(y_train, y_pred_train), f1_score(y_test, y_pred)],
+            "AP_Score": [ap_forest_train, ap_forest_test],
+            "AUC_Score": [roc_forest_train, roc_forest_test]
         },
         index=["Train Data", "Test Data"])
 
     # Confusion Matrix for the test set
     test_confusion_matrix = pd.DataFrame(confusion_matrix(y_test, y_pred),
-                columns = ['Predicted <=50K', 'Predicted >50K'],
-                index = ['True <=50K', 'True >50K'])
+                columns = ['Predicted<=50K', 'Predicted>50K'],
+                index = ['True<=50K', 'True>50K'])
 
     # Export confusion matrix
     confusion_matrix_path = os.path.join(opt['--out_dir'], "confusion_matrix.csv")
@@ -118,10 +118,10 @@ def main():
 
     # Table of Metrics for train set
     PR_curve_df = pd.DataFrame(precision_recall_curve(y_train, y_pred_train_prob), index=["precision","recall","threshold"]).T
-    PR_curve_df['F1 Score'] =  2 * (PR_curve_df['precision'] * PR_curve_df['recall'])/(PR_curve_df['precision'] + PR_curve_df['recall'])
+    PR_curve_df['F1_Score'] =  2 * (PR_curve_df['precision'] * PR_curve_df['recall'])/(PR_curve_df['precision'] + PR_curve_df['recall'])
     
     # Threshold to get best F1 score
-    max_f1_df = PR_curve_df.iloc[PR_curve_df["F1 Score"].idxmax()].to_frame().T
+    max_f1_df = PR_curve_df.iloc[PR_curve_df["F1_Score"].idxmax()].to_frame().T
     best_thres = max_f1_df['threshold'].iloc[0]
     max_f1_df
 
@@ -129,7 +129,7 @@ def main():
     PR_curve = alt.Chart(PR_curve_df).mark_circle().encode(
         x="recall",
         y="precision",
-        color="F1 Score"
+        color="F1_Score"
     )
 
     max_f1_point = alt.Chart(max_f1_df, 
@@ -162,9 +162,9 @@ def main():
             "Accuracy": [accuracy_score(y_train, y_pred_train_thres), accuracy_score(y_test, y_pred_thres)],
             "Precision": [precision_score(y_train, y_pred_train_thres), precision_score(y_test, y_pred_thres)],
             "Recall": [recall_score(y_train, y_pred_train_thres), recall_score(y_test, y_pred_thres)],
-            "F1 Score": [f1_score(y_train, y_pred_train_thres), f1_score(y_test, y_pred_thres)],
-            "AP Score": [average_precision_score(y_train, y_pred_train_thres), average_precision_score(y_test, y_pred_thres)],
-            "AUC Score": [roc_auc_score(y_train, y_pred_train_thres), roc_auc_score(y_test, y_pred_thres)]
+            "F1_Score": [f1_score(y_train, y_pred_train_thres), f1_score(y_test, y_pred_thres)],
+            "AP_Score": [average_precision_score(y_train, y_pred_train_thres), average_precision_score(y_test, y_pred_thres)],
+            "AUC_Score": [roc_auc_score(y_train, y_pred_train_thres), roc_auc_score(y_test, y_pred_thres)]
         },
         index=["Train Data w/ best threshold", "Test Data w/ best threshold"])
 
@@ -215,9 +215,9 @@ def main():
         "Accuracy" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Accuracy"],
         "Precision" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Precision"],
         "Recall" : model_perf_thres_df.loc["Test Data w/ best threshold"]["Recall"],
-        "F1 Score" : model_perf_thres_df.loc["Test Data w/ best threshold"]["F1 Score"],
-        "Average Precision Score" : ap_forest_test,
-        "AUC Score" : roc_forest_test},
+        "F1_Score" : model_perf_thres_df.loc["Test Data w/ best threshold"]["F1_Score"],
+        "Average_Precision_Score" : ap_forest_test,
+        "AUC_Score" : roc_forest_test},
         index = ["Test Data Metrics"]).T
 
     # Export test data metrics dataframe

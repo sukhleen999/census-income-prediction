@@ -56,11 +56,11 @@ Although it seems that the testing performance of the model is worse than the tr
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ########## Add Confusion Matrix here ##########
 confusion_matrix <- read.csv("../../results/eval/confusion_matrix.csv") |>
-  rename(True.Class = X)
+  rename(Class = X)
 kable(confusion_matrix, caption = "Table 3.2 Confusion Matrix on testing data")
 ########## Add Classification report here ##########
 clf_report <- read_csv("../../results/eval/classification_report.csv") |>
-  rename(Class = ...1) |>
+  rename(Class = 1) |>
   mutate(support = as.integer(support))
 kable(clf_report, caption = "Table 3.3 Classification Report on testing data")
 ```
