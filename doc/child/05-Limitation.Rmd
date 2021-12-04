@@ -1,7 +1,8 @@
 # Limitations
 
--   One of the major limitations of the Random Forest Classifier model is that a large number of trees can make the algorithm too slow and ineffective for real-time predictions.
--   Our problem statement was classification based with equal weights for both income groups in the target column. However, we had to focus on optimizing metrics ideal for spotting such as f1 score, precision and recall due to heavy class imbalance.
+-   One of the major limitations of the `Random Forest Classifier` model is that a large number of trees can make the algorithm too slow and ineffective for real-time predictions.
+-   Our problem statement was classification based with equal weights for both income groups in the target column. However, we had to focus on optimizing metrics ideal for spotting such as f1 score, precision and recall due to class imbalance.
+- Due to large size of training data, we could not perform fetaure selection 
 
 # Assumptions
 
