@@ -18,7 +18,7 @@ baseline_result <- read.csv("../../results/model/baseline_result.csv") |>
 kable(baseline_result, caption = "Table 2.1 Performance of Baseline Models")
 ```
 
-To further optimize the model, we investigated on a few feature selection algorithms such as `Recursive Feature Elimination (RFE)` and `Boruta` algorithm. However, we found that these feature selection algorithms take too long to complete, so much so that it takes more than 2 hours to tune the hyperparameters with cross validation. Hence, we decided not to apply any feature selection algorithm at this stage. We might come up with an optimised way of feature selection in the future/
+To further optimize the model, we investigated a few feature selection algorithms such as `Recursive Feature Elimination (RFE)` and `Boruta` algorithm. However, we found that these feature selection algorithms take too long to complete since we have more than 36,000 training examples and 40 features, so much so that it takes more than 2 hours to tune the hyperparameters with cross validation. We also implemented SHAPing to compute the impact of features on our model predictions but due to the large size of the data, the execution time was not reasonable. Hence, we decided not to apply any feature selection or SHAPing algorithm at this stage. We might come up with an optimized way of feature selection in the future.
 
 Apart from feature selection, we also tuned various hyperparameters for the `Random Forest Classifier` with 5-fold cross validation, which includes `n_estimator` - the number of trees, `max_depth` - the maximum depth of each decision tree, and `class_weight` to decide whether setting a heavier weight for less populated class would yield good results. The result of hyperparameter tuning is as follows:
 
