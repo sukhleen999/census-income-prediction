@@ -238,8 +238,8 @@ hyperparameters respectively:
 
 | Metrics        | DummyClassifier | RandomForest_default |
 |:---------------|----------------:|---------------------:|
-| fit_time       |           0.074 |                2.837 |
-| score_time     |           0.057 |                0.303 |
+| fit_time       |           0.052 |                2.195 |
+| score_time     |           0.036 |                0.324 |
 | test_accuracy  |           0.759 |                0.827 |
 | test_precision |           0.000 |                0.667 |
 | test_recall    |           0.000 |                0.564 |
@@ -269,38 +269,37 @@ results. The result of hyperparameter tuning is as follows:
 
 | n_estimators | max_depth | class_weight | mean_test_roc_auc | mean_test_accuracy | mean_test_precision | mean_test_recall | mean_test_f1 |
 |-------------:|----------:|:-------------|------------------:|-------------------:|--------------------:|-----------------:|-------------:|
-|          200 |        16 | balanced     |             0.890 |              0.811 |               0.580 |            0.785 |        0.667 |
-|           20 |        16 | balanced     |             0.885 |              0.811 |               0.579 |            0.785 |        0.666 |
-|          100 |        18 | balanced     |             0.888 |              0.816 |               0.593 |            0.756 |        0.665 |
-|          200 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.836 |        0.663 |
-|           50 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.835 |        0.662 |
-|           20 |        12 | balanced     |             0.889 |              0.796 |               0.550 |            0.828 |        0.661 |
-|           10 |        18 | balanced     |             0.878 |              0.811 |               0.585 |            0.744 |        0.655 |
-|           50 |        10 | balanced     |             0.889 |              0.781 |               0.528 |            0.857 |        0.653 |
-|           50 |        18 | none         |             0.889 |              0.840 |               0.712 |            0.564 |        0.629 |
-|          500 |        18 | none         |             0.891 |              0.840 |               0.714 |            0.562 |        0.629 |
-|           50 |        16 | none         |             0.890 |              0.839 |               0.716 |            0.552 |        0.624 |
-|           50 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.545 |        0.622 |
-|           20 |        14 | none         |             0.890 |              0.839 |               0.721 |            0.543 |        0.619 |
-|          100 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.541 |        0.619 |
-|           10 |        16 | none         |             0.882 |              0.835 |               0.702 |            0.547 |        0.615 |
-|           10 |        14 | none         |             0.886 |              0.835 |               0.707 |            0.539 |        0.611 |
 |          500 |        12 | none         |             0.892 |              0.838 |               0.731 |            0.520 |        0.608 |
-|           10 |        12 | none         |             0.886 |              0.836 |               0.716 |            0.528 |        0.607 |
-|           20 |        10 | none         |             0.888 |              0.835 |               0.732 |            0.501 |        0.594 |
+|          100 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.541 |        0.619 |
+|           50 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.545 |        0.622 |
+|          200 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.836 |        0.663 |
+|          500 |        18 | none         |             0.891 |              0.840 |               0.714 |            0.562 |        0.629 |
+|           50 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.835 |        0.662 |
+|           50 |        16 | none         |             0.890 |              0.839 |               0.716 |            0.552 |        0.624 |
+|          200 |        16 | balanced     |             0.890 |              0.811 |               0.580 |            0.785 |        0.667 |
 |          100 |        10 | none         |             0.890 |              0.836 |               0.735 |            0.498 |        0.594 |
+|           20 |        14 | none         |             0.890 |              0.839 |               0.721 |            0.543 |        0.619 |
+|           50 |        10 | balanced     |             0.889 |              0.781 |               0.528 |            0.857 |        0.653 |
+|           20 |        12 | balanced     |             0.889 |              0.796 |               0.550 |            0.828 |        0.661 |
+|           50 |        18 | none         |             0.889 |              0.840 |               0.712 |            0.564 |        0.629 |
+|          100 |        18 | balanced     |             0.888 |              0.816 |               0.593 |            0.756 |        0.665 |
+|           20 |        10 | none         |             0.888 |              0.835 |               0.732 |            0.501 |        0.594 |
+|           10 |        12 | none         |             0.886 |              0.836 |               0.716 |            0.528 |        0.607 |
+|           10 |        14 | none         |             0.886 |              0.835 |               0.707 |            0.539 |        0.611 |
+|           20 |        16 | balanced     |             0.885 |              0.811 |               0.579 |            0.785 |        0.666 |
+|           10 |        16 | none         |             0.882 |              0.835 |               0.702 |            0.547 |        0.615 |
+|           10 |        18 | balanced     |             0.878 |              0.811 |               0.585 |            0.744 |        0.655 |
 
 Table 2.2 Results of Hyperparameter Tuning
 
 So fundamentally, it is clear that setting `class_weight` to `balanced`
 (while handling the class imbalance at the same time) would boost the
-`ROC_AUC score`, `Recall score` and `F1 score`, while sacrificing
-`accuracy` and `precision`. Although both target class have equal
-importance in this dataset, we would also choose to optimize the
-`ROC_AUC score` due to the serious class imbalance, as accuracy cannot
-reflect the genuine performance of the model. Hence the model selected
-is the model with `n_estimator=200`, `max_depth=16` and
-`class_weight=balanced`.
+`Recall score` and `F1 score`, while sacrificing `accuracy` and
+`precision`. Although both target class have equal importance in this
+dataset, we would also choose to optimize the `ROC_AUC score` due to the
+serious class imbalance, as accuracy cannot reflect the genuine
+performance of the model. Hence the model selected is the model with
+`n_estimator=500`, `max_depth=12` and `class_weight=none`.
 
 # Results
 
@@ -308,8 +307,8 @@ is the model with `n_estimator=200`, `max_depth=16` and
 
 | Model      | Accuracy | Precision | Recall | F1_Score | AP_Score | AUC_Score |
 |:-----------|---------:|----------:|-------:|---------:|---------:|----------:|
-| Train Data |    0.868 |     0.660 |  0.934 |    0.774 |    0.864 |     0.956 |
-| Test Data  |    0.811 |     0.572 |  0.789 |    0.663 |    0.710 |     0.891 |
+| Train Data |    0.862 |     0.793 |  0.579 |    0.670 |    0.801 |     0.930 |
+| Test Data  |    0.843 |     0.732 |  0.525 |    0.612 |    0.712 |     0.892 |
 
 Table 3.1 Performance of the best model on training & testing data
 
@@ -320,18 +319,18 @@ overfit on the training data.
 
 | Class      | Predicted_less_than_50K | Predicted_greater_than_50K |
 |:-----------|------------------------:|---------------------------:|
-| True\<=50K |                   10161 |                       2274 |
-| True>50K   |                     810 |                       3036 |
+| True\<=50K |                   11696 |                        739 |
+| True>50K   |                    1825 |                       2021 |
 
 Table 3.2 Confusion Matrix on testing data
 
 | Class        | precision | recall | f1-score | support |
 |:-------------|----------:|-------:|---------:|--------:|
-| \<=50K       |     0.926 |  0.817 |    0.868 |   12435 |
-| \>50K        |     0.572 |  0.789 |    0.663 |    3846 |
-| accuracy     |     0.811 |  0.811 |    0.811 |       0 |
-| macro avg    |     0.749 |  0.803 |    0.766 |   16281 |
-| weighted avg |     0.842 |  0.811 |    0.820 |   16281 |
+| \<=50K       |     0.865 |  0.941 |    0.901 |   12435 |
+| \>50K        |     0.732 |  0.525 |    0.612 |    3846 |
+| accuracy     |     0.843 |  0.843 |    0.843 |       0 |
+| macro avg    |     0.799 |  0.733 |    0.757 |   16281 |
+| weighted avg |     0.834 |  0.843 |    0.833 |   16281 |
 
 Table 3.3 Classification Report on testing data
 
@@ -345,12 +344,12 @@ overestimating the income level of a person.
 
 | Model with best threshold | Test.Data.Metrics |
 |:--------------------------|------------------:|
-| Accuracy                  |             0.828 |
-| Precision                 |             0.616 |
-| Recall                    |             0.719 |
-| F1_Score                  |             0.663 |
-| Average_Precision_Score   |             0.710 |
-| AUC_Score                 |             0.891 |
+| Accuracy                  |             0.823 |
+| Precision                 |             0.600 |
+| Recall                    |             0.751 |
+| F1_Score                  |             0.667 |
+| Average_Precision_Score   |             0.712 |
+| AUC_Score                 |             0.892 |
 
 Table 3.4 Model performance on testing data with best threshold
 
