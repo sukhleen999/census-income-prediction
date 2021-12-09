@@ -53,6 +53,6 @@ doc/report.html: doc/report.Rmd doc/child/*.Rmd doc/census_income_refs.bib $(eda
 	Rscript -e "rmarkdown::render('doc/report.Rmd', output_format = 'html_document')"
 
 clean:
-	rm -rf results/
+	rm -rf results/*/
 	rm -rf data/
 	rm -f doc/report.html

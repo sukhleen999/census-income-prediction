@@ -21,9 +21,10 @@ RUN Rscript -e "install.packages('tidyverse');"
 
 
 # Download the conda environment file and create conda environment
-RUN cd home && \
-    wget https://raw.githubusercontent.com/UBC-MDS/census-income-prediction/main/census-income.yaml && \
-    conda env create -f census-income.yaml
+#RUN cd home && \
+#    wget https://raw.githubusercontent.com/UBC-MDS/census-income-prediction/main/census-income.yaml && \
+COPY census-income.yaml ./home
+RUN conda env create -f /home/census-income.yaml
 
 # Garbage collection
 RUN rm /home/census-income.yaml 
