@@ -140,17 +140,17 @@ def main():
     print(f"Shap Values saved to {shap_values_path}")
     
     print("Generating Bar summary plot...")
-    plt.figure(figsize=(1,1))
-    shap_summary_plot = shap.summary_plot(train_rf_shap_values[1], X_train_enc[:200], plot_type="bar", show=False,  plot_size=(50, 50))
-    plt.savefig(f"{opt['--out_dir']}/shap_summary_barplot.png", dpi=300)
+    plt.figure()
+    shap_summary_plot = shap.summary_plot(train_rf_shap_values[1], X_train_enc, plot_type="bar", show=False)
+    plt.savefig(f"{opt['--out_dir']}/shap_summary_barplot.png", dpi=200, bbox_inches='tight')
     print(f"----- Saved plot for SHAP summary bar plot in {opt['--out_dir']}/shap_summary_barplot.png -----")
     plt.close()
 
     
     print("Generating SHAP heat summary plot...")
     plt.figure()
-    shap_summary_heatplot=shap.summary_plot(train_rf_shap_values[1], X_train_enc[:200], show=False,  plot_size=(50, 50))
-    plt.savefig(f"{opt['--out_dir']}/shap_summary_heatplot.png", dpi=200)
+    shap_summary_heatplot=shap.summary_plot(train_rf_shap_values[1], X_train_enc[:200], show=False)
+    plt.savefig(f"{opt['--out_dir']}/shap_summary_heatplot.png", dpi=200, bbox_inches='tight')
     print(f"----- Saved plot for SHAP summary heat plot in {opt['--out_dir']}/shap_summary_heatplot.png -----")
     plt.close()
     
