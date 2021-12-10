@@ -1,0 +1,11 @@
+,SHAP
+marital_status_Married-civ-spouse,0.0769108154966608
+age,0.060273560655358265
+hours_per_week,0.04618664337369764
+occupation_Prof-specialty,0.0417005889519397
+relationship_Husband,0.03759902082442533
+occupation_Exec-managerial,0.03467532593505421
+fnlwgt,0.025226527720932045
+marital_status_Never-married,0.020651795775412853
+sex_Male,0.015357607776417884
+occupation_Other-service,0.012133479036173131
