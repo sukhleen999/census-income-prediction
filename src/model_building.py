@@ -118,7 +118,7 @@ def main():
 
     hyperparam_result = pd.DataFrame(
         rand_search_rf.cv_results_
-    ).sort_values("rank_test_f1")[['param_randomforestclassifier__n_estimators',
+    ).sort_values("rank_test_roc_auc")[['param_randomforestclassifier__n_estimators',
                                         'param_randomforestclassifier__max_depth',
                                         'param_randomforestclassifier__class_weight',
                                         'mean_test_roc_auc',

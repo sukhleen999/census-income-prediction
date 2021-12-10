@@ -14,7 +14,7 @@ else
     py_exe := python3
 endif
 
-eda_artifacts = categorical_feat_plot.png class_imbalance.png data_head.csv data_info.csv native_country_plot.png numeric_feature_plot.png stat_summary_plot.png
+eda_artifacts = categorical_feat_plot.png class_imbalance.png data_head.csv data_info.csv native_country_plot.png numeric_feature_plot.png stat_summary_plot.png corr_plot.png
 eda_files = $(addprefix results/eda/, $(eda_artifacts))
 
 model_artifact = model.pickle baseline_result.csv hyperparam_result.csv
@@ -53,6 +53,6 @@ doc/report.html: doc/report.Rmd doc/child/*.Rmd doc/census_income_refs.bib $(eda
 	Rscript -e "rmarkdown::render('doc/report.Rmd', output_format = 'html_document')"
 
 clean:
-	rm -rf results/
+	rm -rf results/*/
 	rm -rf data/
 	rm -f doc/report.html

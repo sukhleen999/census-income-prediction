@@ -12,6 +12,7 @@ Often times, we want to predict a person's income based on their educational, pr
 
 The dataset that we have used consists of various demographic features such as age, education level and marital status, etc. The training dataset consists of 32561 examples, while the testing set has 16281 examples, each consisting of 14 features and 1 target column. The data set used in this project is the Census Income dataset, which is also known as the Adult dataset, and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database, details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income). The steps that were followed to accurately predict the income using the census income data have been outlined in this flowchart below.
 
+
 ![**Pipeline of Census Income Prediction**](https://github.com/UBC-MDS/census-income-prediction/blob/main/results/flowchart.PNG?raw=true)
 
 ## Makefile dependency diagram
@@ -20,11 +21,31 @@ The dependency diagram of the makefile can be found [here](https://ubc-mds.githu
 
 ## Report
 
-The final report can be found [here](https://ubc-mds.github.io/census-income-prediction/doc/report.html).
+The final report can be found [here](https://ubc-mds.github.io/census-income-prediction/doc/report.html)
 
 ## Usage
 
-To reproduce the model and report, please clone this GitHub repository, install the dependencies or create a virtual environment with our environment file.
+There are two ways to reproduce the project:
+
+### With Docker
+
+To reproduce the experiment and export the report, please install [Docker](!https://www.docker.com/get-started) in your machine. And then clone this GitHub repository and run the following command at the root directory of this repository:
+
+    # Clone the repo
+    git clone https://github.com/UBC-MDS/census-income-prediction.git
+    cd census-income-prediction/
+
+    # Reproduce the pipeline with Docker
+    docker run --rm -v $(pwd):/home/census-income-prediction/ username/census-income-prediction conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ all
+
+To restore the repository with no generate reports and artifacts, run the following command at the root directory of this repository.
+
+    docker run --rm -v $(pwd):/home/census-income-prediction/ username/census-income-prediction conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ clean
+
+### Without Docker
+
+To reproduce the model and report, please clone this GitHub repository, install the dependencies or create a virtual enviroment with our enviroment file.
+
 
     # Clone the repo
     git clone https://github.com/UBC-MDS/census-income-prediction.git
@@ -64,19 +85,60 @@ To restore the repository with no generate reports and artifacts, run the follow
 
     make clean
 
+*Note: If you have problem in saving plots as PNG with `altair`, try the following prompt:*
+
+    npm install -g vega vega-cli vega-lite canvas
+
 ## Dependencies
 
-The dependencies for this project are mentioned in the [environment file](https://github.com/UBC-MDS/census-income-prediction/blob/main/census-income.yaml) in the directory of this project
+This project requires the following softwares if you do not use Docker:
+
+-   R Version 4.1 or above
+
+    -   tidyverse==1.3.1
+
+    -   knitr==1.36
+
+-   Python 3.7 or above
+
+    -   matplotlib>=3.2.2
+
+    -   scikit-learn>=1.0
+
+    -   pandas>=1.3.\*
+
+    -   requests>=2.24.0
+
+    -   altair>=4.1.0
+
+    -   altair_data_server==0.4.1
+
+    -   altair_saver==0.5.0
+
+    -   docopt==0.6.2
+
+    -   pandoc>=1.12.3
+
+    -   graphviz==2.49.3
+
+-   GNU Make Version 4.2.1
+
+The Python dependencies for this project are mentioned in the [environment file](https://github.com/UBC-MDS/census-income-prediction/blob/main/census-income.yaml) in the directory of this project.
+
+R Libraries `tidyverse` and `knitr` are also required. Please execute the following command:
+
+    Rscript -e "install.packages(c('tidyverse', 'knitr'))"
 
 If you already created a virtual environment using the steps mentioned above, you don't have to do the following, otherwise the steps to create the environment are given below:
 
-    #Creating an environment  
+    # Create an environment  
     conda env create --file census-income.yaml
 
-    #Activate the environment  
+    # Activate the environment  
     conda activate census-income
 
-    #Deactivate the environment  
+    # Deactivate the environment  
+
     conda deactivate
 
 ## License
