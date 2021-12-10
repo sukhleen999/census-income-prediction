@@ -1,5 +1,6 @@
-# author: Philson Chan
+# author: Navya Dahiya, Philson Chan 
 # date: 2021-11-25
+# last update: 2021-12-09
 
 '''
 This script aims to transform the cleaned data set to a ready-to-use data to be fed to the machine learning model, and save it to the file system
@@ -7,9 +8,9 @@ This script aims to transform the cleaned data set to a ready-to-use data to be 
 Usage: model_building.py <input_train_file> --out_dir=<out_dir> [--output_model=<model_filename>]
 
 Options:
-<input_train_file>                                   Path of cleaned train data file
---out_dir=<out_dir>                                  Path to the output folder
-[--output_model=<model_filename>]                    Output model file name, default "model.pickle"
+<input_train_file>                       Path of cleaned train data file
+--out_dir=<out_dir>                      Path to the output folder
+[--output_model=<model_filename>]        Output model file name, default "model.pickle"
 '''
 
 from docopt import docopt
@@ -29,6 +30,8 @@ from sklearn.preprocessing import (
     StandardScaler, OneHotEncoder
 )
 import sys
+import shap
+import matplotlib.pyplot as plt 
 
 opt = docopt(__doc__)
 
@@ -72,13 +75,30 @@ def main():
     passthrough_feats = ['education_num']
     drop_feats = ['education', 'race', 'capital_gain', 'capital_loss']
 
+    #create a column transformer
     col_trans = make_column_transformer(
         (StandardScaler(), numeric_feats),
         (OneHotEncoder(sparse=False, handle_unknown='ignore', drop=[np.nan] * 2), categorical_null_feats),
         (OneHotEncoder(sparse=False, handle_unknown='ignore'), categorical_nonull_feats),
         (OneHotEncoder(drop='if_binary'), binary_feats),
-        ('passthrough', passthrough_feats),
         ('drop', drop_feats)
+    )
+
+    col_trans.fit(X_train, y_train)
+    
+    #extract feature names after transformations
+    feature_names = (
+    numeric_feats + list(col_trans.named_transformers_['onehotencoder-1'].get_feature_names_out()) 
+    + list(col_trans.named_transformers_['onehotencoder-2'].get_feature_names_out()) 
+    + list(col_trans.named_transformers_['onehotencoder-3'].get_feature_names_out())
+   )
+    
+    #transform X_train
+    x_trans=col_trans.transform(X_train)
+    
+    X_train_enc = pd.DataFrame(
+    data=col_trans.transform(X_train),
+    columns=feature_names
     )
 
     # Calculate Baseline Performances
@@ -103,6 +123,37 @@ def main():
     baseline_results.to_csv(baseline_results_path)
     print(f"Baseline Result saved to {baseline_results_path}")
 
+
+    #Perform SHAPING
+    pipe_forest.fit(X_train, y_train)
+    print("Performing SHAPING for 200 examples...")
+    rf_explainer = shap.TreeExplainer(pipe_forest.named_steps["randomforestclassifier"])
+    train_rf_shap_values = rf_explainer.shap_values(X_train_enc[:200])
+    
+
+    #extract most important global features
+    values = np.abs(train_rf_shap_values[1]).mean(0) # mean of shapely values in each column 
+    shap_values=pd.DataFrame(data=values, index=feature_names, columns=["SHAP"]).sort_values(
+    by="SHAP", ascending=False)[:10]
+    shap_values_path = os.path.join(opt['--out_dir'], "shap_values.csv")
+    shap_values.to_csv(shap_values_path)
+    print(f"Shap Values saved to {shap_values_path}")
+    
+    print("Generating Bar summary plot...")
+    plt.figure(figsize=(1,1))
+    shap_summary_plot = shap.summary_plot(train_rf_shap_values[1], X_train_enc[:200], plot_type="bar", show=False,  plot_size=(50, 50))
+    plt.savefig(f"{opt['--out_dir']}/shap_summary_barplot.png", dpi=300)
+    print(f"----- Saved plot for SHAP summary bar plot in {opt['--out_dir']}/shap_summary_barplot.png -----")
+    plt.close()
+
+    
+    print("Generating SHAP heat summary plot...")
+    plt.figure()
+    shap_summary_heatplot=shap.summary_plot(train_rf_shap_values[1], X_train_enc[:200], show=False,  plot_size=(50, 50))
+    plt.savefig(f"{opt['--out_dir']}/shap_summary_heatplot.png", dpi=200)
+    print(f"----- Saved plot for SHAP summary heat plot in {opt['--out_dir']}/shap_summary_heatplot.png -----")
+    plt.close()
+    
     # Hyperparameter Tuning
     param_dist = {
         "randomforestclassifier__class_weight": [None, "balanced"],
@@ -127,12 +178,12 @@ def main():
                                         'mean_test_recall',
                                         'mean_test_f1'
                                         ]]
-    # TODO: Export hyperparam_result
+    # Export hyperparam_result
     hyperparam_result_path = os.path.join(opt['--out_dir'], "hyperparam_result.csv")
     hyperparam_result.to_csv(hyperparam_result_path)
     print(f"Hyperparameter Tuning Result saved to {hyperparam_result_path}")
 
-    # TODO: Export the model
+    # Export the model
     fp = open(output_filename, "wb")
     pickle.dump(rand_search_rf, fp)
     print(f"Model saved to {output_filename}")
