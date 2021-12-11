@@ -358,21 +358,21 @@ it is possible for us to determine an optimal threshold value to better
 distinguish the classes. From the `PR curve`, we could see that 0.35 is
 the best threshold value with training data. When we apply the new
 threshold to the test data set, the `F1 score` did not change a lot,
-while the `accuracy` score has improved. Thus using the best threshold
+while the `accuracy` score has improved. Thus, using the best threshold
 could slightly improve the decision made by the model.
 
 <img src="../results/eval/ROC_curve.png" title="Figure 3.2 ROC Curve on testing data" alt="Figure 3.2 ROC Curve on testing data" width="50%" />
 
 Looking at the `Receiver Operating Characteristic (ROC)` curve, we could
 also analyze the performance of the classifier at different threshold
-level, while the `Area under curve (AUC)` score is one of the metrics
+levels, while the `Area under curve (AUC)` score is one of the metrics
 that could evaluate the model performance with high class imbalance. Our
 model achieved 0.89 in `AUC`, which indicates that it has a relatively
 good performance in accurately detecting both classes.
 
 <img src="../results/model/shap_summary_barplot.png" title="Figure 3.3 SHAP summary bar plot for global feature importance" alt="Figure 3.3 SHAP summary bar plot for global feature importance" width="50%" />
 
-As we can see form the above SHAP summary bar plot, it represents the
+As we can see from the above SHAP summary bar plot, it represents the
 most important global features for classification of an income being
 above or below 50K USD. We observed that education level in terms of
 years, marital status, age and the number of hours dedicated in the job
@@ -382,11 +382,11 @@ income of person.
 <img src="../results/model/shap_summary_heatplot.png" title="Figure 3.4 SHAP summary heat plot for feature importance and direction" alt="Figure 3.4 SHAP summary heat plot for feature importance and direction" width="50%" />
 
 The SHAP summary heatplot above shows the most important features for
-predicting the class. It also shows the direction of how it’s going to
-drive the prediction.As we can see from this plot, higher levels of
+predicting the class. It also shows the direction in which the features are going to
+drive the prediction. As we can see from this plot, higher levels of
 education have bigger SHAP values for income level greater than 50K USD,
 whereas smaller levels of education have smaller SHAP values driving the
-direction in a negative direction for classification. Having a spouse
+prediction in a negative direction for classification (towards '<=50K'). Having a spouse
 also seems to have a bigger SHAP value for people with more than 50K USD
 income and drives it in a positive direction.
 
@@ -401,7 +401,7 @@ income and drives it in a positive direction.
     precision and recall due to class imbalance.
 -   Due to large size of training data, we only performed SHAPing for
     200 examples at this stage and unfortunately we could not perform
-    feature selection
+    feature selection.
 
 # Assumptions
 
