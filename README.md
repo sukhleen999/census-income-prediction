@@ -39,9 +39,12 @@ To reproduce the experiment and export the report, please install [Docker](!http
     # Clone the repo
     git clone https://github.com/UBC-MDS/census-income-prediction.git
     cd census-income-prediction/
+    
+    # Pull latest docker image
+    docker pull i234567/census-income-prediction:latest
 
     # Reproduce the pipeline with Docker
-    docker run --rm -v $(pwd):/home/census-income-prediction/ i234567/census-income-prediction conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ all
+    docker run --rm -v $(pwd):/home/census-income-prediction/ i234567/census-income-prediction:latest conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ all
 
 To restore the repository with no generate reports and artifacts, run the following command at the root directory of this repository.
 
