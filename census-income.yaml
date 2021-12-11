@@ -14,4 +14,4 @@ dependencies:
   - altair_saver==0.5.0
   - docopt==0.6.2
   - pandoc>=1.12.3
-  - shap
+  - shap>=0.40.0
