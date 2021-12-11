@@ -151,7 +151,7 @@ Here we are visualizing the distribution of each numeric feature of each
 target class. The blue color represents the group with annual income
 \<=50K USD, while the orange color represents the counterpart.
 
-<img src="../results/eda/numeric_feature_plot.png" title="Figure 1.2 Distribution of numerical features." alt="Figure 1.2 Distribution of numerical features." width="100%" />
+<img src="../results/eda/numeric_feature_plot.png" title="Figure 1.2 Distribution of numerical features" alt="Figure 1.2 Distribution of numerical features" width="100%" />
 
 From the plots above, we can see that the features `age`,
 `education_num`, `hours_per_week` are the major features which are
@@ -161,7 +161,7 @@ Below, we are visualizing key numeric features against the target class
 and basically want to look out for any outliers and statistical measures
 of the data.
 
-<img src="../results/eda/stat_summary_plot.png" title="Figure 1.3 Statistical summary of numerical features." alt="Figure 1.3 Statistical summary of numerical features." width="100%" />
+<img src="../results/eda/stat_summary_plot.png" title="Figure 1.3 Statistical summary of numerical features" alt="Figure 1.3 Statistical summary of numerical features" width="100%" />
 
 We observe that `capital_gain` and `capital_loss` are not giving much
 insight into the demarcation of the two classes
@@ -178,14 +178,14 @@ explore the feature as a binary feature with other countries been
 assigned to `Others`, and we could see the United States still had the
 super majority in this feature.
 
-<img src="../results/eda/native_country_plot.png" title="Figure 1.5 Distribution of income based on country(USA vs others)." alt="Figure 1.5 Distribution of income based on country(USA vs others)." width="50%" />
+<img src="../results/eda/native_country_plot.png" title="Figure 1.5 Distribution of income based on country(USA vs others)" alt="Figure 1.5 Distribution of income based on country(USA vs others)" width="50%" />
 
 In addition to this, we also assessed the correlation among the
 different features, however in this data set, all features had
 correlation close to zero, indicating there are relatively independent
 and could be useful for deriving an accurate prediction.
 
-<img src="../results/eda/corr_plot.png" width="50%" />
+<img src="../results/eda/corr_plot.png" title="Figure 1.6 Correlation among numeric features" alt="Figure 1.6 Correlation among numeric features" width="50%" />
 
 The R and Python programming languages (R Core Team 2021; Van Rossum and
 Drake 2009) and the following R and Python packages were used to perform
@@ -238,8 +238,8 @@ hyperparameters respectively:
 
 | Metrics        | DummyClassifier | RandomForest_default |
 |:---------------|----------------:|---------------------:|
-| fit_time       |           0.052 |                2.195 |
-| score_time     |           0.036 |                0.324 |
+| fit_time       |           0.081 |                3.152 |
+| score_time     |           0.047 |                0.399 |
 | test_accuracy  |           0.759 |                0.827 |
 | test_precision |           0.000 |                0.667 |
 | test_recall    |           0.000 |                0.564 |
@@ -307,8 +307,8 @@ performance of the model. Hence the model selected is the model with
 
 | Model      | Accuracy | Precision | Recall | F1_Score | AP_Score | AUC_Score |
 |:-----------|---------:|----------:|-------:|---------:|---------:|----------:|
-| Train Data |    0.862 |     0.793 |  0.579 |    0.670 |    0.801 |     0.930 |
-| Test Data  |    0.843 |     0.732 |  0.525 |    0.612 |    0.712 |     0.892 |
+| Train Data |    0.868 |     0.660 |  0.934 |    0.774 |    0.864 |     0.956 |
+| Test Data  |    0.811 |     0.572 |  0.789 |    0.663 |    0.710 |     0.891 |
 
 Table 3.1 Performance of the best model on training & testing data
 
@@ -319,18 +319,18 @@ overfit on the training data.
 
 | Class      | Predicted_less_than_50K | Predicted_greater_than_50K |
 |:-----------|------------------------:|---------------------------:|
-| True\<=50K |                   11696 |                        739 |
-| True>50K   |                    1825 |                       2021 |
+| True\<=50K |                   10161 |                       2274 |
+| True>50K   |                     810 |                       3036 |
 
 Table 3.2 Confusion Matrix on testing data
 
 | Class        | precision | recall | f1-score | support |
 |:-------------|----------:|-------:|---------:|--------:|
-| \<=50K       |     0.865 |  0.941 |    0.901 |   12435 |
-| \>50K        |     0.732 |  0.525 |    0.612 |    3846 |
-| accuracy     |     0.843 |  0.843 |    0.843 |       0 |
-| macro avg    |     0.799 |  0.733 |    0.757 |   16281 |
-| weighted avg |     0.834 |  0.843 |    0.833 |   16281 |
+| \<=50K       |     0.926 |  0.817 |    0.868 |   12435 |
+| \>50K        |     0.572 |  0.789 |    0.663 |    3846 |
+| accuracy     |     0.811 |  0.811 |    0.811 |       0 |
+| macro avg    |     0.749 |  0.803 |    0.766 |   16281 |
+| weighted avg |     0.842 |  0.811 |    0.820 |   16281 |
 
 Table 3.3 Classification Report on testing data
 
@@ -344,12 +344,12 @@ overestimating the income level of a person.
 
 | Model with best threshold | Test.Data.Metrics |
 |:--------------------------|------------------:|
-| Accuracy                  |             0.823 |
-| Precision                 |             0.600 |
-| Recall                    |             0.751 |
-| F1_Score                  |             0.667 |
-| Average_Precision_Score   |             0.712 |
-| AUC_Score                 |             0.892 |
+| Accuracy                  |             0.828 |
+| Precision                 |             0.616 |
+| Recall                    |             0.719 |
+| F1_Score                  |             0.663 |
+| Average_Precision_Score   |             0.710 |
+| AUC_Score                 |             0.891 |
 
 Table 3.4 Model performance on testing data with best threshold
 
@@ -358,17 +358,37 @@ it is possible for us to determine an optimal threshold value to better
 distinguish the classes. From the `PR curve`, we could see that 0.35 is
 the best threshold value with training data. When we apply the new
 threshold to the test data set, the `F1 score` did not change a lot,
-while the `accuracy` score has improved. Thus using the best threshold
+while the `accuracy` score has improved. Thus, using the best threshold
 could slightly improve the decision made by the model.
 
 <img src="../results/eval/ROC_curve.png" title="Figure 3.2 ROC Curve on testing data" alt="Figure 3.2 ROC Curve on testing data" width="50%" />
 
 Looking at the `Receiver Operating Characteristic (ROC)` curve, we could
 also analyze the performance of the classifier at different threshold
-level, while the `Area under curve (AUC)` score is one of the metrics
+levels, while the `Area under curve (AUC)` score is one of the metrics
 that could evaluate the model performance with high class imbalance. Our
 model achieved 0.89 in `AUC`, which indicates that it has a relatively
 good performance in accurately detecting both classes.
+
+<img src="../results/model/shap_summary_barplot.png" title="Figure 3.3 SHAP summary bar plot for global feature importance" alt="Figure 3.3 SHAP summary bar plot for global feature importance" width="50%" />
+
+As we can see from the above SHAP summary bar plot, it represents the
+most important global features for classification of an income being
+above or below 50K USD. We observed that education level in terms of
+years, marital status, age and the number of hours dedicated in the job
+per week are the most important features that help in classifying the
+income of person.
+
+<img src="../results/model/shap_summary_heatplot.png" title="Figure 3.4 SHAP summary heat plot for feature importance and direction" alt="Figure 3.4 SHAP summary heat plot for feature importance and direction" width="50%" />
+
+The SHAP summary heatplot above shows the most important features for
+predicting the class. It also shows the direction in which the features are going to
+drive the prediction. As we can see from this plot, higher levels of
+education have bigger SHAP values for income level greater than 50K USD,
+whereas smaller levels of education have smaller SHAP values driving the
+prediction in a negative direction for classification (towards '<=50K'). Having a spouse
+also seems to have a bigger SHAP value for people with more than 50K USD
+income and drives it in a positive direction.
 
 # Limitations
 
@@ -379,8 +399,9 @@ good performance in accurately detecting both classes.
     for both income groups in the target column. However, we had to
     focus on optimizing metrics ideal for spotting such as f1 score,
     precision and recall due to class imbalance.
--   Due to large size of training data, we could not perform feature
-    selection or SHAPing at this stage.
+-   Due to large size of training data, we only performed SHAPing for
+    200 examples at this stage and unfortunately we could not perform
+    feature selection.
 
 # Assumptions
 
@@ -404,14 +425,14 @@ transformation to the output of each perceptron, the overall model would
 have a higher degree of freedom, thus might be able to formulate a
 better decision rule for the classification.
 
-Another approach would be feature selection and feature engineering In
+Another approach would be feature selection and feature engineering. In
 our analysis, some of the features are dropped due to a bad distribution
-but they might also contain import information. For instance, we could
-transform `capital_gain` and `capital_loss` into ordinal categorical
-features, or group `native_country` by continents. After that, we could
-also generate feature with higher power, and make use of RFE algorithm
-to select features with top importance and try to boost the performance
-of the model.
+but they might also contain important information. For instance, we
+could transform `capital_gain` and `capital_loss` into ordinal
+categorical features, or group `native_country` by continents. After
+that, we could also generate feature with higher power, and make use of
+RFE algorithm to select features with top importance and try to boost
+the performance of the model.
 
 # References
 
