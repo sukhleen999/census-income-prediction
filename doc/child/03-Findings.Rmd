@@ -83,3 +83,17 @@ include_graphics("../results/eval/ROC_curve.png")
 ```
 
 Looking at the `Receiver Operating Characteristic (ROC)` curve, we could also analyze the performance of the classifier at different threshold level, while the `Area under curve (AUC)` score is one of the metrics that could evaluate the model performance with high class imbalance. Our model achieved 0.89 in `AUC`, which indicates that it has a relatively good performance in accurately detecting both classes.
+
+```{r, echo=FALSE, out.width="50%", fig.cap="Figure 3.3 SHAP summary bar plot for global feature importance"}
+######### SHAP summary bar plot ##########
+include_graphics("../results/model/shap_summary_barplot.png")
+```
+
+As we can see form the above SHAP summary bar plot, it represents the most important global features for classification of an income being above or below 50K USD. We observed that education level in terms of years, marital status, age and the number of hours dedicated in the job per week are the most important features that help in classifying the income of person.
+
+```{r, echo=FALSE, out.width="50%", fig.cap="Figure 3.4 SHAP summary heat plot for feature importance and direction"}
+######### SHAP summary heat plot ##########
+include_graphics("../results/model/shap_summary_heatplot.png")
+```
+
+The SHAP summary heatplot above shows the most important features for predicting the class. It also shows the direction of how it's going to drive the prediction.As we can see from this plot, higher levels of education have bigger SHAP values for income level greater than 50K USD, whereas smaller levels of education have smaller SHAP values driving the direction in a negative direction for classification. Having a spouse also seems to have a bigger SHAP value for people with more than 50K USD income and drives it in a positive direction.
