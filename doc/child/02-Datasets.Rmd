@@ -11,8 +11,6 @@ The data set used in this project is the Census Income Dataset, which is also kn
 
 In this dataset, each row represents a single sample from the census, which include the demographic data of a resident. We are going to dig into the data and explore more about the relationship between the demographic features and their income level below.
 
-*Reference: Census Income. (1996). UCI Machine Learning Repository.*
-
 The training data set has 32561 observations, and no observation with `NULL` value is found in the raw data. In the test data, there are 16281 examples. So the train-test split is roughly 2:1, i.e. the test split is taking up around 33% of the entire data set. Below is a glimpse of few rows from our training set and information about the datatypes and count of records in each feature.
 
 ```{r train-head, message=FALSE, warning=FALSE, echo=FALSE}
@@ -83,9 +81,9 @@ knitr::include_graphics("../results/eda/native_country_plot.png")
 ```
 
 
-In addition to this, we also assessed the correlation among the different features, however in this data set, all features had correlation close to zero, indicating there are relatively independent and could be useful for deriving an accurate prediction.
+In addition to this, we also assessed the Spearman's Rank Correlation among the different features, however in this data set, all features had correlation close to zero, indicating there are relatively independent and could be useful for deriving an accurate prediction.
 
-```{r correlation-plot, echo = FALSE, fig.cap="Figure 1.6 Correlation among numeric features", out.width = '50%'}
+```{r correlation-plot, echo = FALSE, fig.cap="Figure 1.6 Spearman's Rank Correlation for numeric features", out.width = '50%'}
 knitr::include_graphics("../results/eda/corr_plot.png")
 ```
 
