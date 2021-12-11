@@ -1,5 +1,5 @@
 # Docker file for the census income prediction
-# Author: Philson
+# Author: Philson Chan
 # December 09, 2021
 
 # Use anaconda as the base image
