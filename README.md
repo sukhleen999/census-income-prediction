@@ -8,10 +8,15 @@ Data analysis project for Group 1 of DSCI 522 (Data Science Workflows), A course
 
 ## About
 
-Often times, we want to predict a person's income based on their educational, professional and demographic background. This can be helpful for people to know what factors would help them earn more than 50K USD. This can also be helpful for financial services firms for deciding for loan application approvals, like people who earn more than 50K USD will be granted a loan, otherwise not. Hence, here we attempt to build a classification model using the `Random Forest Classifier` algorithm which can use the `census income` data with demographic features such as level of education, age, hours dedicated to work, etc to predict whether a person's annual income will be greater than 50K USD or not. Our classifier was able to correctly predict 83% of the test examples. Our classifier performed fairly on unseen test data with an ROC AUC score of 0.89, indicating that it is able to distinguish the positive class (income \> 50k) with 0.89 probability. Among the people whose income is actually \>50K USD, we were able to predict 70% of them correctly and among all the people who earned more than 50K USD, we were able to predict 71% of them correctly. However, it incorrectly predicted 0.064% of test examples as `false positives`. These kinds of incorrect predictions could lead people into believing that they can earn more than 50K USD by following some other career path which might not be favorable for them. It can also be misleading for financial companies as they might end up offering loans to defaulters. Thus, we recommend continuing the study to improve this prediction model before it is put into production.
+Often times, we want to predict a person's income based on their educational, professional and demographic background. This can be helpful for people to know what factors would help them earn more than 50K USD. Information about a person's income decides the amount of tax he pays, whether or not the person is eligible to buy a house or a car,what kind of a life he can lead. This can also be helpful for financial services firms for deciding for loan application approvals, like people who earn more than 50K USD will be granted a loan, otherwise not. Hence,it is important to look at the factors that might affect a person's income and analyze and highlight those features that could be responsible in improving an individual's income.
 
-The dataset that we have used consists of various demographic features such as age, education level and marital status, etc. The training dataset consists of 32561 examples, while the testing set has 16281 examples, each consisting of 14 features and 1 target column. The data set used in this project is the Census Income dataset, which is also known as the Adult dataset, and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database, details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income). The steps that were followed to accurately predict the income using the census income data have been outlined in this flowchart below.
+The data set used in this project to predict a person's income is the Census Income dataset, which is also known as the Adult dataset, and was created in 1996. It was sourced from the UCI Machine Learning Repository and the data was extracted by Barry Becker using the 1994 Census database, details of which could be found [here](https://archive-beta.ics.uci.edu/ml/datasets/census+income). The training dataset consists of 32561 examples, while the testing set has 16281 examples. The dataset that we have used consists of 14 features which is a mix of 8 categorical and 6 numerical variables containing information on age, education, nationality, marital status, relationship status, occupation, work classification, gender, race, working hours per week, capital loss and capital gain and 1 target column.
 
+In this project we are attempting to build a classification model using the `Random Forest Classifier` algorithm which can use the `census income` data with demographic features such as level of education, age, hours dedicated to work, etc to predict whether a person's annual income will be greater than 50K USD or not.
+
+Our classifier was able to correctly predict 83% of the test examples. Our classifier performed fairly on unseen test data with an ROC AUC score of 0.89, indicating that it is able to distinguish the positive class (income \> 50k) with 0.89 probability. Among the people whose income is actually \>50K USD, we were able to predict 70% of them correctly and among all the people who earned more than 50K USD, we were able to predict 71% of them correctly. However, it incorrectly predicted 0.064% of test examples as `false positives`. These kinds of incorrect predictions could lead people into believing that they can earn more than 50K USD by following some other career path which might not be favorable for them. It can also be misleading for financial companies as they might end up offering loans to defaulters. Thus, we recommend continuing the study to improve this prediction model before it is put into production.
+
+The steps that were followed to accurately predict the income using the census income data have been outlined in this flowchart below.
 
 ![**Pipeline of Census Income Prediction**](https://github.com/UBC-MDS/census-income-prediction/blob/main/results/flowchart.PNG?raw=true)
 
@@ -36,16 +41,15 @@ To reproduce the experiment and export the report, please install [Docker](!http
     cd census-income-prediction/
 
     # Reproduce the pipeline with Docker
-    docker run --rm -v $(pwd):/home/census-income-prediction/ username/census-income-prediction conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ all
+    docker run --rm -v $(pwd):/home/census-income-prediction/ i234567/census-income-prediction conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ all
 
 To restore the repository with no generate reports and artifacts, run the following command at the root directory of this repository.
 
-    docker run --rm -v $(pwd):/home/census-income-prediction/ username/census-income-prediction conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ clean
+    docker run --rm -v $(pwd):/home/census-income-prediction/ i234567/census-income-prediction conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ clean
 
 ### Without Docker
 
 To reproduce the model and report, please clone this GitHub repository, install the dependencies or create a virtual enviroment with our enviroment file.
-
 
     # Clone the repo
     git clone https://github.com/UBC-MDS/census-income-prediction.git
@@ -53,7 +57,7 @@ To reproduce the model and report, please clone this GitHub repository, install 
     conda env create -f census-income.yaml
     conda activate census-income
 
-Then please execute the following command in the root directory to reproduce the project.
+To run the all the script,please install [Make](!http://ftp.gnu.org/gnu/make/) in your machine.Then execute the following command in the root directory to reproduce the project.
 
     # Use Makefile
     make all
