@@ -81,6 +81,7 @@ def main():
         (OneHotEncoder(sparse=False, handle_unknown='ignore', drop=[np.nan] * 2), categorical_null_feats),
         (OneHotEncoder(sparse=False, handle_unknown='ignore'), categorical_nonull_feats),
         (OneHotEncoder(drop='if_binary'), binary_feats),
+        ('passthrough', passthrough_feats),
         ('drop', drop_feats)
     )
 
@@ -91,13 +92,12 @@ def main():
     numeric_feats + list(col_trans.named_transformers_['onehotencoder-1'].get_feature_names_out()) 
     + list(col_trans.named_transformers_['onehotencoder-2'].get_feature_names_out()) 
     + list(col_trans.named_transformers_['onehotencoder-3'].get_feature_names_out())
+    + passthrough_feats
    )
     
-    #transform X_train
-    x_trans=col_trans.transform(X_train)
-    
+    #transform X_train    
     X_train_enc = pd.DataFrame(
-    data=col_trans.transform(X_train),
+    data=col_trans.fit_transform(X_train),
     columns=feature_names
     )
 
@@ -122,37 +122,6 @@ def main():
     baseline_results_path = os.path.join(opt['--out_dir'], "baseline_result.csv")
     baseline_results.to_csv(baseline_results_path)
     print(f"Baseline Result saved to {baseline_results_path}")
-
-
-    #Perform SHAPING
-    pipe_forest.fit(X_train, y_train)
-    print("Performing SHAPING for 200 examples...")
-    rf_explainer = shap.TreeExplainer(pipe_forest.named_steps["randomforestclassifier"])
-    train_rf_shap_values = rf_explainer.shap_values(X_train_enc[:200])
-    
-
-    #extract most important global features
-    values = np.abs(train_rf_shap_values[1]).mean(0) # mean of shapely values in each column 
-    shap_values=pd.DataFrame(data=values, index=feature_names, columns=["SHAP"]).sort_values(
-    by="SHAP", ascending=False)[:10]
-    shap_values_path = os.path.join(opt['--out_dir'], "shap_values.csv")
-    shap_values.to_csv(shap_values_path)
-    print(f"Shap Values saved to {shap_values_path}")
-    
-    print("Generating Bar summary plot...")
-    plt.figure()
-    shap_summary_plot = shap.summary_plot(train_rf_shap_values[1], X_train_enc, plot_type="bar", show=False)
-    plt.savefig(f"{opt['--out_dir']}/shap_summary_barplot.png", dpi=200, bbox_inches='tight')
-    print(f"----- Saved plot for SHAP summary bar plot in {opt['--out_dir']}/shap_summary_barplot.png -----")
-    plt.close()
-
-    
-    print("Generating SHAP heat summary plot...")
-    plt.figure()
-    shap_summary_heatplot=shap.summary_plot(train_rf_shap_values[1], X_train_enc[:200], show=False)
-    plt.savefig(f"{opt['--out_dir']}/shap_summary_heatplot.png", dpi=200, bbox_inches='tight')
-    print(f"----- Saved plot for SHAP summary heat plot in {opt['--out_dir']}/shap_summary_heatplot.png -----")
-    plt.close()
     
     # Hyperparameter Tuning
     param_dist = {
@@ -182,6 +151,37 @@ def main():
     hyperparam_result_path = os.path.join(opt['--out_dir'], "hyperparam_result.csv")
     hyperparam_result.to_csv(hyperparam_result_path)
     print(f"Hyperparameter Tuning Result saved to {hyperparam_result_path}")
+
+    #Perform SHAPING
+    print("Performing SHAPING for 200 examples...")
+    rf_explainer = shap.TreeExplainer(rand_search_rf.best_estimator_.named_steps["randomforestclassifier"])
+    train_rf_shap_values = rf_explainer.shap_values(X_train_enc[:200])
+    
+
+    #extract most important global features
+    values = np.abs(train_rf_shap_values[1]).mean(0) # mean of shapely values in each column 
+    shap_values=pd.DataFrame(data=values, index=feature_names, columns=["SHAP"]).sort_values(
+        by="SHAP", ascending=False)[:10]
+
+    shap_values_path = os.path.join(opt['--out_dir'], "shap_values.csv")
+    shap_values.to_csv(shap_values_path)
+    print(f"Shap Values saved to {shap_values_path}")
+    
+    print("Generating Bar summary plot...")
+    plt.figure()
+    shap_summary_plot = shap.summary_plot(train_rf_shap_values[1], X_train_enc, plot_type="bar", show=False)
+    plt.savefig(f"{opt['--out_dir']}/shap_summary_barplot.png", dpi=200, bbox_inches='tight')
+    print(f"----- Saved plot for SHAP summary bar plot in {opt['--out_dir']}/shap_summary_barplot.png -----")
+    plt.close()
+
+    
+    print("Generating SHAP heat summary plot...")
+    plt.figure()
+    shap_summary_heatplot=shap.summary_plot(train_rf_shap_values[1], X_train_enc[:200], show=False)
+    plt.savefig(f"{opt['--out_dir']}/shap_summary_heatplot.png", dpi=200, bbox_inches='tight')
+    print(f"----- Saved plot for SHAP summary heat plot in {opt['--out_dir']}/shap_summary_heatplot.png -----")
+    plt.close()
+
 
     # Export the model
     fp = open(output_filename, "wb")

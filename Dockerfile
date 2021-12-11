@@ -1,6 +1,6 @@
 # Docker file for the census income prediction
 # Author: Philson
-# December, 2021
+# December 09, 2021
 
 # Use anaconda as the base image
 FROM continuumio/anaconda3
