@@ -5,6 +5,24 @@
 From the EDA, it is discovered that most of the values in the column `native_country` are `United-States`, while each of the other values have a very little proportion and is hard for the model to derive information. Therefore we transformed the `native_country` feature into a binary feature, where `True` stands for the person who comes from the US, `False` for the rest.
 
 To transform the data frame into a ready-to-use array for the machine learning model, we used a column transformer. In particular, we applied `scaling` to numeric feautres, `one-hot encoding` to categorical features, and `binary encoding` to binary features. However, from EDA, we also found that there were null values in two of the categorical features `workclass` and `occupation`. As it does not make sense to impute any category to the missing value, we decided not to encode the null value class, i.e. the `one-hot encoding` for null would be all zero. Furthermore, we dropped the features `education`, `race`, `capital_gain` and `capital_loss`. It is because `education_num` is already the ordinal encoding of `education`, we did not want to duplicate the information, and `race` shall not be considered due to ethical controversy. Also, it was observed that `capital_gain` and `capital_loss` were mostly zero-valued, that little information could be exploited, so we decided to drop these columns to simplify the feature space.
+  
+  
+| Feature | Transformation |
+| --- | ----------- |
+| occupation |  OHE (dropped NaN) |
+| age | Scaling |
+| workclass |  OHE (dropped NaN)|
+| fnlwgt |Scaling|
+| education | Drop feature |
+| education.num | passthrough|
+| marital.status | OHE |
+| relationship | OHE |
+| race |  Drop feature  |
+| sex | Binary encoding |
+| capital.gain | Drop feature |
+| capital.loss | Drop feature |
+| hours.per.week | Scaling  |
+| native.country | Binary encoding|
 
 ### Model Training
 
@@ -35,7 +53,7 @@ hyperparam_result <- read.csv("../../results/model/hyperparam_result.csv") |>
 kable(hyperparam_result, caption = "Table 2.2 Results of Hyperparameter Tuning")
 ```
 
-So fundamentally, it is clear that setting `class_weight` to `balanced` (while handling the class imbalance at the same time) would boost the `Recall score` and `F1 score`, while sacrificing `accuracy` and `precision`. Although both target class have equal importance in this dataset, we would also choose to optimize the `ROC_AUC score` due to the serious class imbalance, as accuracy cannot reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=`r hyperparam_result$n_estimators[1]` `, `max_depth=`r hyperparam_result$max_depth[1]`` and `class_weight=`r hyperparam_result$class_weight[1]` `.
+So fundamentally, it is clear that setting `class_weight` to `balanced` (while handling the class imbalance at the same time) would boost the `Recall score` and `F1 score`, while sacrificing `accuracy` and `precision`. Although both target class have equal importance in this dataset, we would also choose to optimize the `ROC_AUC score` due to the serious class imbalance, as accuracy cannot reflect the genuine performance of the model. Hence the model selected is the model with `n_estimator=`r hyperparam_result$n_estimators[1]` `, `max_depth=`r hyperparam_result$max_depth[1]``and`class_weight=`r hyperparam_result$class_weight[1]`.
 
 # Results
 
@@ -96,4 +114,4 @@ As we can see form the above SHAP summary bar plot, it represents the most impor
 include_graphics("../results/model/shap_summary_heatplot.png")
 ```
 
-The SHAP summary heatplot above shows the most important features for predicting the class. It also shows the direction of how it's going to drive the prediction.As we can see from this plot, higher levels of education have bigger SHAP values for income level greater than 50K USD, whereas smaller levels of education have smaller SHAP values driving the direction in a negative direction for classification. Having a spouse also seems to have a bigger SHAP value for people with more than 50K USD income and drives it in a positive direction.
+The SHAP summary heatplot above shows the most important features for predicting the class. It also shows the direction of how it's going to drive the prediction.As we can see from this plot, higher levels of education have bigger SHAP values for income level greater than 50K USD, whereas smaller levels of education have smaller SHAP values driving the prediction in a negative direction for classification (towards '<=50K'). Having a spouse also seems to have a bigger SHAP value for people with more than 50K USD income and drives it in a positive direction.

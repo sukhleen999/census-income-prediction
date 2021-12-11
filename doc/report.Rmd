@@ -3,12 +3,13 @@ title: "Predicting annual income from census data using demographic features"
 author: Affrin Sultana   Navya Dahiya   Philson Chan   Sukhleen Kaur
 date: "25/11/2021"
 output: 
-  github_document:
-    toc: TRUE
   html_document:
+    toc: TRUE
+  github_document:
     toc: TRUE
 bibliography: census_income_refs.bib
 ---
+
 ```{r load-packages, include=FALSE}
 library(tidyverse)
 library(knitr)
@@ -26,22 +27,17 @@ options(scipen = 0, digits = 3)
 ```{r summary, child="child/00-Summary.Rmd"}
 ```
 
-
 ```{r intro, child="child/01-Introduction.Rmd"}
 ```
-
 
 ```{r data, child="child/02-Datasets.Rmd"}
 ```
 
-
 ```{r findings, child="child/03-Findings.Rmd"}
 ```
 
-
 ```{r limitation, child="child/05-Limitation.Rmd"}
 ```
-
 
 ```{r future, child="child/06-Future_Development.Rmd"}
 ```

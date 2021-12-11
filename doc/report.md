@@ -78,8 +78,6 @@ which include the demographic data of a resident. We are going to dig
 into the data and explore more about the relationship between the
 demographic features and their income level below.
 
-*Reference: Census Income. (1996). UCI Machine Learning Repository.*
-
 The training data set has 32561 observations, and no observation with
 `NULL` value is found in the raw data. In the test data, there are 16281
 examples. So the train-test split is roughly 2:1, i.e. the test split is
@@ -180,12 +178,12 @@ super majority in this feature.
 
 <img src="../results/eda/native_country_plot.png" title="Figure 1.5 Distribution of income based on country(USA vs others)" alt="Figure 1.5 Distribution of income based on country(USA vs others)" width="50%" />
 
-In addition to this, we also assessed the correlation among the
-different features, however in this data set, all features had
+In addition to this, we also assessed the Spearman’s Rank Correlation
+among the different features, however in this data set, all features had
 correlation close to zero, indicating there are relatively independent
 and could be useful for deriving an accurate prediction.
 
-<img src="../results/eda/corr_plot.png" title="Figure 1.6 Correlation among numeric features" alt="Figure 1.6 Correlation among numeric features" width="50%" />
+<img src="../results/eda/corr_plot.png" title="Figure 1.6 Spearman's Rank Correlation for numeric features" alt="Figure 1.6 Spearman's Rank Correlation for numeric features" width="50%" />
 
 The R and Python programming languages (R Core Team 2021; Van Rossum and
 Drake 2009) and the following R and Python packages were used to perform
@@ -224,6 +222,23 @@ ethical controversy. Also, it was observed that `capital_gain` and
 exploited, so we decided to drop these columns to simplify the feature
 space.
 
+| Feature        | Transformation    |
+|----------------|-------------------|
+| occupation     | OHE (dropped NaN) |
+| age            | Scaling           |
+| workclass      | OHE (dropped NaN) |
+| fnlwgt         | Scaling           |
+| education      | Drop feature      |
+| education.num  | passthrough       |
+| marital.status | OHE               |
+| relationship   | OHE               |
+| race           | Drop feature      |
+| sex            | Binary encoding   |
+| capital.gain   | Drop feature      |
+| capital.loss   | Drop feature      |
+| hours.per.week | Scaling           |
+| native.country | Binary encoding   |
+
 ### Model Training
 
 In this project, we are attempting to classify the income level of a
@@ -238,8 +253,8 @@ hyperparameters respectively:
 
 | Metrics        | DummyClassifier | RandomForest_default |
 |:---------------|----------------:|---------------------:|
-| fit_time       |           0.081 |                3.152 |
-| score_time     |           0.047 |                0.399 |
+| fit_time       |           0.074 |                2.837 |
+| score_time     |           0.057 |                0.303 |
 | test_accuracy  |           0.759 |                0.827 |
 | test_precision |           0.000 |                0.667 |
 | test_recall    |           0.000 |                0.564 |
@@ -269,26 +284,26 @@ results. The result of hyperparameter tuning is as follows:
 
 | n_estimators | max_depth | class_weight | mean_test_roc_auc | mean_test_accuracy | mean_test_precision | mean_test_recall | mean_test_f1 |
 |-------------:|----------:|:-------------|------------------:|-------------------:|--------------------:|-----------------:|-------------:|
-|          500 |        12 | none         |             0.892 |              0.838 |               0.731 |            0.520 |        0.608 |
-|          100 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.541 |        0.619 |
-|           50 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.545 |        0.622 |
-|          200 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.836 |        0.663 |
-|          500 |        18 | none         |             0.891 |              0.840 |               0.714 |            0.562 |        0.629 |
-|           50 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.835 |        0.662 |
-|           50 |        16 | none         |             0.890 |              0.839 |               0.716 |            0.552 |        0.624 |
 |          200 |        16 | balanced     |             0.890 |              0.811 |               0.580 |            0.785 |        0.667 |
-|          100 |        10 | none         |             0.890 |              0.836 |               0.735 |            0.498 |        0.594 |
-|           20 |        14 | none         |             0.890 |              0.839 |               0.721 |            0.543 |        0.619 |
-|           50 |        10 | balanced     |             0.889 |              0.781 |               0.528 |            0.857 |        0.653 |
-|           20 |        12 | balanced     |             0.889 |              0.796 |               0.550 |            0.828 |        0.661 |
-|           50 |        18 | none         |             0.889 |              0.840 |               0.712 |            0.564 |        0.629 |
-|          100 |        18 | balanced     |             0.888 |              0.816 |               0.593 |            0.756 |        0.665 |
-|           20 |        10 | none         |             0.888 |              0.835 |               0.732 |            0.501 |        0.594 |
-|           10 |        12 | none         |             0.886 |              0.836 |               0.716 |            0.528 |        0.607 |
-|           10 |        14 | none         |             0.886 |              0.835 |               0.707 |            0.539 |        0.611 |
 |           20 |        16 | balanced     |             0.885 |              0.811 |               0.579 |            0.785 |        0.666 |
-|           10 |        16 | none         |             0.882 |              0.835 |               0.702 |            0.547 |        0.615 |
+|          100 |        18 | balanced     |             0.888 |              0.816 |               0.593 |            0.756 |        0.665 |
+|          200 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.836 |        0.663 |
+|           50 |        12 | balanced     |             0.891 |              0.795 |               0.549 |            0.835 |        0.662 |
+|           20 |        12 | balanced     |             0.889 |              0.796 |               0.550 |            0.828 |        0.661 |
 |           10 |        18 | balanced     |             0.878 |              0.811 |               0.585 |            0.744 |        0.655 |
+|           50 |        10 | balanced     |             0.889 |              0.781 |               0.528 |            0.857 |        0.653 |
+|           50 |        18 | none         |             0.889 |              0.840 |               0.712 |            0.564 |        0.629 |
+|          500 |        18 | none         |             0.891 |              0.840 |               0.714 |            0.562 |        0.629 |
+|           50 |        16 | none         |             0.890 |              0.839 |               0.716 |            0.552 |        0.624 |
+|           50 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.545 |        0.622 |
+|           20 |        14 | none         |             0.890 |              0.839 |               0.721 |            0.543 |        0.619 |
+|          100 |        14 | none         |             0.892 |              0.840 |               0.724 |            0.541 |        0.619 |
+|           10 |        16 | none         |             0.882 |              0.835 |               0.702 |            0.547 |        0.615 |
+|           10 |        14 | none         |             0.886 |              0.835 |               0.707 |            0.539 |        0.611 |
+|          500 |        12 | none         |             0.892 |              0.838 |               0.731 |            0.520 |        0.608 |
+|           10 |        12 | none         |             0.886 |              0.836 |               0.716 |            0.528 |        0.607 |
+|           20 |        10 | none         |             0.888 |              0.835 |               0.732 |            0.501 |        0.594 |
+|          100 |        10 | none         |             0.890 |              0.836 |               0.735 |            0.498 |        0.594 |
 
 Table 2.2 Results of Hyperparameter Tuning
 
@@ -299,7 +314,7 @@ So fundamentally, it is clear that setting `class_weight` to `balanced`
 dataset, we would also choose to optimize the `ROC_AUC score` due to the
 serious class imbalance, as accuracy cannot reflect the genuine
 performance of the model. Hence the model selected is the model with
-`n_estimator=500`, `max_depth=12` and `class_weight=none`.
+`n_estimator=200`, `max_depth=16`and\`class_weight=balanced.
 
 # Results
 
@@ -358,21 +373,21 @@ it is possible for us to determine an optimal threshold value to better
 distinguish the classes. From the `PR curve`, we could see that 0.35 is
 the best threshold value with training data. When we apply the new
 threshold to the test data set, the `F1 score` did not change a lot,
-while the `accuracy` score has improved. Thus, using the best threshold
+while the `accuracy` score has improved. Thus using the best threshold
 could slightly improve the decision made by the model.
 
 <img src="../results/eval/ROC_curve.png" title="Figure 3.2 ROC Curve on testing data" alt="Figure 3.2 ROC Curve on testing data" width="50%" />
 
 Looking at the `Receiver Operating Characteristic (ROC)` curve, we could
 also analyze the performance of the classifier at different threshold
-levels, while the `Area under curve (AUC)` score is one of the metrics
+level, while the `Area under curve (AUC)` score is one of the metrics
 that could evaluate the model performance with high class imbalance. Our
 model achieved 0.89 in `AUC`, which indicates that it has a relatively
 good performance in accurately detecting both classes.
 
 <img src="../results/model/shap_summary_barplot.png" title="Figure 3.3 SHAP summary bar plot for global feature importance" alt="Figure 3.3 SHAP summary bar plot for global feature importance" width="50%" />
 
-As we can see from the above SHAP summary bar plot, it represents the
+As we can see form the above SHAP summary bar plot, it represents the
 most important global features for classification of an income being
 above or below 50K USD. We observed that education level in terms of
 years, marital status, age and the number of hours dedicated in the job
@@ -382,13 +397,14 @@ income of person.
 <img src="../results/model/shap_summary_heatplot.png" title="Figure 3.4 SHAP summary heat plot for feature importance and direction" alt="Figure 3.4 SHAP summary heat plot for feature importance and direction" width="50%" />
 
 The SHAP summary heatplot above shows the most important features for
-predicting the class. It also shows the direction in which the features are going to
-drive the prediction. As we can see from this plot, higher levels of
+predicting the class. It also shows the direction of how it’s going to
+drive the prediction.As we can see from this plot, higher levels of
 education have bigger SHAP values for income level greater than 50K USD,
 whereas smaller levels of education have smaller SHAP values driving the
-prediction in a negative direction for classification (towards '<=50K'). Having a spouse
-also seems to have a bigger SHAP value for people with more than 50K USD
-income and drives it in a positive direction.
+prediction in a negative direction for classification (towards
+‘\<=50K’). Having a spouse also seems to have a bigger SHAP value for
+people with more than 50K USD income and drives it in a positive
+direction.
 
 # Limitations
 
@@ -401,7 +417,7 @@ income and drives it in a positive direction.
     precision and recall due to class imbalance.
 -   Due to large size of training data, we only performed SHAPing for
     200 examples at this stage and unfortunately we could not perform
-    feature selection.
+    feature selection
 
 # Assumptions
 
