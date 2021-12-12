@@ -45,7 +45,7 @@ To reproduce the experiment and export the report, please install [Docker](!http
     
     # Reproduce the pipeline with Docker
     # Create the docker container from the image
-    docker run --plaform linux/amd64 --rm -it -v $(pwd):/home/census-income-prediction/ i234567/census-income-prediction:latest 
+    docker run --platform linux/amd64 --rm -it -v $(pwd):/home/census-income-prediction/ i234567/census-income-prediction:latest 
 
     # Run this command in the terminal of the docker container
     conda run -n census-income --no-capture-output make -C /home/census-income-prediction/ all
